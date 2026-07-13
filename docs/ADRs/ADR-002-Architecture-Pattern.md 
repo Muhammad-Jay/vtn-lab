@@ -1,0 +1,48 @@
+# ADR-002: Architecture Pattern
+
+## Status
+
+Accepted
+
+---
+
+## Context
+
+The platform needs strong boundaries while avoiding microservice complexity.
+
+---
+
+## Decision
+
+The backend will use a Modular Monolith architecture.
+
+Feature modules own their internal logic and remain independent whenever possible.
+
+Examples include:
+
+- Users
+- Organizations
+- Members
+- Projects
+- Documents
+- Activities
+- Integrations
+- Billing
+
+---
+
+## Consequences
+
+Benefits:
+
+- Easier development.
+- Faster delivery.
+- Lower operational overhead.
+
+Tradeoffs:
+
+- Modules share the same deployment unit.
+
+Future considerations:
+
+- Individual modules may become independent services if justified.

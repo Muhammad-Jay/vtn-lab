@@ -1,0 +1,44 @@
+{
+  "name": "@repo/auth",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./hooks": {
+      "import": "./src/hooks.ts",
+      "types": "./src/hooks.ts"
+    },
+    "./server": {
+      "import": "./src/server.ts",
+      "types": "./src/server.ts"
+    },
+    "./provider": {
+      "import": "./src/provider.ts",
+      "types": "./src/provider.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint . --max-warnings 0",
+    "clean": "rm -rf dist",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "eslint": "^9.39.1",
+    "tsup": "^8.0.1",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^7.5.17"
+  }
+}

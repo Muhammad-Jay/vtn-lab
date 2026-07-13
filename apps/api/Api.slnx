@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Foundation/">
+    <Project Path="Foundation/Application/Application.csproj" />
+    <Project Path="Foundation/Domain/Domain.csproj" />
+    <Project Path="Foundation/Cache/Cache.csproj" />
+    <Project Path="Foundation/Infrastructure/Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Modules/">
+    <Project Path="Modules/Documents/Documents.csproj" />
+    <Project Path="Modules/Integrations/Integrations.csproj" />
+    <Project Path="Modules/Members/Members.csproj" />
+    <Project Path="Modules/Organizations/Organizations.csproj" />
+    <Project Path="Modules/Projects/Projects.csproj" />
+    <Project Path="Modules/Activities/Activities.csproj" />
+    <Project Path="Modules/Billing/Billing.csproj" />
+    <Project Path="Modules/Users/Users.csproj" />
+  </Folder>
+  <Project Path="Api/Api.csproj" />
+</Solution>
