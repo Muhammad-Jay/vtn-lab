@@ -22,6 +22,10 @@
     "./primitives": {
       "import": "./src/primitives.ts",
       "types": "./src/primitives.ts"
+    },
+    "./brand": {
+      "import": "./src/brand.ts",
+      "types": "./src/brand.ts"
     }
   },
   "scripts": {
@@ -43,6 +47,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
+    "@heroui/react": "^3.2.2",
     "@repo/tailwind-config": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

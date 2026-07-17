@@ -1,131 +1,124 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "framer-motion";
-import { cn } from "../../../lib/utils";
-
+import { motion, Variants } from "framer-motion";
 import { ContainerProps } from "./types";
 import {
-    borderMap,
-    defaultTransition,
-    gapMap,
-    heightMap,
-    hiddenMap,
-    overflowMap,
-    paddingMap,
-    radiusMap, resolveAlignCenter,
-    resolveAnimation,
-    resolveCenter,
-    resolveInteractive, resolveJustifyCenter,
-    resolveScrollbar,
-    shadowMap,
-    variantMap,
-    widthMap,
+    buildContainerClassName,
+    buildContainerStyle,
 } from "./Container.Utils";
 
-export const Container = React.forwardRef<
-    HTMLDivElement,
-    ContainerProps
->(
+const defaultVariants: Variants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+};
+
+export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
     (
         {
             children,
 
-            variant = "default",
-            border = "default",
-
-            radius = "lg",
-            padding = "md",
+            // Design system props
+            surface = "none",
+            border = "none",
+            hoverBorder = "none",
+            borderPosition = "all",
+            radius = "none",
+            elevation = "none",
+            padding = "sm",
             gap = "none",
-            shadow = "none",
-
-            overflow = "hidden",
-            hideScrollbar = true,
-
-            width = "auto",
-            widthValue,
-
-            height = "auto",
-            heightValue,
-
+            margin = "none",
+            direction = "row",
+            align = "stretch",
+            justify = "start",
+            anchor = "none",
+            width,
+            height,
             maxWidth,
             maxHeight,
             minWidth,
             minHeight,
-
-            center = false,
-            alignCenter = false,
-            justifyCenter = false,
-            interactive = false,
-
+            overflow = "visible",
+            hideScrollbar = true,
+            interaction = "none",
             hidden,
 
+            // Animation configuration properties
             animate = false,
-            animation = "fade",
+            motionEffect = "none",
             once = true,
             viewportAmount = 0.15,
-            variants,
+            motionVariants,
 
+            // Standard styles / HTML properties
             className,
             style,
 
+            // Everything else maps directly to HTMLMotionProps / HTMLAttributes
             ...props
         },
         ref
     ) => {
-        const resolvedVariants =
-            variants ?? resolveAnimation(animation);
+        // Build styling parameters
+        const designParams = {
+            surface,
+            border,
+            hoverBorder,
+            borderPosition,
+            radius,
+            elevation,
+            padding,
+            gap,
+            margin,
+            direction,
+            align,
+            justify,
+            anchor,
+            width,
+            height,
+            overflow,
+            hideScrollbar,
+            interaction,
+            hidden,
+            motionEffect,
+            className,
+        };
 
+        const classes = buildContainerClassName(designParams);
+        const styles = buildContainerStyle({
+            width,
+            height,
+            minWidth,
+            minHeight,
+            maxWidth,
+            maxHeight,
+            style,
+        });
+
+        // Non-animated Fallback
+        if (!animate || motionEffect === "none") {
+            return (
+                <div
+                    ref={ref}
+                    className={classes}
+                    style={styles as React.CSSProperties}
+                    {...(props as React.HTMLAttributes<HTMLDivElement>)}
+                >
+                    {children}
+                </div>
+            );
+        }
+
+        // Standard Animated Container
         return (
             <motion.div
                 ref={ref}
-                initial={animate ? "hidden" : false}
-                whileInView={animate ? "visible" : undefined}
-                viewport={{
-                    once,
-                    amount: viewportAmount,
-                }}
-                variants={resolvedVariants}
-                transition={defaultTransition}
-                className={cn(
-                    "relative",
-                    "flex flex-col",
-
-                    variantMap[variant],
-                    borderMap[border],
-
-                    radiusMap[radius],
-                    paddingMap[padding],
-                    gapMap[gap],
-                    shadowMap[shadow],
-
-                    overflowMap[overflow],
-                    resolveScrollbar(hideScrollbar),
-
-                    widthMap[width],
-                    heightMap[height],
-
-                    resolveCenter(center),
-                    resolveAlignCenter(alignCenter),
-                    resolveJustifyCenter(justifyCenter),
-                    resolveInteractive(interactive),
-
-                    hidden && hiddenMap[hidden],
-
-                    className
-                )}
-                style={{
-                    width: widthValue,
-                    height: heightValue,
-
-                    maxWidth,
-                    maxHeight,
-
-                    minWidth,
-                    minHeight,
-
-                    ...style,
-                }}
+                className={classes}
+                style={styles}
+                variants={motionVariants ?? defaultVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once, amount: viewportAmount }}
                 {...props}
             >
                 {children}
@@ -135,3 +128,5 @@ export const Container = React.forwardRef<
 );
 
 Container.displayName = "Container";
+
+export default Container;

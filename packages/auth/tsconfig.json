@@ -8,6 +8,7 @@
     "emitDeclarationOnly": false,
     "strictNullChecks": true,
     "baseUrl": ".",
+    "moduleResolution": "Bundler"
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

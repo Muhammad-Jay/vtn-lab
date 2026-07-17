@@ -7,6 +7,7 @@ export default defineConfig({
         'src/menus.ts',
         'src/views.ts',
         'src/primitives.ts',
+        'src/brand.ts'
     ],
     format: ['esm'],
     dts: true, // Generates .d.mts declaration files

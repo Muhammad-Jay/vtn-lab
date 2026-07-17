@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Background Utilities (Tailwind v4 Optimized)
+   ========================================================================== */
+
+@utility ds-bg-page {
+    background: var(--surface-0);
+    color: var(--text-primary);
+}
+
+@utility ds-bg-section {
+    background: var(--surface-1);
+}
+
+@utility ds-bg-hero {
+    background: var(--brand-gradient), var(--surface-0);
+}
+
+@utility ds-bg-radial {
+    background: radial-gradient(ellipse at center, var(--background-radial), transparent 72%);
+}
+
+@utility ds-bg-radial-top {
+    background: radial-gradient(ellipse at top, var(--background-radial), transparent 72%);
+}
+
+@utility ds-bg-radial-bottom {
+    background: radial-gradient(ellipse at bottom, var(--background-radial), transparent 72%);
+}
+
+@utility ds-bg-radial-left {
+    background: radial-gradient(ellipse at left, var(--background-radial), transparent 72%);
+}
+
+@utility ds-bg-radial-right {
+    background: radial-gradient(ellipse at right, var(--background-radial), transparent 72%);
+}
+
+@utility ds-bg-brand {
+    background: var(--brand-gradient);
+}
+
+@utility ds-bg-brand-glow {
+    background: radial-gradient(circle, var(--brand-glow), transparent 70%);
+}
+
+@utility ds-bg-grid-lg {
+    background-size: 64px 64px;
+    background-image:
+            linear-gradient(to right, var(--background-grid) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--background-grid) 1px, transparent 1px);
+}
+
+@utility ds-bg-grid {
+    background-size: 48px 48px;
+    background-image:
+            linear-gradient(to right, var(--background-grid) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--background-grid) 1px, transparent 1px);
+}
+
+@utility ds-bg-grid-md {
+    background-size: 36px 36px;
+    background-image:
+            linear-gradient(to right, var(--background-grid) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--background-grid) 1px, transparent 1px);
+}
+
+@utility ds-bg-grid-sm {
+    background-size: 24px 24px;
+    background-image:
+            linear-gradient(to right, var(--background-grid) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--background-grid) 1px, transparent 1px);
+}
+
+@utility ds-bg-dot {
+    background-size: 24px 24px;
+    background-image: radial-gradient(circle, var(--background-dot) 1px, transparent 1.5px);
+}
+
+@utility ds-bg-dot-lg {
+    background-size: 36px 36px;
+    background-image: radial-gradient(circle, var(--background-dot) 1px, transparent 1.5px);
+}
+
+@utility ds-bg-mesh {
+    background:
+            radial-gradient(ellipse at top left, var(--background-mesh), transparent 55%),
+            radial-gradient(ellipse at top right, var(--background-mesh), transparent 55%),
+            radial-gradient(ellipse at bottom, var(--background-mesh), transparent 60%);
+}
+
+@utility ds-bg-noise {
+    opacity: var(--background-noise-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+@utility ds-bg-glass {
+    background: var(--glass-morphism-2);
+}
+
+@utility ds-bg-liquid {
+    background: var(--glass-liquid-2);
+}
+
+@utility ds-bg-auth {
+    background:
+            radial-gradient(ellipse at top, var(--background-radial), transparent 58%),
+            radial-gradient(ellipse at bottom, var(--background-mesh), transparent 62%),
+            var(--surface-0);
+}
+
+@utility ds-bg-dashboard {
+    background:
+            linear-gradient(to bottom, transparent, transparent),
+            radial-gradient(ellipse at top, var(--background-radial), transparent 72%),
+            var(--surface-0);
+}
+
+@utility ds-bg-ripple {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle, var(--background-radial), transparent 70%);
+        opacity: .4;
+    }
+}
+
+/* --- CSS Masking Utilities --- */
+@utility ds-mask-fade-y {
+    mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+}
+
+@utility ds-mask-fade-top {
+    mask-image: linear-gradient(to bottom, transparent, black 12%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%);
+}
+
+@utility ds-mask-fade-bottom {
+    mask-image: linear-gradient(to top, transparent, black 12%);
+    -webkit-mask-image: linear-gradient(to top, transparent, black 12%);
+}
+
+@utility ds-mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+/* --- Complex Spotlight Utility --- */
+@utility ds-bg-spotlight {
+    position: relative;
+    isolation: isolate;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: -30%;
+        z-index: -1;
+        background: radial-gradient(circle, var(--brand-glow), transparent 65%);
+        filter: blur(60px);
+        opacity: .8;
+    }
+}

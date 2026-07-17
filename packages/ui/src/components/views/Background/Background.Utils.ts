@@ -1,10 +1,7 @@
 import * as React from "react";
 
-import { cn } from "../../../lib/utils";
-
 import {
     BackgroundBlur,
-    BackgroundGradient,
     BackgroundMode,
 } from "./types";
 
@@ -17,7 +14,7 @@ export function resolveMode(
 
         case "page":
         default:
-            return "absolute inset-0";
+            return "fixed inset-0";
     }
 }
 
@@ -54,77 +51,16 @@ export function resolveBlur(
     }
 }
 
-export function resolveGradient(
-    gradient?: BackgroundGradient
-) {
-    switch (gradient) {
-        case "none":
-            return "";
-
-        case "linear":
-            return cn(
-                "bg-linear-to-b",
-                "from-background",
-                "via-background",
-                "to-background/90"
-            );
-
-        case "radial":
-        default:
-            return "[background-image:radial-gradient(circle_at_top,var(--color-background)_0%,transparent_70%)]";
-    }
-}
-
 export function createBackgroundStyle(
     opacity = 1,
-    zIndex = -10
+    zIndex = 0,
+    style?: React.CSSProperties
 ): React.CSSProperties {
     return {
         opacity,
         zIndex,
+        ...style,
     };
-}
-
-export function createRippleGridStyle(
-    rows: number,
-    cols: number,
-    cellSize: number
-): React.CSSProperties {
-    return {
-        display: "grid",
-        gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
-        gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
-        width: cols * cellSize,
-        height: rows * cellSize,
-        marginInline: "auto",
-    };
-}
-
-export function getRippleTiming(
-    clicked:
-        | { row: number; col: number }
-        | null,
-    row: number,
-    col: number
-) {
-    if (!clicked) {
-        return {};
-    }
-
-    const distance = Math.hypot(
-        clicked.row - row,
-        clicked.col - col
-    );
-
-    return {
-        "--delay": `${Math.max(
-            0,
-            distance * 55
-        )}ms`,
-        "--duration": `${
-            200 + distance * 80
-        }ms`,
-    } as React.CSSProperties;
 }
 
 export function createGridStyle(
@@ -132,18 +68,6 @@ export function createGridStyle(
 ): React.CSSProperties {
     return {
         backgroundSize: `${gridSize}px ${gridSize}px`,
-
-        backgroundImage: `
-            linear-gradient(
-                to right,
-                hsl(var(--border) / 0.35) 1px,
-                transparent 1px
-            ),
-            linear-gradient(
-                to bottom,
-                hsl(var(--border) / 0.35) 1px,
-                transparent 1px
-            )
-        `,
+        backgroundImage: `linear-gradient(to right, color-mix(in oklch, var(--border) 58%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklch, var(--border) 58%, transparent) 1px, transparent 1px)`,
     };
 }

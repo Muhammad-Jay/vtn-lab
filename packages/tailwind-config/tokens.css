@@ -1,0 +1,277 @@
+@import "tailwindcss";
+
+@theme {
+    /* 1. Core Semantic Colors (Mapped to CSS variables below) */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-ring: var(--ring);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    /* 2. Custom Color Scales -> Generates bg-surface-0, text-text-primary, border-border-default, etc. */
+    --color-surface-0: var(--surface-0);
+    --color-surface-1: var(--surface-1);
+    --color-surface-2: var(--surface-2);
+    --color-surface-3: var(--surface-3);
+    --color-surface-4: var(--surface-4);
+    --color-surface-5: var(--surface-5);
+
+    --color-panel-default: var(--panel-default);
+    --color-panel-inset: var(--panel-inset);
+    --color-panel-raised: var(--panel-raised);
+    --color-panel-floating: var(--panel-floating);
+
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-muted: var(--text-muted);
+    --color-text-disabled: var(--text-disabled);
+    --color-text-placeholder: var(--text-placeholder);
+    --color-text-inverse: var(--text-inverse);
+    --color-text-link: var(--text-link);
+
+    --color-border-subtle: var(--border-subtle);
+    --color-border-default: var(--border-default);
+    --color-border-strong: var(--border-strong);
+    --color-border-focus: var(--border-focus);
+    --color-border-divider: var(--border-divider);
+
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-danger: var(--danger);
+    --color-info: var(--info);
+    --color-neutral: var(--neutral);
+
+    --color-success-soft: var(--success-soft);
+    --color-warning-soft: var(--warning-soft);
+    --color-danger-soft: var(--danger-soft);
+    --color-info-soft: var(--info-soft);
+
+    --color-brand-primary: var(--brand-primary);
+    --color-brand-secondary: var(--brand-secondary);
+
+    /* 3. Custom Shadows -> Generates shadow-shadow-1, shadow-shadow-2, etc. */
+    --shadow-0: var(--shadow-0-val);
+    --shadow-1: var(--shadow-1-val);
+    --shadow-2: var(--shadow-2-val);
+    --shadow-3: var(--shadow-3-val);
+    --shadow-4: var(--shadow-4-val);
+
+    /* 4. Custom Radii -> Generates rounded-radius-0, rounded-radius-1, etc. */
+    --radius-0: var(--radius-0-val);
+    --radius-1: var(--radius-1-val);
+    --radius-2: var(--radius-2-val);
+    --radius-3: var(--radius-3-val);
+    --radius-4: var(--radius-4-val);
+    --radius-pill: var(--radius-pill-val);
+
+    /* Applies your default base radius token to the standard border-radius rule */
+    --radius: var(--radius-2-val);
+}
+
+/* --- THE RUNTIME CSS VARIABLES MAP --- */
+:root {
+    /* Base Primitives */
+    --mono-0: #ffffff;
+    --mono-25: #fcfcfc;
+    --mono-50: #f8f8f8;
+    --mono-75: #f3f3f3;
+    --mono-100: #efefef;
+    --mono-150: #e8e8e8;
+    --mono-200: #dddddd;
+    --mono-300: #c8c8c8;
+    --mono-400: #9a9a9a;
+    --mono-500: #767676;
+    --mono-600: #575757;
+    --mono-700: #404040;
+    --mono-800: #2c2c2c;
+    --mono-900: #161616;
+    --mono-950: #0d0d0d;
+    --mono-1000: #050505;
+
+    /* Theme Tokens (Light Mode Defaults) */
+    --surface-0: var(--mono-25);
+    --surface-1: var(--mono-50);
+    --surface-2: var(--mono-0);
+    --surface-3: var(--mono-0);
+    --surface-4: #ffffffee;
+    --surface-5: #fffffffb;
+
+    --panel-default: var(--surface-2);
+    --panel-inset: var(--surface-1);
+    --panel-raised: var(--surface-3);
+    --panel-floating: var(--surface-4);
+
+    --text-primary: var(--mono-950);
+    --text-secondary: var(--mono-700);
+    --text-muted: var(--mono-500);
+    --text-disabled: var(--mono-400);
+    --text-placeholder: var(--mono-400);
+    --text-inverse: var(--mono-0);
+    --text-link: var(--mono-900);
+
+    --border-subtle: rgb(0 0 0 / 0.04);
+    --border-default: rgb(0 0 0 / 0.08);
+    --border-strong: rgb(0 0 0 / 0.14);
+    --border-focus: rgb(0 0 0 / 0.22);
+    --border-divider: rgb(0 0 0 / 0.06);
+
+    --action-primary: var(--mono-950);
+    --action-primary-hover: var(--mono-900);
+    --action-secondary: var(--mono-0);
+    --action-secondary-hover: var(--mono-50);
+    --action-subtle: var(--mono-75);
+    --action-subtle-hover: var(--mono-100);
+    --action-danger: #d92d20;
+    --action-success: #15803d;
+
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+    --info: #2563eb;
+    --neutral: var(--mono-500);
+
+    --success-soft: rgb(22 163 74 / .10);
+    --warning-soft: rgb(217 119 6 / .10);
+    --danger-soft: rgb(220 38 38 / .10);
+    --info-soft: rgb(37 99 235 / .10);
+
+    --brand-primary: var(--mono-950);
+    --brand-secondary: var(--mono-600);
+    --brand-gradient: linear-gradient(180deg, #ffffff, #f3f3f3);
+    --brand-radial: radial-gradient(circle, rgb(0 0 0 /.06), transparent 70%);
+    --brand-glow: rgb(0 0 0 /.10);
+
+    --glass-morphism-0: rgb(255 255 255 /.40);
+    --glass-morphism-1: rgb(255 255 255 /.55);
+    --glass-morphism-2: rgb(255 255 255 /.70);
+    --glass-morphism-3: rgb(255 255 255 /.82);
+    --glass-morphism-4: rgb(255 255 255 /.92);
+
+    --glass-liquid-0: rgb(255 255 255 /.25);
+    --glass-liquid-1: rgb(255 255 255 /.38);
+    --glass-liquid-2: rgb(255 255 255 /.52);
+    --glass-liquid-3: rgb(255 255 255 /.70);
+    --glass-liquid-4: rgb(255 255 255 /.84);
+
+    --background-grid: rgb(0 0 0 /.06);
+    --background-dot: rgb(0 0 0 /.08);
+    --background-mesh: rgb(0 0 0 /.04);
+    --background-radial: rgb(0 0 0 /.08);
+    --background-noise-opacity: .025;
+
+    /* Shadcn Semantic Mapping Variables */
+    --background: var(--surface-0);
+    --foreground: var(--text-primary);
+    --primary: var(--action-primary);
+    --primary-foreground: var(--text-inverse);
+    --secondary: var(--action-secondary);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--surface-1);
+    --muted-foreground: var(--text-muted);
+    --accent: var(--surface-2);
+    --accent-foreground: var(--text-primary);
+    --input: var(--surface-2);
+    --border: var(--border-default);
+    --ring: var(--border-focus);
+    --card: var(--surface-3);
+    --card-foreground: var(--text-primary);
+    --popover: var(--surface-4);
+    --popover-foreground: var(--text-primary);
+    --destructive: var(--danger);
+    --destructive-foreground: var(--text-inverse);
+
+    /* Shadow Value Mapping (Renamed to avoid naming collision with Tailwind internals) */
+    --shadow-0-val: none;
+    --shadow-1-val: 0 1px 2px rgb(0 0 0 /.04);
+    --shadow-2-val: 0 4px 10px rgb(0 0 0 /.05);
+    --shadow-3-val: 0 10px 28px rgb(0 0 0 /.08);
+    --shadow-4-val: 0 24px 64px rgb(0 0 0 /.12);
+
+    /* Radius Value Mapping (Renamed to avoid naming collision with Tailwind internals) */
+    --radius-0-val: 0px;
+    --radius-1-val: .5rem;
+    --radius-2-val: .75rem;
+    --radius-3-val: 1rem;
+    --radius-4-val: 1.5rem;
+    --radius-pill-val: 9999px;
+}
+
+/* --- DARK MODE OVERRIDES --- */
+.dark {
+    color-scheme: dark;
+    --surface-0: #090909;
+    --surface-1: #0d0d0d;
+    --surface-2: #121212;
+    --surface-3: #181818;
+    --surface-4: rgb(28 28 28 /.94);
+    --surface-5: rgb(34 34 34 /.98);
+
+    --panel-default: var(--surface-2);
+    --panel-inset: var(--surface-1);
+    --panel-raised: var(--surface-3);
+    --panel-floating: var(--surface-4);
+
+    --text-primary: #f8f8f8;
+    --text-secondary: #d3d3d3;
+    --text-muted: #9b9b9b;
+    --text-disabled: #6f6f6f;
+    --text-placeholder: #6f6f6f;
+    --text-inverse: #0b0b0b;
+    --text-link: #ffffff;
+
+    --border-subtle: rgb(255 255 255 /.04);
+    --border-default: rgb(255 255 255 /.08);
+    --border-strong: rgb(255 255 255 /.14);
+    --border-focus: rgb(255 255 255 /.24);
+    --border-divider: rgb(255 255 255 /.06);
+
+    --action-primary: #fafafa;
+    --action-primary-hover: #ffffff;
+    --action-secondary: #1a1a1a;
+    --action-secondary-hover: #222222;
+    --action-subtle: #171717;
+    --action-subtle-hover: #1f1f1f;
+
+    --glass-morphism-0: rgb(20 20 20 /.34);
+    --glass-morphism-1: rgb(20 20 20 /.45);
+    --glass-morphism-2: rgb(20 20 20 /.60);
+    --glass-morphism-3: rgb(20 20 20 /.76);
+    --glass-morphism-4: rgb(20 20 20 /.90);
+
+    --glass-liquid-0: rgb(28 28 28 /.28);
+    --glass-liquid-1: rgb(28 28 28 /.42);
+    --glass-liquid-2: rgb(28 28 28 /.56);
+    --glass-liquid-3: rgb(28 28 28 /.72);
+    --glass-liquid-4: rgb(28 28 28 /.86);
+
+    --brand-primary: #fafafa;
+    --brand-secondary: #9b9b9b;
+    --brand-gradient: linear-gradient(180deg, #222222, #090909);
+    --brand-radial: radial-gradient(circle, rgb(255 255 255 /.08), transparent 70%);
+    --brand-glow: rgb(255 255 255 /.08);
+
+    --background-grid: rgb(255 255 255 /.05);
+    --background-dot: rgb(255 255 255 /.06);
+    --background-mesh: rgb(255 255 255 /.04);
+    --background-radial: rgb(255 255 255 /.08);
+    --background-noise-opacity: .045;
+
+    --shadow-1-val: 0 1px 2px rgb(0 0 0 /.45);
+    --shadow-2-val: 0 4px 12px rgb(0 0 0 /.50);
+    --shadow-3-val: 0 14px 32px rgb(0 0 0 /.55);
+    --shadow-4-val: 0 30px 72px rgb(0 0 0 /.65);
+}

@@ -21,7 +21,7 @@ import {
 import { AutoGrid, SplitScreen } from "@repo/ui/layouts";
 import { Background, Container } from "@repo/ui/views";
 import {Button, Text} from "@repo/ui/primitives";
-import { Stack, type SpacingToken } from "@repo/ui/layouts"; // 👈 Integrated our new Stack & tokens
+import { Stack, type SpacingToken } from "@repo/ui/layouts";
 import { cn } from "@repo/ui";
 import ProfileWidget from "../components/Menu";
 import { FieldPlayground } from "../components/fields";
@@ -36,9 +36,15 @@ export default function ResearchWorkspace() {
     const [fontSize, setFontSize] = useState<"sm" | "base" | "lg">("base");
 
     return (
-        <div className="h-screen w-full text-neutral-200 overflow-hidden relative">
-            {/* Main root layout background using a subtle radial highlight */}
-            <Background.Main gradient="radial" opacity={1} />
+        <Container
+            padding={"none"}
+            border={"strong"}
+            overflow={"hidden"}
+            surface={"dashboard"}
+            width={"screen"}
+            height={"screen"}
+            radius={"2xl"}
+            className="text-neutral-200 relative">
 
             <SplitScreen
                 ratio={{ default: [1, 5], lg: [1, 5], md: [4, 3] }}
@@ -46,17 +52,20 @@ export default function ResearchWorkspace() {
                 className="h-screen p-3! relative z-10"
             >
                 {/* Left Side Navigation Panel */}
-                <SplitScreen.Left sticky={false} className="relative overflow-hidden rounded-xl">
+                <SplitScreen.Left sticky={false} className="relative overflow-hidden rounded-lg">
                     <Container
-                        variant="transparent"
+                        surface={"panel-raised"}
+                        elevation={"3"}
                         height="full"
+                        border={"strong"}
+                        direction={"column"}
+                        align={"start"}
+                        justify={"start"}
                         hidden={"md"}
                         radius="xl"
                         padding="lg"
-                        className="p-8! justify-start"
+                        className="p-8!"
                     >
-                        <Background.Glass blur={"2xl"} opacity={1} />
-
                         <div className="flex items-center gap-3 mb-12 relative z-10">
                             <div className="p-2 bg-white/5 rounded-lg text-white border border-white/10">
                                 <BookOpen size={18} />
@@ -89,8 +98,8 @@ export default function ResearchWorkspace() {
                 </SplitScreen.Left>
 
                 {/* Right Side Main Canvas Surface */}
-                <SplitScreen.Right className="relative rounded-xl overflow-hidden">
-                    <Background.Grid gridSize={36} fade={true} interactiveHighlight={true} opacity={1} />
+                <SplitScreen.Right scroll={"auto"} className="relative  rounded-2xl ds-bg-dashboard overflow-hidden">
+                    {/*<Background.Ripple opacity={1} />*/}
 
                     <div className="relative z-10 h-full space-y-5.5! overflow-y-auto no-scrollbar p-4! md:p-12!">
                         {/* Workspace Command Header Panel */}
@@ -154,14 +163,23 @@ export default function ResearchWorkspace() {
                         </div>
 
                         {/* Interactive Responsive Grid System Layout */}
-                        <AutoGrid mode="fixed" columns={{ base: 1, xl: 12 }} gap={Number(gridGap)} className="w-full!">
+                        <AutoGrid mode="fixed" columns={{ base: 1, xl: 12 }} gap={Number(gridGap) as any} className="w-full!">
 
                             {/* Standard Container wrapper for semantic article surface content layout */}
                             <AutoGrid.Item span={{ base: 1, xl: 8 }} padding={0}>
-                                <Container variant="default" radius="xl" className="p-8! border border-white/5 bg-neutral-950/40">
+                                <Container
+                                    surface={"surface-3"}
+                                    interaction={"press"}
+                                    radius="xl"
+                                    anchor={"center"}
+                                    padding={"lg"}
+                                    align={"center"}
+                                    justify={"center"}
+
+                                >
                                     <article className="prose prose-invert max-w-none">
                                         <p className={cn(
-                                            "leading-relaxed md:p-2! text-neutral-400 transition-all duration-300",
+                                            "leading-relaxed md:p-2! transition-all duration-300",
                                             fontSize === "sm" && "text-sm",
                                             fontSize === "base" && "text-base",
                                             fontSize === "lg" && "text-lg text-neutral-300"
@@ -178,10 +196,14 @@ export default function ResearchWorkspace() {
                             {/* Interactive Glass Card layout handling real-time diagnostic parameters */}
                             <AutoGrid.Item span={{ base: 1, xl: 4 }} padding={0}>
                                 <Container
-                                    variant="glass"
+                                    surface="dot"
                                     radius="xl"
-                                    interactive
-                                    className="p-6! border border-white/5 flex flex-col justify-between h-full group"
+                                    border={"focus"}
+                                    padding={"sm"}
+                                    direction={"column"}
+                                    interaction={"card"}
+                                    height={"full"}
+                                    className="group"
                                 >
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-start">
@@ -212,12 +234,18 @@ export default function ResearchWorkspace() {
                             ].map((card, i) => (
                                 <AutoGrid.Item key={i} span={{ base: 1, xl: 4 }} padding={0}>
                                     <Container
-                                        variant="default"
+                                        surface={"surface-2"}
                                         animate={true}
-                                        animation={"scale"}
-                                        interactive
+                                        padding={"md"}
+                                        interaction={"press"}
                                         radius="lg"
-                                        className="p-5! h-[150px] justify-between border border-white/5 bg-neutral-900/30 hover:bg-neutral-900/50"
+                                        elevation={"0"}
+                                        height={150}
+                                        direction={"column"}
+                                        align={"center"}
+                                        hoverBorder={"focus"}
+                                        justify={"between"}
+                                        border={"subtle"}
                                     >
                                         <div className="flex items-center justify-between w-full">
                                             <span className="text-xs font-medium text-neutral-400">{card.title}</span>
@@ -232,7 +260,15 @@ export default function ResearchWorkspace() {
 
                             {/* Anchor card embedding a clean profile layout interface asset hook */}
                             <AutoGrid.Item span={{ base: 1, xl: 4 }} padding={0}>
-                                <Container variant="secondary" radius="lg" className="p-5! h-[150px] justify-between border border-white/5 bg-neutral-950/40">
+                                <Container
+                                    surface="surface-4"
+                                    radius="lg"
+                                    padding={"md"}
+                                    height={150}
+                                    direction={"column"}
+                                    justify={"between"}
+                                    align={"start"}
+                                    border={"default"}>
                                     <div className="text-xs text-neutral-400 font-medium">Session Framework Access</div>
                                     <div className="flex items-center gap-2">
                                         <ProfileWidget/>
@@ -256,12 +292,19 @@ export default function ResearchWorkspace() {
                     className="w-full!"
                 >
                     <Container
-                        variant="glass"
+                        surface={"panel-inset"}
                         radius="2xl"
-                        shadow="lg"
+                        elevation={"4"}
                         animate
-                        animation="pop"
-                        className="max-h-[80dvh] w-[640px] p-8! border border-white/10 flex flex-col backdrop-blur-2xl bg-neutral-950/80"
+                        motionEffect={"pop"}
+                        padding={"lg"}
+                        border={"subtle"}
+                        direction={"column"}
+                        justify={"start"}
+                        margin={20}
+                        hoverBorder={"focus"}
+                        width={{ base: "full", sm: 300, md: "50%", lg: "55dvw" }}
+                        maxHeight={"80dvh"}
                     >
                         <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/5 relative z-10">
                             <div className="flex items-center gap-2">
@@ -274,9 +317,16 @@ export default function ResearchWorkspace() {
                         </div>
 
                         <div className="flex-1 overflow-y-auto no-scrollbar py-2! relative z-10">
-                            <AutoGrid mode="fit" minItemWidth={270} gap={4} className="w-full">
+                            <AutoGrid mode="fit" gap={4} className="w-full">
 
-                                <Container variant="default" radius="xl" className="p-4! border border-white/5 bg-white/[0.01] space-y-5!">
+                                <Container surface={"surface-2"}
+                                           border={"default"}
+                                           direction={"column"}
+                                           justify={"between"}
+                                           padding={"md"}
+                                           gap={"sm"}
+                                           width={"100%"}
+                                           radius="xl">
                                     <div className="flex items-center gap-2! text-xs text-neutral-300 font-medium">
                                         <Maximize2 size={14} className="text-neutral-400" />
                                         Grid Canvas Layout Spacing
@@ -322,7 +372,14 @@ export default function ResearchWorkspace() {
                                     </div>
                                 </Container>
 
-                                <Container variant="default" radius="xl" className="p-4! bg-black/60 border border-white/5 space-y-2 col-span-full">
+                                <Container surface={"liquid-3"}
+                                           border={"none"}
+                                           direction={"column"}
+                                           padding={"lg"}
+                                           gap={"sm"}
+                                           width={"100%"}
+                                           className={"col-span-full"}
+                                           radius="xl">
                                     <div className="flex items-center gap-2 text-[10px] text-neutral-500 font-mono">
                                         <Eye size={12} />
                                         <Text.Subtitle>
@@ -355,7 +412,7 @@ export default function ResearchWorkspace() {
                         variant="glass"
                         radius="2xl"
                         shadow="md"
-                        className="w-[1100px] max-h-[85dvh] p-8! border border-white/10 bg-neutral-950/90 backdrop-blur-3xl overflow-hidden flex flex-col"
+                        className="w-[1100px] max-h-[85dvh] p-8! border border-white/10 overflow-hidden flex flex-col"
                     >
                         <div className="flex justify-between items-center mb-6 pb-3 border-b border-white/5">
                             <div className="space-y-0.5">
@@ -391,6 +448,6 @@ export default function ResearchWorkspace() {
                     </Container>
                 </SplitScreen.Overlay>
             </SplitScreen>
-        </div>
+        </Container>
     );
 }

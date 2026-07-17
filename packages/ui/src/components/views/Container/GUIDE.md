@@ -1,25 +1,34 @@
-# Container
+# Container Component
 
-A reusable layout primitive built on top of Framer Motion.
+A foundational layout primitive used to build every section, card, panel, page, and surface in the design system.
 
-The Container component provides a consistent surface for building application layouts, cards, panels, sections, dialogs, sidebars, widgets, dashboards, and other UI blocks.
+The `Container` component combines:
 
-It supports semantic variants, borders, spacing, sizing, viewport animations, responsive visibility, and all native HTML `<div>` attributes.
+- Layout
+- Spacing
+- Surface styling
+- Borders
+- Elevation
+- Motion
+- Responsive visibility
+- Sizing
+
+into a single consistent API.
 
 ---
 
 # Import
 
 ```tsx
-import { Container } from "@repo/ui/layouts";
+import { Container } from "@/components/ui/container";
 ```
 
 ---
 
-# Basic Usage
+# Basic Example
 
 ```tsx
-<Container>
+<Container surface="card" padding="lg">
     Content
 </Container>
 ```
@@ -34,175 +43,297 @@ import { Container } from "@repo/ui/layouts";
 
 Content rendered inside the container.
 
+```tsx
+<Container>
+    <Button />
+</Container>
+```
+
 Type
 
 ```ts
 React.ReactNode
 ```
 
-Example
-
-```tsx
-<Container>
-    <Text>Hello</Text>
-</Container>
-```
-
 ---
 
-## variant
+# Surface
 
-Changes the visual appearance.
+Controls the visual appearance.
+
+```tsx
+<Container surface="surface-2" />
+```
 
 Type
 
 ```ts
-"default"
-| "secondary"
-| "ghost"
-| "glass"
-| "transparent"
+ContainerSurface
 ```
 
-Default
+Available values
 
-```ts
-"default"
+### None
+
 ```
-
-Variants
-
-| Variant | Description |
-|----------|-------------|
-| default | Standard card surface |
-| secondary | Secondary surface |
-| ghost | Transparent surface without styling |
-| glass | Glassmorphism background |
-| transparent | Fully transparent |
-
-Example
-
-```tsx
-<Container variant="glass" />
+none
 ```
 
 ---
 
-## border
+### Surface Layers
 
-Border configuration.
-
-Type
-
-```ts
-"none"
-| "default"
-| "top"
-| "bottom"
-| "left"
-| "right"
-| "x"
-| "y"
 ```
-
-Default
-
-```ts
-"default"
-```
-
-Example
-
-```tsx
-<Container border="top" />
+surface-0
+surface-1
+surface-2
+surface-3
+surface-4
+surface-5
 ```
 
 ---
 
-## radius
+### Panels
 
-Corner radius.
-
-Type
-
-```ts
-"none"
-| "sm"
-| "md"
-| "lg"
-| "xl"
-| "2xl"
-| "3xl"
-| "full"
 ```
-
-Default
-
-```ts
-"lg"
-```
-
-Example
-
-```tsx
-<Container radius="2xl" />
+panel-default
+panel-inset
+panel-raised
+panel-floating
 ```
 
 ---
 
-## padding
+### Cards
+
+```
+card
+card-interactive
+```
+
+---
+
+### Floating Elements
+
+```
+popover
+dropdown
+tooltip
+modal
+```
+
+---
+
+### Glass
+
+```
+glass-0
+glass-1
+glass-2
+glass-3
+glass-4
+```
+
+---
+
+### Liquid Glass
+
+```
+liquid-0
+liquid-1
+liquid-2
+liquid-3
+liquid-4
+```
+
+---
+
+### Page Backgrounds
+
+```
+page
+section
+hero
+dashboard
+auth
+```
+
+---
+
+### Brand
+
+```
+brand
+```
+
+---
+
+### Patterns
+
+```
+grid
+grid-sm
+grid-md
+grid-lg
+
+dot
+dot-lg
+
+mesh
+noise
+spotlight
+```
+
+---
+
+### Radials
+
+```
+radial
+radial-top
+radial-bottom
+radial-left
+radial-right
+```
+
+---
+
+# Border
+
+Controls border appearance.
+
+```tsx
+<Container border="default" />
+```
+
+Values
+
+```
+none
+subtle
+default
+strong
+focus
+```
+
+---
+
+# Hover Border
+Applies a border specifically when hovered. Will smoothly transition and add a border width if the container defaults to border="none".
+
+```tsx
+<Container border="none" hoverBorder="strong"/>
+```
+
+Values
+
+```
+none
+subtle
+default
+strong
+focus
+```
+---
+
+# Border Position
+
+Limits border rendering.
+
+```tsx
+<Container
+    border="default"
+    borderPosition="bottom"
+/>
+```
+
+Values
+
+```
+all
+top
+bottom
+left
+right
+x
+y
+```
+
+---
+
+# Radius
+
+Border radius.
+
+```tsx
+<Container radius="xl" />
+```
+
+Values
+
+```
+none
+sm
+md
+lg
+xl
+2xl
+3xl
+full
+```
+
+---
+
+# Elevation
+
+Shadow depth.
+
+```tsx
+<Container elevation="2" />
+```
+
+Values
+
+```
+none
+0
+1
+2
+3
+4
+```
+
+---
+
+# Padding
 
 Internal spacing.
-
-Type
-
-```ts
-"none"
-| "xs"
-| "sm"
-| "md"
-| "lg"
-| "xl"
-```
-
-Default
-
-```ts
-"md"
-```
-
-Example
 
 ```tsx
 <Container padding="lg" />
 ```
 
+Values
+
+```
+none
+xs
+sm
+md
+lg
+xl
+2xl
+3xl
+```
+
 ---
 
-## gap
+# Gap
 
-Gap between children.
+Spacing between children.
 
-Works because the Container uses Flex Column by default.
-
-Type
-
-```ts
-"none"
-| "xs"
-| "sm"
-| "md"
-| "lg"
-| "xl"
-```
-
-Default
-
-```ts
-"none"
-```
-
-Example
+Automatically applies flex gap.
 
 ```tsx
 <Container gap="md">
@@ -210,80 +341,221 @@ Example
 </Container>
 ```
 
+Values
+
+```
+none
+xs
+sm
+md
+lg
+xl
+```
+
 ---
 
-## shadow
+# Direction
 
-Shadow preset.
-
-Type
-
-```ts
-"none"
-| "sm"
-| "md"
-| "lg"
-```
-
-Default
-
-```ts
-"none"
-```
-
-Example
+Flex direction.
 
 ```tsx
-<Container shadow="lg" />
+<Container direction="row" />
+```
+
+Values
+
+```
+row
+column
+row-reverse
+column-reverse
 ```
 
 ---
 
-## overflow
+# Align
+
+Cross-axis alignment.
+
+```tsx
+<Container align="center" />
+```
+
+Values
+
+```
+start
+center
+end
+stretch
+baseline
+```
+
+---
+
+# Justify
+
+Main-axis alignment.
+
+```tsx
+<Container justify="between" />
+```
+
+Values
+
+```
+start
+center
+end
+between
+around
+evenly
+```
+
+---
+
+# Anchor
+
+Positions the container inside its parent.
+
+Unlike `align` and `justify`, `anchor` positions the **Container itself**, not its children.
+
+```tsx
+<Container anchor="top-right" />
+```
+
+Values
+
+```
+none
+
+top-left
+top
+top-right
+
+left
+center
+right
+
+bottom-left
+bottom
+bottom-right
+
+stretch
+```
+
+---
+
+# Width
+
+Width of the container.
+
+```tsx
+<Container width="full" />
+```
+
+or
+
+```tsx
+<Container width={300} />
+```
+
+or
+
+```tsx
+<Container width="50%" />
+```
+
+Accepted values
+
+```
+auto
+fit
+full
+screen
+
+number
+
+CSS string
+```
+
+Examples
+
+```
+320
+"20rem"
+"50%"
+"calc(100%-2rem)"
+```
+
+---
+
+# Height
+
+Same behavior as width.
+
+```tsx
+<Container height="screen" />
+```
+
+Accepted values
+
+```
+auto
+fit
+full
+screen
+
+number
+
+CSS string
+```
+
+---
+
+# Min / Max Dimensions
+
+```tsx
+<Container
+    minWidth={240}
+    maxWidth={600}
+    minHeight={100}
+    maxHeight={500}
+/>
+```
+
+Accepted
+
+```
+number
+string
+```
+
+---
+
+# Overflow
 
 Overflow behavior.
-
-Type
-
-```ts
-"visible"
-| "hidden"
-| "clip"
-| "auto"
-| "scroll"
-```
-
-Default
-
-```ts
-"visible"
-```
-
-Example
 
 ```tsx
 <Container overflow="auto" />
 ```
 
+Values
+
+```
+visible
+hidden
+clip
+auto
+scroll
+```
+
 ---
 
-## hideScrollbar
+# hideScrollbar
 
-Hides the scrollbar when overflow is enabled.
-
-Type
-
-```ts
-boolean
-```
-
-Default
-
-```ts
-false
-```
-
-Example
+Hides scrollbars while preserving scrolling.
 
 ```tsx
 <Container
@@ -292,328 +564,100 @@ Example
 />
 ```
 
----
-
-## width
-
-Width preset.
-
-Type
-
-```ts
-"auto"
-| "full"
-| "fit"
-```
-
-Default
-
-```ts
-"auto"
-```
-
-Options
-
-| Value | Result |
-|--------|--------|
-| auto | Browser default |
-| full | width: 100% |
-| fit | width: fit-content |
-
-Example
-
-```tsx
-<Container width="full" />
-```
-
----
-
-## widthValue
-
-Explicit width.
-
-Overrides the width preset.
-
-Type
-
-```ts
-number | string
-```
-
-Example
-
-```tsx
-<Container widthValue={420} />
-
-<Container widthValue="32rem" />
-
-<Container widthValue="50%" />
-```
-
----
-
-## height
-
-Height preset.
-
-Type
-
-```ts
-"auto"
-| "full"
-| "fit"
-```
-
-Default
-
-```ts
-"auto"
-```
-
-Example
-
-```tsx
-<Container height="full" />
-```
-
----
-
-## heightValue
-
-Explicit height.
-
-Overrides the height preset.
-
-Type
-
-```ts
-number | string
-```
-
-Example
-
-```tsx
-<Container heightValue={400} />
-
-<Container heightValue="100vh" />
-```
-
----
-
-## minWidth
-
-Minimum width.
-
-Type
-
-```ts
-number | string
-```
-
-Example
-
-```tsx
-<Container minWidth={320} />
-```
-
----
-
-## maxWidth
-
-Maximum width.
-
-Type
-
-```ts
-number | string
-```
-
-Example
-
-```tsx
-<Container maxWidth={640} />
-```
-
----
-
-## minHeight
-
-Minimum height.
-
-Type
-
-```ts
-number | string
-```
-
-Example
-
-```tsx
-<Container minHeight={320} />
-```
-
----
-
-## maxHeight
-
-Maximum height.
-
-Type
-
-```ts
-number | string
-```
-
-Example
-
-```tsx
-<Container maxHeight="80vh" />
-```
-
----
-
-## center
-
-Centers the container horizontally.
-
-Equivalent to
-
-```css
-margin-inline: auto;
-```
-
 Type
 
 ```ts
 boolean
 ```
 
-Default
+---
 
-```ts
-false
-```
+# Interaction
 
-Example
+Built-in interaction presets.
 
 ```tsx
-<Container
-    widthValue={600}
-    center
-/>
+<Container interaction="card" />
+```
+
+Values
+
+```
+none
+hover
+press
+card
+lift
 ```
 
 ---
 
-## interactive
+# Hidden
 
-Adds interaction styling.
-
-Typically used for clickable cards.
-
-Type
-
-```ts
-boolean
-```
-
-Default
-
-```ts
-false
-```
-
-Example
-
-```tsx
-<Container interactive />
-```
-
----
-
-## hidden
-
-Hide the component below a breakpoint.
-
-Type
-
-```ts
-"sm"
-| "md"
-| "lg"
-| "xl"
-| "2xl"
-```
-
-Example
+Hide at specific breakpoints.
 
 ```tsx
 <Container hidden="md" />
 ```
 
+Values
+
+```
+sm
+md
+lg
+xl
+2xl
+```
+
 ---
 
-## animate
+# Animate
 
-Enables viewport animation.
-
-Type
-
-```ts
-boolean
-```
-
-Default
-
-```ts
-false
-```
-
-Example
+Enables Framer Motion animation.
 
 ```tsx
 <Container animate />
 ```
 
----
-
-## animation
-
-Preset animation.
-
 Type
 
 ```ts
-"none"
-| "fade"
-| "scale"
-| "pop"
-| "slide-up"
-| "slide-down"
-| "slide-left"
-| "slide-right"
-```
-
-Default
-
-```ts
-"fade"
-```
-
-Example
-
-```tsx
-<Container
-    animate
-    animation="slide-up"
-/>
+boolean
 ```
 
 ---
 
-## once
+# Motion Effect
 
-Only animate the first time the component enters the viewport.
+Preset entrance animation.
+
+```tsx
+<Container motionEffect="fade" />
+```
+
+Values
+
+```
+none
+fade
+scale
+pop
+slide-up
+slide-down
+slide-left
+slide-right
+```
+
+---
+
+# once
+
+Animate only once.
+
+```tsx
+<Container once />
+```
 
 Type
 
@@ -621,26 +665,15 @@ Type
 boolean
 ```
 
-Default
-
-```ts
-true
-```
-
-Example
-
-```tsx
-<Container
-    animate
-    once={false}
-/>
-```
-
 ---
 
-## viewportAmount
+# viewportAmount
 
-Viewport visibility threshold before animation starts.
+Viewport threshold used for animation.
+
+```tsx
+<Container viewportAmount={0.4} />
+```
 
 Type
 
@@ -648,174 +681,93 @@ Type
 number
 ```
 
-Default
-
-```ts
-0.15
-```
-
-Example
-
-```tsx
-<Container
-    animate
-    viewportAmount={0.4}
-/>
-```
-
 ---
 
-## variants
+# motionVariants
 
 Provide custom Framer Motion variants.
 
-Overrides the built-in animation preset.
-
-Type
-
-```ts
-{
-    hidden: Variant;
-    visible: Variant;
-}
-```
-
-Example
-
 ```tsx
 <Container
     animate
-    variants={{
+    motionVariants={{
         hidden: {
-            opacity: 0,
-            scale: 0.8,
+            opacity: 0
         },
         visible: {
-            opacity: 1,
-            scale: 1,
-        },
+            opacity: 1
+        }
     }}
 />
 ```
 
----
-
-# Native HTML Props
-
-Since Container extends
+Type
 
 ```ts
-HTMLMotionProps<"div">
+Variants
 ```
 
-you can use any valid HTML div property.
+---
+
+# Native Props
+
+The component forwards all standard HTML `<div>` props.
 
 Examples
 
 ```tsx
-<Container id="hero" />
-
-<Container role="button" />
-
-<Container aria-label="Profile Card" />
-
-<Container onClick={handleClick} />
-
-<Container style={{ background: "red" }} />
-
-<Container className="custom-class" />
+<Container
+    id="hero"
+    className="custom"
+    onClick={handleClick}
+    style={{}}
+>
 ```
+
+Supported examples include
+
+- className
+- style
+- id
+- role
+- tabIndex
+- onClick
+- onMouseEnter
+- onMouseLeave
+- onKeyDown
+- aria-*
+- data-*
+
+and all other valid HTML div attributes.
 
 ---
 
-# Common Examples
+# Design Philosophy
 
-## Card
+The Container component should replace most raw `<div>` elements in application code.
+
+Instead of composing multiple utility classes manually:
+
+```tsx
+<div className="flex flex-col p-6 rounded-xl border shadow-md">
+```
+
+prefer:
 
 ```tsx
 <Container
+    surface="card"
     padding="lg"
-    shadow="md"
->
-    ...
-</Container>
-```
-
----
-
-## Dashboard Widget
-
-```tsx
-<Container
-    variant="secondary"
-    padding="md"
     radius="xl"
+    elevation="2"
 >
-    ...
-</Container>
 ```
 
----
+This provides:
 
-## Glass Card
-
-```tsx
-<Container
-    variant="glass"
-    shadow="lg"
->
-    ...
-</Container>
-```
-
----
-
-## Animated Section
-
-```tsx
-<Container
-    animate
-    animation="slide-up"
->
-    ...
-</Container>
-```
-
----
-
-## Centered Content
-
-```tsx
-<Container
-    widthValue={720}
-    center
->
-    ...
-</Container>
-```
-
----
-
-## Scrollable Panel
-
-```tsx
-<Container
-    overflow="auto"
-    hideScrollbar
-    maxHeight="500px"
->
-    ...
-</Container>
-```
-
----
-
-# Notes
-
-- Built on top of Framer Motion.
-- All HTML div props are supported.
-- Custom Motion props are supported except `animate`, which is controlled by the component.
-- Width and height presets can be overridden using `widthValue` and `heightValue`.
-- Custom `variants` override the built-in animation presets.
-- Semantic variants automatically adapt to your shadcn theme tokens.
-- Designed as the primary layout primitive across the application.
+- Consistent styling
+- Strong typing
+- Better discoverability
+- Easier theming
+- Predictable layouts
+- Centralized design tokens

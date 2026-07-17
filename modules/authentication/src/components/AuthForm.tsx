@@ -1,165 +1,163 @@
 "use client";
 
-import {Container} from "@repo/ui/views";
-import {Stack} from "@repo/ui/layouts";
-import {SlideContent} from "./SlideContent";
-import {OAUTH_PROVIDERS} from "../constants/oauth-providers";
-import {Button, Text} from "@repo/ui/primitives";
-import React from "react";
-import {ChevronDown} from "lucide-react";
+import * as React from "react";
+import {Sparkles, ChevronDown, User, Settings, CreditCard} from "lucide-react";
+import { Container } from "@repo/ui/views";
+import { Stack } from "@repo/ui/layouts";
+import { Button, Text } from "@repo/ui/primitives";
+import { OAuthProviderList } from "./OAuthProviderList";
+import { AuthFormDivider } from "./AuthFormDivider";
+import {MoreOptionsMenu} from "./MoreOptionsMenu";
+
+const formSlideVariants = {
+    hidden: { x: 200, opacity: 0 },
+    visible: { x: 0, opacity: 1 },
+};
+
+const formTransition = {
+    delay: 0.5,
+    duration: 0.3,
+};
 
 export function AuthForm() {
-    const transition = {
-        delay: 0.5,
-        duration: 0.300,
-    }
-    const animateVariants = {
-        hidden: {
-            x: 200,
-            opacity: 0,
-        },
-        visible: {
-            x: 0,
-            opacity: 1,
-        }
-    }
-
     return (
         <Container
-            variant={"transparent"}
-            widthValue={"850px"}
-            height={"fit"}
-            border={"none"}
-            radius={"none"}
-            overflow={"visible"}
             padding={"none"}
-            alignCenter
-            justifyCenter
+            border={"none"}
+            gap={"none"}
+            surface={"surface-4"}
+            elevation={"0"}
+            radius={"2xl"}
         >
 
             <Stack
-                grow={true}
                 direction={"row"}
-                reverse
-                padding={"0"}
                 gap={"0"}
+                padding={"0"}
                 fullWidth
                 fullHeight
-                margin={"0"}
-                justify={"center"}
+                reverse
                 align={"center"}
+                justify={"center"}
             >
 
-                {/*Slide COntents*/}
-                <SlideContent/>
+                {/* Slide content panel — right on desktop, top on mobile */}
+                {/* TODO: implement this layout */}
+                {/*<Container*/}
+                {/*    padding={"none"}*/}
+                {/*    variant={"transparent"}*/}
+                {/*    hidden={"md"}*/}
+                {/*    border={"none"}*/}
+                {/*    className="flex-1 flex items-center">*/}
+                {/*    <SlideContent />*/}
+                {/*</Container>*/}
 
-                {/*Form Container*/}
+                {/* Form panel — left on desktop, bottom on mobile */}
                 <Container
-                    variant={"card"}
-                    minWidth={400}
-                    maxWidth={600}
-                    height={"fit"}
-                    padding={"2xl"}
-                    border={"default"}
+                    variant="card"
+                    radius="3xl"
+                    padding="none"
+                    maxWidth={500}
+                    className="p-10! shadow-2xl! w-full mx-auto"
                     animate
-                    variants={animateVariants}
-                    transition={transition}
+                    variants={formSlideVariants}
+                    transition={formTransition}
                 >
-
                     <Stack
-                        fullWidth
-                        fullHeight
                         direction={"column"}
-                        gap={"8"}
-                        divider
-                    >
-
+                        gap="3" fullWidth>
+                        {/* Centered logo icon */}
                         <Stack
-                            direction={"column"}
-                            gap={"2"}
-                            margin={"0"}
-                            padding={"0"}
-                            align={"center"}
-                            justify={"between"}
                             fullWidth
+                            align={"center"}
+                            justify={"center"}
                         >
-                            {OAUTH_PROVIDERS.map((provider) => (
-                                <OAuthButton
-                                    key={provider.id}
-                                    name={provider.name}
-                                    color={provider.color}
-                                    icon={provider.icon}/>
-                            ))}
+                            <Container
+                                variant="muted"
+                                radius="xl"
+                                padding="md"
+                                width={"fit"}
+                                center
+                                alignCenter
+                                justifyCenter
+                                className={"bg-surface-5"}
+                            >
+                                <Sparkles size={24} className="text-foreground" />
+                            </Container>
                         </Stack>
 
-                        <Button.Primary
-                            width={"full"}
-                            center
-                            animate
-                            animation={"scale"}
-                            trailing={<ChevronDown/>}
-                            className={"p-6! border border-border cursor-pointer"}
-                        >
-                            <Stack
-                                direction={"row"}
-                                gap={"8"}
-                                padding={"0"}
-                                margin={"0"}
-                                fullWidth
-                                grow
-                                align={"center"}
-                                justify={"center"}>
+                        {/* Title */}
+                        <Stack gap="2" fullWidth align="center">
+                            <Text.H2 align="center" className={"font-bold"} wrap="balance">
+                                Welcome to VTN-Lab
+                            </Text.H2>
 
-                                <Text.Subtitle
-                                    className={"w-full flex! items-center justify-start!"} color={"secondary"}>
-                                    Select more
-                                </Text.Subtitle>
-                            </Stack>
-                        </Button.Primary>
+                            <Text.Body
+                                align="center"
+                                color="muted"
+                                className="max-w-sm!"
+                            >
+                                Sign in to access your workspace
+                                or create a new account.
+                            </Text.Body>
+                        </Stack>
+
+                        {/* OAuth provider buttons */}
+                        <OAuthProviderList />
+
+                        {/* "or" divider */}
+                        <AuthFormDivider />
+
+                        {/* More sign-in options */}
+                        <MoreOptionsMenu/>
+
+
+                        {/*<Button.Outline*/}
+                        {/*    width="full"*/}
+                        {/*    className="p-6!"*/}
+                        {/*>*/}
+                        {/*    <Stack*/}
+                        {/*        direction="row"*/}
+                        {/*        align="center"*/}
+                        {/*        fullWidth*/}
+                        {/*    >*/}
+                        {/*        <Text.Body className="flex-1 text-center">*/}
+                        {/*            More sign-in options*/}
+                        {/*        </Text.Body>*/}
+
+                        {/*        <ChevronDown*/}
+                        {/*            size={16}*/}
+                        {/*            className="text-muted-foreground shrink-0!"*/}
+                        {/*        />*/}
+                        {/*    </Stack>*/}
+                        {/*</Button.Outline>*/}
+
+                        {/* Footer terms */}
+                        <Text.Caption
+                            align="center"
+                            color="muted"
+                            className="max-w-sm! mx-auto!"
+                        >
+                            By continuing, you agree to our{" "}
+                            <Text.Caption
+                                color="foreground"
+                                as="span"
+                                className="font-medium"
+                            >
+                                Terms of Service
+                            </Text.Caption>{" "}
+                            and{" "}
+                            <Text.Caption
+                                color="foreground"
+                                as="span"
+                                className="font-medium"
+                            >
+                                Privacy Policy
+                            </Text.Caption>.
+                        </Text.Caption>
                     </Stack>
                 </Container>
             </Stack>
         </Container>
-    )
-}
-
-
-const OAuthButton = ({
-    name,
-    color,
-    icon,
-                     }: {
-    name: string;
-    color: string;
-    icon: React.ComponentType<{ color?: string; size?: number | string, className?: string }>
-}) => {
-
-    const IconComponent = icon;
-
-    return (
-        <Button.Primary
-            width={"full"}
-            center
-            animate
-            animation={"scale"}
-            className={"p-6! border border-border cursor-pointer"}
-        >
-            <Stack
-                direction={"row"}
-                gap={"8"}
-                padding={"0"}
-                margin={"0"}
-                fullWidth
-                grow
-                align={"center"}
-                justify={"start"}>
-
-                <IconComponent color={color} size={22} className={"p-0! m-0!"} />
-
-                <Text.Subtitle className={"w-full flex! items-center justify-start!"} color={"secondary"}>
-                    Continue with {name}
-                </Text.Subtitle>
-            </Stack>
-        </Button.Primary>
-    )
+    );
 }

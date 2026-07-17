@@ -20,13 +20,19 @@
     "./provider": {
       "import": "./src/provider.ts",
       "types": "./src/provider.ts"
+    },
+    "./services": {
+      "import": "./src/services/index.ts",
+      "types": "./src/services/index.ts"
     }
   },
   "scripts": {
     "build": "tsup",
     "lint": "eslint . --max-warnings 0",
     "clean": "rm -rf dist",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "auth:generate": "pnpm dlx auth@latest generate",
+    "auth:migrate": "pnpm dlx auth@latest migrate"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
@@ -39,6 +45,10 @@
     "typescript": "5.9.2"
   },
   "dependencies": {
-    "@clerk/nextjs": "^7.5.17"
+    "@clerk/nextjs": "^7.5.17",
+    "@repo/db": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "better-auth": "^1.6.23",
+    "zod": "^4.4.3"
   }
 }

@@ -1,0 +1,287 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Layout & Structural Utilities (Tailwind v4 Optimized - Fixed)
+   ========================================================================== */
+
+/* --- Core Page Layouts --- */
+@utility ds-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@utility ds-page-fill {
+    flex: 1 1 0%;
+    min-height: 0px;
+}
+
+@utility ds-shell {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 100vh;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+@utility ds-shell-content {
+    min-width: 0px;
+    min-height: 0px;
+}
+
+/* --- Container Options --- */
+@utility ds-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+
+    @media (max-width: 768px) {
+        padding-inline: 1rem;
+    }
+}
+
+@utility ds-container-sm {
+    width: 100%;
+    max-width: 720px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+}
+
+@utility ds-container-md {
+    width: 100%;
+    max-width: 960px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+}
+
+@utility ds-container-lg {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+
+    @media (max-width: 768px) {
+        padding-inline: 1rem;
+    }
+}
+
+@utility ds-container-fluid {
+    width: 100%;
+    padding-inline: 2rem;
+
+    @media (max-width: 768px) {
+        padding-inline: 1rem;
+    }
+}
+
+/* --- Section Blocks --- */
+@utility ds-section {
+    padding-block: 4rem;
+}
+
+@utility ds-section-sm {
+    padding-block: 2rem;
+}
+
+@utility ds-section-lg {
+    padding-block: 6rem;
+}
+
+/* --- Flex Layout Stacks & Clusters --- */
+@utility ds-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@utility ds-stack-sm {
+    gap: 0.5rem;
+}
+
+@utility ds-stack-lg {
+    gap: 2rem;
+}
+
+@utility ds-stack-xl {
+    gap: 3rem;
+}
+
+@utility ds-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+@utility ds-cluster-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+@utility ds-split {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@utility ds-split-start {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* --- Grid Engine Utilities --- */
+@utility ds-sidebar {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+@utility ds-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@utility ds-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+@utility ds-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+@utility ds-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+@utility ds-grid-auto {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@utility ds-grid-fill {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+@utility ds-masonry {
+    columns: 320px;
+    column-gap: 1.5rem;
+
+    & > * {
+        break-inside: avoid;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* --- Centering Engines --- */
+@utility ds-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@utility ds-center-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Layout Layout Helpers --- */
+@utility ds-overlay {
+    position: absolute;
+    inset: 0px;
+}
+
+@utility ds-overlay-fixed {
+    position: fixed;
+    inset: 0px;
+}
+
+@utility ds-divider-x {
+    width: 100%;
+    height: 1px;
+}
+
+@utility ds-divider-y {
+    width: 1px;
+    align-self: stretch;
+}
+
+/* --- Custom Aspect Ratios --- */
+@utility ds-square {
+    aspect-ratio: 1 / 1;
+}
+
+@utility ds-video {
+    aspect-ratio: 16 / 9;
+}
+
+@utility ds-portrait {
+    aspect-ratio: 3 / 4;
+}
+
+/* --- Layout Structural Helpers --- */
+@utility ds-fill {
+    width: 100%;
+}
+
+@utility ds-fit {
+    width: fit-content;
+}
+
+@utility ds-screen {
+    width: 100vw;
+}
+
+@utility ds-fill-height {
+    height: 100%;
+}
+
+@utility ds-screen-height {
+    min-height: 100vh;
+}
+
+/* --- Layout Layer Indexes (Z-index) --- */
+@utility ds-z-base { z-index: 1; }
+@utility ds-z-dropdown { z-index: 50; }
+@utility ds-z-sticky { z-index: 100; }
+@utility ds-z-overlay { z-index: 500; }
+@utility ds-z-modal { z-index: 1000; }
+@utility ds-z-toast { z-index: 1100; }
+@utility ds-z-tooltip { z-index: 1200; }

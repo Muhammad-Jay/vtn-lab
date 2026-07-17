@@ -65,18 +65,10 @@ export interface BackgroundRippleProps
         BackgroundProps,
         "blur" | "gradient"
     > {
-    /**
-     * Decorative grid rows.
-     *
-     * @default 8
-     */
+    /** Initial row estimate before the host is measured. */
     rows?: number;
 
-    /**
-     * Decorative grid columns.
-     *
-     * @default 28
-     */
+    /** Initial column estimate before the host is measured. */
     cols?: number;
 
     /**

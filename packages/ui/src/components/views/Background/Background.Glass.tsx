@@ -16,12 +16,13 @@ export const BackgroundGlass = React.forwardRef<
 >(
     (
         {
-            mode = "page",
+            mode = "container",
             interactive = false,
             opacity = 1,
-            zIndex = -9,
+            zIndex = 0,
             blur = "xl",
             className,
+            style,
             ...props
         },
         ref
@@ -30,7 +31,14 @@ export const BackgroundGlass = React.forwardRef<
             <div
                 ref={ref}
                 aria-hidden
-                style={createBackgroundStyle(opacity, zIndex)}
+                style={createBackgroundStyle(opacity, zIndex, {
+                    backgroundColor:
+                        "color-mix(in oklch, var(--card) 72%, transparent)",
+                    border: "1px solid color-mix(in oklch, var(--border) 72%, transparent)",
+                    boxShadow:
+                        "inset 0 1px 0 color-mix(in oklch, var(--foreground) 7%, transparent)",
+                    ...style,
+                })}
                 className={cn(
                     resolveMode(mode),
 
@@ -39,8 +47,6 @@ export const BackgroundGlass = React.forwardRef<
                     interactive
                         ? "pointer-events-auto"
                         : "pointer-events-none",
-
-                    "bg-card/40",
 
                     "backdrop-saturate-150",
 

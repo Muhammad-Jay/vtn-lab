@@ -1,356 +1,114 @@
-# Background Component
+# Background
 
-The `Background` component provides reusable visual backgrounds for pages, layouts, cards, sections, and containers while remaining fully compatible with the shadcn/ui design system.
-
-All backgrounds use semantic color tokens such as `bg-background`, `border-border`, and CSS variables instead of hardcoded colors, ensuring they automatically adapt to light and dark mode.
-
----
-
-# Components
+`Background` provides decorative, theme-aware layers for pages, sections, panels, and cards. Every variant derives its appearance from the semantic `--background`, `--card`, `--muted`, `--border`, `--foreground`, and `--primary` variables. It therefore follows the active light or dark theme without raw palette colors or per-theme component overrides.
 
 ```tsx
-<Background.Main />
-<Background.Glass />
-<Background.Grid />
+import { Background } from "@repo/ui/views";
 ```
 
----
+## Correct composition
 
-# Shared Props
-
-These props are available on every background variant.
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `mode` | `"page" \| "container"` | `"page"` | Controls how the background is positioned. |
-| `interactive` | `boolean` | `false` | Enables pointer events on the background. Disabled by default. |
-| `opacity` | `number` | `1` | Background opacity. |
-| `zIndex` | `number` | `-10` | Background stacking order. |
-| `className` | `string` | — | Additional CSS classes. |
-| `style` | `React.CSSProperties` | — | Additional inline styles. |
-| `children` | `React.ReactNode` | — | Optional children rendered inside the background. |
-
----
-
-# mode
-
-Controls how the background fills its parent.
-
-## page
-
-Fills the entire parent container.
+Backgrounds are layers, not layout elements. Put them in a positioned, isolated host with a defined height, and place content above them. `Container` already supplies `relative`; for native elements, add it yourself.
 
 ```tsx
-<Background.Main mode="page" />
-```
-
----
-
-## container
-
-Fills only the nearest positioned parent.
-
-```tsx
-<div className="relative">
-    <Background.Glass mode="container" />
-</div>
-```
-
----
-
-# interactive
-
-Determines whether the background should receive mouse events.
-
-Default:
-
-```tsx
-interactive={false}
-```
-
-Enable only if the background needs pointer interaction.
-
-```tsx
-<Background.Grid interactive />
-```
-
----
-
-# opacity
-
-Adjusts transparency.
-
-```tsx
-<Background.Main opacity={0.4} />
-```
-
----
-
-# zIndex
-
-Controls stacking order.
-
-```tsx
-<Background.Main zIndex={-20} />
-```
-
----
-
-# Background.Main
-
-Main application background.
-
-Uses semantic colors and optional gradients.
-
----
-
-## Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `gradient` | `"none" \| "radial" \| "linear"` | `"radial"` | Background gradient style. |
-
----
-
-## gradient
-
-### none
-
-Solid background.
-
-```tsx
-<Background.Main gradient="none" />
-```
-
----
-
-### radial
-
-Subtle radial highlight.
-
-```tsx
-<Background.Main gradient="radial" />
-```
-
----
-
-### linear
-
-Top-to-bottom gradient.
-
-```tsx
-<Background.Main gradient="linear" />
-```
-
----
-
-# Examples
-
-Simple page background.
-
-```tsx
-<Background.Main />
-```
-
-Linear hero background.
-
-```tsx
-<Background.Main gradient="linear" />
-```
-
-Container background.
-
-```tsx
-<div className="relative">
-    <Background.Main mode="container" />
-</div>
-```
-
----
-
-# Background.Glass
-
-Glassmorphism background.
-
-Provides translucent surfaces using semantic colors and backdrop blur.
-
----
-
-## Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `blur` | `"none" \| "xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "3xl"` | `"xl"` | Amount of backdrop blur. |
-
----
-
-# blur
-
-Available values:
-
-```
-none
-xs
-sm
-md
-lg
-xl
-2xl
-3xl
-```
-
----
-
-Examples
-
-```tsx
-<Background.Glass />
-```
-
-Small blur
-
-```tsx
-<Background.Glass blur="sm" />
-```
-
-Heavy blur
-
-```tsx
-<Background.Glass blur="3xl" />
-```
-
----
-
-# Background.Grid
-
-Grid background used for dashboards, hero sections, landing pages, editors, and design tools.
-
-Supports optional interactive cursor highlighting.
-
----
-
-## Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `interactiveHighlight` | `boolean` | `true` | Enables cursor spotlight. |
-| `gridSize` | `24 \| 32 \| 36 \| 40 \| 48 \| 56 \| 64` | `36` | Grid spacing. |
-| `fade` | `boolean` | `true` | Fades the grid toward the edges. |
-
----
-
-# interactiveHighlight
-
-Displays a soft spotlight that follows the cursor.
-
-```tsx
-<Background.Grid interactiveHighlight />
-```
-
-Disable
-
-```tsx
-<Background.Grid interactiveHighlight={false} />
-```
-
----
-
-# gridSize
-
-Controls spacing between grid lines.
-
-```tsx
-<Background.Grid gridSize={24} />
-```
-
-```tsx
-<Background.Grid gridSize={64} />
-```
-
----
-
-# fade
-
-Adds a radial fade toward the edges.
-
-```tsx
-<Background.Grid fade />
-```
-
-Disable
-
-```tsx
-<Background.Grid fade={false} />
-```
-
----
-
-# Examples
-
-Simple grid.
-
-```tsx
-<Background.Grid />
-```
-
-Large grid.
-
-```tsx
-<Background.Grid gridSize={64} />
-```
-
-Without cursor highlight.
-
-```tsx
-<Background.Grid interactiveHighlight={false} />
-```
-
-Without edge fade.
-
-```tsx
-<Background.Grid fade={false} />
-```
-
----
-
-# Best Practices
-
-Use `Background.Main` for:
-
-- Pages
-- Layouts
-- Sections
-- Application shells
-
-Use `Background.Glass` for:
-
-- Cards
-- Floating panels
-- Sidebars
-- Dialog backgrounds
-- Popovers
-
-Use `Background.Grid` for:
-
-- Hero sections
-- Dashboards
-- Editors
-- Design tools
-- Empty states
-- Landing pages
-
----
-
-# Example Composition
-
-```tsx
-<div className="relative overflow-hidden">
+<section className="relative isolate min-h-80 overflow-hidden">
     <Background.Grid />
 
-    <Container className="relative z-10">
-        ...
-    </Container>
+    <div className="relative z-10">
+        Content
+    </div>
+</section>
+```
+
+`isolate` makes the host a local stacking context. Keep the background at `zIndex={0}` (the default) and content at `z-10`; do not use negative z-indices for these layers.
+
+## Shared props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `mode` | `"container" \| "page"` | `"container"` | `container` fills the positioned host; `page` uses a fixed viewport layer. |
+| `interactive` | `boolean` | `false` | Lets a decorative layer receive pointer events. Enable only for a cursor highlight or ripple. |
+| `opacity` | `number` | `1` | Opacity for the complete background layer. |
+| `zIndex` | `number` | `0` | Layer order within an isolated host. Content should normally use `z-10`. |
+| `className` / `style` | native div props | — | Optional layout or visual adjustments. |
+
+## Page backgrounds
+
+Use `mode="page"` only for a viewport background. It is `fixed`, so it is independent of route content height.
+
+```tsx
+<div className="relative isolate min-h-screen">
+    <Background.Main mode="page" gradient="radial" />
+
+    <main className="relative z-10">…</main>
 </div>
 ```
 
-The background always remains behind the content while the container stays above it.
+## `Background.Main`
+
+The main canvas combines the current semantic surface with subtle tonal depth. It is the right default for app shells and large sections.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `gradient` | `"none" \| "radial" \| "linear"` | `"radial"` |
+
+```tsx
+<Background.Main gradient="linear" />
+```
+
+## `Background.Glass`
+
+Glass uses a translucent semantic card surface, a fine semantic border, and backdrop blur. It needs visible content behind it to produce a noticeable blur; on a completely flat surface it intentionally reads as a refined translucent panel instead of a heavy fog.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `blur` | `"none" \| "xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "3xl"` | `"xl"` |
+
+```tsx
+<div className="relative isolate overflow-hidden rounded-2xl">
+    <Background.Main />
+    <Background.Glass blur="xl" />
+    <div className="relative z-10 p-8">Panel content</div>
+</div>
+```
+
+## `Background.Grid`
+
+Grid uses a semantic border color mixed with transparency and a theme surface fade, so its lines remain visible without overpowering content in either mode.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `gridSize` | `24 \| 32 \| 36 \| 40 \| 48 \| 56 \| 64` | `40` |
+| `fade` | `boolean` | `true` |
+| `interactiveHighlight` | `boolean` | `false` |
+
+The pointer spotlight requires both interaction props:
+
+```tsx
+<Background.Grid interactive interactiveHighlight gridSize={36} />
+```
+
+## `Background.Ripple`
+
+Ripple measures its host with `ResizeObserver`, then creates a grid that fills the available width and height. Cell density adapts to the host and is capped at 720 cells to avoid costly full-screen animation work. It uses your `rows` and `cols` values only as the server-side and pre-measurement estimate.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `rows` / `cols` | `number` | `8` / `28` |
+| `cellSize` | `24 \| 32 \| 40 \| 48 \| 56 \| 64` | `56` |
+| `cellOpacity` | `number` | `0.45` |
+| `interactiveHighlight` | `boolean` | `false` |
+
+```tsx
+<div className="relative isolate min-h-96 overflow-hidden rounded-2xl">
+    <Background.Ripple
+        cellSize={48}
+        interactive
+        interactiveHighlight
+    />
+
+    <div className="relative z-10 p-8">Click open canvas space to ripple.</div>
+</div>
+```
+
+All backgrounds respect `prefers-reduced-motion`; ripple animation is disabled when the user requests reduced motion.

@@ -9,8 +9,6 @@ import {
     resolveMode,
 } from "./Background.Utils";
 
-import { BackgroundRippleGrid } from "./Background.Ripple.Grid";
-
 import { BackgroundRippleProps } from "./types";
 import { BackgroundRippleEffect } from "../../ui/background-ripple-effect";
 
@@ -21,9 +19,9 @@ export const BackgroundRipple =
     >(
         (
             {
-                mode = "page",
+                mode = "container",
                 opacity = 1,
-                zIndex = -10,
+                zIndex = 0,
                 interactive = false,
                 interactiveHighlight = false,
                 rows = 8,
@@ -31,41 +29,23 @@ export const BackgroundRipple =
                 cellSize = 56,
                 cellOpacity = 0.45,
                 className,
+                style,
                 ...props
             },
             ref
         ) => {
-            const [clickedCell, setClickedCell] =
-                React.useState<{
-                    row: number;
-                    col: number;
-                } | null>(null);
-
             return (
                 <div
                     ref={ref}
                     aria-hidden
-                    style={{
-                        ...createBackgroundStyle(
-                            opacity,
-                            zIndex
-                        ),
-
-                        "--background-ripple-fill":
-                            "hsl(var(--muted))",
-
-                        "--background-ripple-border":
-                            "hsl(var(--border))",
-
-                        "--background-ripple-shadow":
-                            "hsl(var(--foreground) / .06)",
-                    } as React.CSSProperties}
+                    style={createBackgroundStyle(opacity, zIndex, {
+                        backgroundColor: "var(--background)",
+                        ...style,
+                    })}
                     className={cn(
                         resolveMode(mode),
 
                         "overflow-hidden",
-
-                        "bg-background",
 
                         interactive
                             ? "pointer-events-auto"
@@ -75,32 +55,22 @@ export const BackgroundRipple =
                     )}
                     {...props}
                 >
-                    <BackgroundRippleEffect rows={rows} cols={cols} cellSize={cellSize} />
-                    {/* <div className="absolute inset-0 flex items-center justify-center overflow-hidden mask-radial-from-20% mask-radial-at-top">
-                        <BackgroundRippleGrid
-                            rows={rows}
-                            cols={cols}
-                            cellSize={cellSize}
-                            cellOpacity={
-                                cellOpacity
-                            }
-                            interactiveHighlight={
-                                interactiveHighlight
-                            }
-                            clickedCell={
-                                clickedCell
-                            }
-                            onCellClick={(
-                                row,
-                                col
-                            ) =>
-                                setClickedCell({
-                                    row,
-                                    col,
-                                })
-                            }
-                        />
-                    </div> */}
+                    <BackgroundRippleEffect
+                        rows={rows}
+                        cols={cols}
+                        cellSize={cellSize}
+                        cellOpacity={cellOpacity}
+                        interactive={
+                            interactive && interactiveHighlight
+                        }
+                    />
+                    <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                            background:
+                                "radial-gradient(ellipse 88% 78% at 50% 42%, transparent 28%, var(--background) 100%)",
+                        }}
+                    />
                 </div>
             );
         }

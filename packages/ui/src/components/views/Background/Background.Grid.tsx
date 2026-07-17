@@ -23,14 +23,15 @@ export const BackgroundGrid = React.forwardRef<
 >(
     (
         {
-            mode = "page",
+            mode = "container",
             interactive = false,
-            interactiveHighlight = true,
+            interactiveHighlight = false,
             opacity = 1,
-            zIndex = -8,
+            zIndex = 0,
             gridSize = 40,
             fade = true,
             className,
+            style,
             ...props
         },
         ref
@@ -70,10 +71,7 @@ export const BackgroundGrid = React.forwardRef<
                 ref={ref}
                 aria-hidden
                 onPointerMove={onPointerMove}
-                style={createBackgroundStyle(
-                    opacity,
-                    zIndex
-                )}
+                style={createBackgroundStyle(opacity, zIndex, style)}
                 className={cn(
                     resolveMode(mode),
 
@@ -100,19 +98,17 @@ export const BackgroundGrid = React.forwardRef<
 
                 {fade && (
                     <div
-                        className={cn(
-                            "pointer-events-none absolute inset-0",
-
-                            "bg-background",
-
-                            "[mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"
-                        )}
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                            background:
+                                "radial-gradient(ellipse 82% 78% at 50% 46%, transparent 24%, var(--background) 80%)",
+                        }}
                     />
                 )}
 
                 {/* Cursor Highlight */}
 
-                {interactiveHighlight && (
+                {interactive && interactiveHighlight && (
                     <motion.div
                         style={{
                             x,
@@ -121,18 +117,11 @@ export const BackgroundGrid = React.forwardRef<
                                 "-50%",
                             translateY:
                                 "-50%",
+                            background:
+                                "radial-gradient(circle, color-mix(in oklch, var(--primary) 20%, transparent), transparent 68%)",
                         }}
-                        className={cn(
-                            "absolute",
-
-                            "size-[28rem]",
-
-                            "rounded-full",
-
-                            "bg-primary/10",
-
-                            "blur-3xl"
-                        )}
+                        className="absolute size-[32rem] rounded-full blur-3xl"
+                        aria-hidden
                     />
                 )}
             </div>

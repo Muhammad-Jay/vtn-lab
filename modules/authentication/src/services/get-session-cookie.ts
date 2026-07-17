@@ -1,0 +1,1 @@
+export { getSessionCookie } from "@foundation/core/services";

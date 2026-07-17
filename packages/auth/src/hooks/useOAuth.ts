@@ -1,189 +1,96 @@
-// "use client";
-//
-// import { useCallback, useState } from "react";
-//
-// import {
-//     useSignIn,
-//     useSignUp,
-// } from "@clerk/nextjs";
-//
-// export type OAuthProvider =
-//     | "oauth_google"
-//     | "oauth_github";
-//
-// export interface UseClerkAuthResult {
-//
-//     isLoaded: boolean;
-//
-//     isLoading: boolean;
-//
-//     error: string | null;
-//
-//     clearError(): void;
-//
-//     handleOAuthSignIn(
-//         provider: OAuthProvider,
-//     ): Promise<void>;
-//
-// }
-//
-// export function useOAuth(): UseClerkAuthResult {
-//
-//     const {
-//         signIn,
-//         isLoaded: isSignInLoaded,
-//     } = useSignIn();
-//
-//     const {
-//         signUp,
-//         isLoaded: isSignUpLoaded,
-//     } = useSignUp();
-//
-//     const [isLoading, setIsLoading] =
-//         useState(false);
-//
-//     const [error, setError] =
-//         useState<string | null>(null);
-//
-//     const clearError = useCallback(() => {
-//
-//         setError(null);
-//
-//     }, []);
-//
-//     const handleOAuthSignIn =
-//         useCallback(
-//             async (
-//                 provider: OAuthProvider,
-//             ): Promise<void> => {
-//
-//                 if (
-//                     !isSignInLoaded ||
-//                     !isSignUpLoaded
-//                 ) {
-//                     return;
-//                 }
-//
-//                 try {
-//
-//                     setIsLoading(true);
-//
-//                     setError(null);
-//
-//                     await signIn.authenticateWithRedirect({
-//
-//                         strategy: provider,
-//
-//                         redirectUrl:
-//                             "/sign-up/sso-callback",
-//
-//                         redirectUrlComplete:
-//                             "/",
-//
-//                     });
-//
-//                 } catch (error: unknown) {
-//
-//                     const clerkError =
-//                         error as {
-//
-//                             message?: string;
-//
-//                             errors?: Array<{
-//                                 code?: string;
-//                                 message?: string;
-//                             }>;
-//
-//                         };
-//
-//                     const code =
-//                         clerkError.errors?.[0]?.code;
-//
-//                     if (
-//                         code ===
-//                         "form_identifier_not_found"
-//                     ) {
-//
-//                         try {
-//
-//                             await signUp.authenticateWithRedirect({
-//
-//                                 strategy: provider,
-//
-//                                 redirectUrl:
-//                                     "/sign-up/sso-callback",
-//
-//                                 redirectUrlComplete:
-//                                     "/",
-//
-//                             });
-//
-//                             return;
-//
-//                         } catch (signUpError: unknown) {
-//
-//                             const clerkSignUpError =
-//                                 signUpError as {
-//
-//                                     message?: string;
-//
-//                                     errors?: Array<{
-//                                         message?: string;
-//                                     }>;
-//
-//                                 };
-//
-//                             setError(
-//
-//                                 clerkSignUpError.errors?.[0]?.message ??
-//                                 clerkSignUpError.message ??
-//                                 "An error occurred during registration.",
-//
-//                             );
-//
-//                         }
-//
-//                     } else {
-//
-//                         setError(
-//
-//                             clerkError.errors?.[0]?.message ??
-//                             clerkError.message ??
-//                             "An error occurred during sign in.",
-//
-//                         );
-//
-//                     }
-//
-//                 } finally {
-//
-//                     setIsLoading(false);
-//
-//                 }
-//
-//             },
-//             [
-//                 isSignInLoaded,
-//                 isSignUpLoaded,
-//                 signIn,
-//                 signUp,
-//             ],
-//         );
-//
-//     return {
-//
-//         isLoaded:
-//             isSignInLoaded &&
-//             isSignUpLoaded,
-//
-//         isLoading,
-//
-//         error,
-//
-//         clearError,
-//
-//         handleOAuthSignIn,
-//
-//     };
-//
-// }
+"use client";
+
+import { useCallback, useState } from "react";
+import { signIn, signOut } from "../lib/auth-client";
+
+export type SupportedOAuthProvider = 'google' | 'github' | 'apple' | 'slack' | 'atlassian';
+
+export interface AuthCallbacks {
+    onRequest?: (ctx?: any) => void;
+    onSuccess?: (ctx?: any) => void;
+    onError?: (ctx: { error: { message: string } }) => void;
+}
+
+export interface AuthenticateOptions extends AuthCallbacks {
+    callbackURL?: string;
+    errorCallbackURL?: string;
+}
+
+export function useOAuth() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSigningOut, setIsSigningOut] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const authenticate = useCallback(async (
+        provider: SupportedOAuthProvider,
+        options?: AuthenticateOptions
+    ) => {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            // signIn.social takes the provider payload, and a second argument for callbacks
+            await signIn.social({
+                provider: provider?.toLowerCase()?.toString(),
+                callbackURL: options?.callbackURL || process.env.SUCCESS_ROUTE!,
+                errorCallbackURL: options?.errorCallbackURL || process.env.ERROR_ROUTE!,
+            }, {
+                onRequest: (ctx: any) => {
+                    options?.onRequest?.(ctx);
+                },
+                onSuccess: (ctx: any) => {
+                    setIsLoading(false);
+                    options?.onSuccess?.(ctx);
+                },
+                onError: (ctx: any) => {
+                    setIsLoading(false);
+                    setError(ctx.error.message);
+                    options?.onError?.(ctx);
+                }
+            });
+        } catch (err: any) {
+            setIsLoading(false);
+            const errorMessage = err?.message || "An unexpected error occurred during authentication.";
+            setError(errorMessage);
+            options?.onError?.({ error: { message: errorMessage } });
+        }
+    }, []);
+
+    const logout = useCallback(async (callbacks?: AuthCallbacks) => {
+        setIsSigningOut(true);
+        setError(null);
+
+        try {
+            // signOut takes fetchOptions to handle callbacks
+            await signOut({
+                fetchOptions: {
+                    onRequest: (ctx: any) => {
+                        callbacks?.onRequest?.(ctx);
+                    },
+                    onSuccess: (ctx: any) => {
+                        setIsSigningOut(false);
+                        callbacks?.onSuccess?.(ctx);
+                    },
+                    onError: (ctx: any) => {
+                        setIsSigningOut(false);
+                        setError(ctx.error.message);
+                        callbacks?.onError?.(ctx);
+                    }
+                }
+            });
+        } catch (err: any) {
+            setIsSigningOut(false);
+            const errorMessage = err?.message || "An unexpected error occurred during sign out.";
+            setError(errorMessage);
+            callbacks?.onError?.({ error: { message: errorMessage } });
+        }
+    }, []);
+
+    return {
+        authenticate,
+        logout,
+        isLoading,
+        isSigningOut,
+        error,
+    };
+}

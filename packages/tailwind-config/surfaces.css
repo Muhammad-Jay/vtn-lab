@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Surface Composition (Tailwind v4 Optimized)
+   ========================================================================== */
+
+/* --- Surface Layers --- */
+@utility ds-surface-0 {
+    background-color: var(--surface-0);
+    color: var(--text-primary);
+}
+@utility ds-surface-1 {
+    background-color: var(--surface-1);
+    color: var(--text-primary);
+}
+@utility ds-surface-2 {
+    background-color: var(--surface-2);
+    color: var(--text-primary);
+}
+@utility ds-surface-3 {
+    background-color: var(--surface-3);
+    color: var(--text-primary);
+}
+@utility ds-surface-4 {
+    background-color: var(--surface-4);
+    color: var(--text-primary);
+}
+@utility ds-surface-5 {
+    background-color: var(--surface-5);
+    color: var(--text-primary);
+}
+
+/* --- Panel Presets --- */
+@utility ds-panel-default {
+    background-color: var(--panel-default);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-3-val);
+    box-shadow: var(--shadow-1-val);
+}
+@utility ds-panel-inset {
+    background-color: var(--panel-inset);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-3-val);
+}
+@utility ds-panel-raised {
+    background-color: var(--panel-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-3-val);
+    box-shadow: var(--shadow-2-val);
+}
+@utility ds-panel-floating {
+    background-color: var(--panel-floating);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-4-val);
+    box-shadow: var(--shadow-3-val);
+}
+
+/* --- Cards --- */
+@utility ds-card {
+    background-color: var(--surface-3);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-3-val);
+    box-shadow: var(--shadow-1-val);
+}
+@utility ds-card-interactive {
+    background-color: var(--surface-3);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-3-val);
+    box-shadow: var(--shadow-1-val);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+        border-color: var(--border-strong);
+        box-shadow: var(--shadow-2-val);
+        transform: translateY(-1px);
+    }
+}
+
+/* --- Floating Overlays --- */
+@utility ds-popover {
+    background-color: var(--surface-4);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-3-val);
+    box-shadow: var(--shadow-3-val);
+}
+@utility ds-dropdown {
+    background-color: var(--surface-4);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-3-val);
+    box-shadow: var(--shadow-3-val);
+}
+@utility ds-tooltip {
+    background-color: var(--surface-5);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-2-val);
+    box-shadow: var(--shadow-2-val);
+}
+@utility ds-modal {
+    background-color: var(--surface-5);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-4-val);
+    box-shadow: var(--shadow-4-val);
+}
+
+/* --- Glass Morphism --- */
+@utility ds-glass-morphism-0 {
+    background-color: var(--glass-morphism-0);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border-subtle);
+}
+@utility ds-glass-morphism-1 {
+    background-color: var(--glass-morphism-1);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-default);
+}
+@utility ds-glass-morphism-2 {
+    background-color: var(--glass-morphism-2);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-default);
+}
+@utility ds-glass-morphism-3 {
+    background-color: var(--glass-morphism-3);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--border-strong);
+}
+@utility ds-glass-morphism-4 {
+    background-color: var(--glass-morphism-4);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--border-strong);
+}
+
+/* --- Liquid Glass --- */
+@utility ds-glass-liquid-0 {
+    background-color: var(--glass-liquid-0);
+    backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--border-subtle);
+}
+@utility ds-glass-liquid-1 {
+    background-color: var(--glass-liquid-1);
+    backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid var(--border-default);
+}
+@utility ds-glass-liquid-2 {
+    background-color: var(--glass-liquid-2);
+    backdrop-filter: blur(28px) saturate(170%);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-2-val);
+}
+@utility ds-glass-liquid-3 {
+    background-color: var(--glass-liquid-3);
+    backdrop-filter: blur(36px) saturate(180%);
+    border: 1px solid var(--border-strong);
+    box-shadow: var(--shadow-3-val);
+}
+@utility ds-glass-liquid-4 {
+    background-color: var(--glass-liquid-4);
+    backdrop-filter: blur(48px) saturate(190%);
+    border: 1px solid var(--border-strong);
+    box-shadow: var(--shadow-4-val);
+}
+
+/* NOTE: Native Tailwind v4 utilities completely replace your old manual 
+   elevation and radius helper classes (e.g. shadow-shadow-1 or rounded-radius-1) */
