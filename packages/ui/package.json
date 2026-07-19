@@ -48,11 +48,13 @@
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@heroui/react": "^3.2.2",
+    "@radix-ui/react-dialog": "^1.1.19",
     "@repo/tailwind-config": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.23.0",
     "motion": "^12.42.2",
+    "radix-ui": "^1.6.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "shadcn": "^4.13.0",

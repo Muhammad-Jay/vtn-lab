@@ -26,36 +26,46 @@ export type ContainerSurface =
     | "radial" | "radial-top" | "radial-bottom" | "radial-left" | "radial-right";
 
 export type MarginValue = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | number | string;
+export type PaddingValue = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+export type GapValue = "none" | "xs" | "sm" | "md" | "lg" | "xl";
+export type DirectionValue = "row" | "column" | "row-reverse" | "column-reverse";
+export type AlignValue = "start" | "center" | "end" | "stretch" | "baseline";
+export type JustifyValue = "start" | "center" | "end" | "between" | "around" | "evenly";
+export type AnchorValue = "none" | "top-left" | "top" | "top-right" | "left" | "center" | "right" | "bottom-left" | "bottom" | "bottom-right" | "stretch";
+export type OverflowValue = "visible" | "hidden" | "clip" | "auto" | "scroll";
+export type OverflowObject = { x?: OverflowValue; y?: OverflowValue };
+export type PositionValue = "static" | "relative" | "absolute" | "fixed" | "sticky";
+export type ContainerWidth = "auto" | "fit" | "full" | "screen";
+export type ContainerHeight = "auto" | "fit" | "full" | "screen";
 
-export type ContainerMargin = MarginValue | {
-    t?: MarginValue; // top
-    b?: MarginValue; // bottom
-    l?: MarginValue; // left
-    r?: MarginValue; // right
-    x?: MarginValue; // horizontal (left & right)
-    y?: MarginValue; // vertical (top & bottom)
-};
+// New Scroll Snap Type Primitives
+export type ScrollSnapType = "none" | "x" | "y" | "x-mandatory" | "y-mandatory" | "x-proximity" | "y-proximity";
+export type ScrollSnapAlign = "none" | "start" | "center" | "end";
 
-export type ContainerDirection = "row" | "column" | "row-reverse" | "column-reverse";
-export type ContainerAlign = "start" | "center" | "end" | "stretch" | "baseline";
-export type ContainerJustify = "start" | "center" | "end" | "between" | "around" | "evenly";
-export type ContainerAnchor = "none" | "top-left" | "top" | "top-right" | "left" | "center" | "right" | "bottom-left" | "bottom" | "bottom-right" | "stretch";
+export type ContainerMargin = Responsive<MarginValue>;
+export type ContainerPadding = Responsive<PaddingValue>;
+export type ContainerGap = Responsive<GapValue>;
+export type ContainerDirection = Responsive<DirectionValue>;
+export type ContainerAlign = Responsive<AlignValue>;
+export type ContainerJustify = Responsive<JustifyValue>;
+export type ContainerAnchor = Responsive<AnchorValue>;
+export type ContainerOverflow = Responsive<OverflowValue | OverflowObject>;
+export type ContainerPosition = Responsive<PositionValue>;
+export type ContainerScrollSnap = Responsive<ScrollSnapType>;
+export type ContainerSnapAlign = Responsive<ScrollSnapAlign>;
+
 export type ContainerRadius = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
-export type ContainerPadding = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
-export type ContainerGap = "none" | "xs" | "sm" | "md" | "lg" | "xl";
 export type ContainerElevation = "none" | "0" | "1" | "2" | "3" | "4";
 export type ContainerBorder = "none" | "subtle" | "default" | "strong" | "focus";
 export type ContainerBorderPosition = "all" | "top" | "bottom" | "left" | "right" | "x" | "y";
-export type ContainerOverflow = "visible" | "hidden" | "clip" | "auto" | "scroll";
 export type ContainerInteraction = "none" | "hover" | "press" | "card" | "lift";
 export type ContainerMotion = "none" | "fade" | "scale" | "pop" | "slide-up" | "slide-down" | "slide-left" | "slide-right";
 export type HiddenBreakpoint = "sm" | "md" | "lg" | "xl" | "2xl";
-export type ContainerWidth = "auto" | "fit" | "full" | "screen";
-export type ContainerHeight = "auto" | "fit" | "full" | "screen";
 
 export interface ContainerProps extends Omit<HTMLMotionProps<"div">, "animate" | "hidden"> {
     children?: React.ReactNode;
     surface?: ContainerSurface;
+    position?: ContainerPosition;
     border?: ContainerBorder;
     hoverBorder?: ContainerBorder;
     borderPosition?: ContainerBorderPosition;
@@ -78,6 +88,8 @@ export interface ContainerProps extends Omit<HTMLMotionProps<"div">, "animate" |
     hideScrollbar?: boolean;
     interaction?: ContainerInteraction;
     hidden?: HiddenBreakpoint;
+    scrollSnap?: ContainerScrollSnap;
+    snapAlign?: ContainerSnapAlign;
     animate?: boolean;
     motionEffect?: ContainerMotion;
     once?: boolean;

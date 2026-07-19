@@ -1,6 +1,21 @@
 import { clsx } from "clsx";
 import { MotionStyle } from "framer-motion";
-import {ContainerMargin, ContainerProps, MarginValue, Responsive} from "./types";
+import {
+    ContainerProps,
+    Responsive,
+    MarginValue,
+    PaddingValue,
+    GapValue,
+    DirectionValue,
+    AlignValue,
+    JustifyValue,
+    OverflowValue,
+    OverflowObject,
+    AnchorValue,
+    PositionValue,
+    ScrollSnapType,
+    ScrollSnapAlign
+} from "./types";
 
 /* ==========================================================================
  * Class Maps
@@ -76,7 +91,7 @@ const elevationMap = {
     "4": "shadow-4",
 } as const;
 
-const paddingMap = {
+const paddingMap: Record<PaddingValue, string> = {
     none: "p-0!",
     xs: "p-2!",
     sm: "p-3!",
@@ -85,40 +100,48 @@ const paddingMap = {
     xl: "p-8!",
     "2xl": "p-10!",
     "3xl": "p-12!",
-} as const;
+};
 
-const gapMap = {
+const gapMap: Record<GapValue, string> = {
     none: "gap-0!",
     xs: "gap-2!",
     sm: "gap-3!",
     md: "gap-4!",
     lg: "gap-6!",
     xl: "gap-8!",
-} as const;
+};
 
-const directionMap = {
+const directionMap: Record<DirectionValue, string> = {
     row: "flex-row",
     column: "flex-col",
     "row-reverse": "flex-row-reverse",
     "column-reverse": "flex-col-reverse",
-} as const;
+};
 
-const alignMap = {
+const alignMap: Record<AlignValue, string> = {
     start: "items-start",
     center: "items-center",
     end: "items-end",
     stretch: "items-stretch",
     baseline: "items-baseline",
-} as const;
+};
 
-const justifyMap = {
+const justifyMap: Record<JustifyValue, string> = {
     start: "justify-start",
     center: "justify-center",
     end: "justify-end",
     between: "justify-between",
     around: "justify-around",
     evenly: "justify-evenly",
-} as const;
+};
+
+const positionMap: Record<PositionValue, string> = {
+    static: "static",
+    relative: "relative",
+    absolute: "absolute",
+    fixed: "fixed",
+    sticky: "sticky",
+};
 
 const borderMap = {
     none: "",
@@ -128,7 +151,6 @@ const borderMap = {
     focus: "border border-border-focus",
 } as const;
 
-// Ensure hover border adds base width if not already present, changing only on hover
 const hoverBorderMap = {
     none: "hover:border-transparent",
     subtle: "hover:border hover:border-border-subtle transition-colors",
@@ -174,7 +196,7 @@ const hiddenMap = {
 const widthTokenMap = {
     auto: "w-auto",
     fit: "w-fit",
-    full: "w-full",
+    full: "w-full", // Keeps component locked tight inside parent structures
     screen: "w-screen",
 } as const;
 
@@ -196,7 +218,7 @@ const motionMap = {
     "slide-right": "",
 } as const;
 
-const anchorMap = {
+const flexAnchorMap: Record<AnchorValue, string> = {
     none: "",
     "top-left": "self-start justify-self-start",
     top: "self-start justify-self-center",
@@ -208,7 +230,21 @@ const anchorMap = {
     bottom: "self-end justify-self-center",
     "bottom-right": "self-end justify-self-end",
     stretch: "self-stretch justify-self-stretch",
-} as const;
+};
+
+const absoluteAnchorMap: Record<AnchorValue, string> = {
+    none: "",
+    "top-left": "top-0 left-0",
+    top: "top-0 left-1/2 -translate-x-1/2",
+    "top-right": "top-0 right-0",
+    left: "top-1/2 left-0 -translate-y-1/2",
+    center: "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+    right: "top-1/2 right-0 -translate-y-1/2",
+    "bottom-left": "bottom-0 left-0",
+    bottom: "bottom-0 left-1/2 -translate-x-1/2",
+    "bottom-right": "bottom-0 right-0",
+    stretch: "inset-0",
+};
 
 const marginSizeMap = {
     none: "0",
@@ -221,85 +257,88 @@ const marginSizeMap = {
     "3xl": "12",
 } as const;
 
-export function resolveMargin(margin?: ContainerMargin): string {
-    if (margin === undefined) return "";
+// Native Core Scroll Snap Map Configurations
+const scrollSnapMap: Record<ScrollSnapType, string> = {
+    none: "snap-none",
+    x: "snap-x",
+    y: "snap-y",
+    "x-mandatory": "snap-x snap-mandatory",
+    "y-mandatory": "snap-y snap-mandatory",
+    "x-proximity": "snap-x snap-proximity",
+    "y-proximity": "snap-y snap-proximity",
+};
 
-    const classes: string[] = [];
+const snapAlignMap: Record<ScrollSnapAlign, string> = {
+    none: "",
+    start: "snap-start",
+    center: "snap-center",
+    end: "snap-end",
+};
 
-    // Helper to generate the exact Tailwind class
-    const processValue = (prefix: string, val: MarginValue) => {
-        if (typeof val === "string" && val in marginSizeMap) {
-            // Converts 'md' to 'm-4', 't: xs' to 'mt-2', etc.
-            classes.push(`${prefix}-${marginSizeMap[val as keyof typeof marginSizeMap]}`);
-        } else if (typeof val === "number") {
-            // Converts 10 to 'm-[10px]'
-            classes.push(`${prefix}-[${val}px]`);
-        } else if (typeof val === "string") {
-            // Converts custom strings like '2rem' to 'm-[2rem]'
-            classes.push(`${prefix}-[${val}]`);
-        }
+/* ==========================================================================
+ * Responsive Engine Utilities
+ * ========================================================================== */
+
+const breakpoints = ["base", "sm", "md", "lg", "xl", "2xl"] as const;
+
+export function isResponsiveObject<T>(val: any): val is Record<string, T> {
+    return typeof val === "object" && val !== null && !Array.isArray(val) && breakpoints.some(bp => bp in val);
+}
+
+export function processResponsive<T>(
+    value: Responsive<T> | undefined,
+    mapper: (val: T) => string
+): string {
+    if (value === undefined) return "";
+
+    const processMappedValue = (mapped: string, bp: string) => {
+        if (bp === "base" || !mapped) return mapped;
+        return mapped.split(" ").filter(Boolean).map(c => `${bp}:${c}`).join(" ");
     };
 
-    // If it's an object { l: 10, r: "md" }
-    if (typeof margin === "object" && margin !== null) {
-        if (margin.t !== undefined) processValue("mt", margin.t);
-        if (margin.b !== undefined) processValue("mb", margin.b);
-        if (margin.l !== undefined) processValue("ml", margin.l);
-        if (margin.r !== undefined) processValue("mr", margin.r);
-        if (margin.x !== undefined) processValue("mx", margin.x);
-        if (margin.y !== undefined) processValue("my", margin.y);
-    } else {
-        // If it's a primitive like "xs" or 10
-        processValue("m", margin);
+    if (isResponsiveObject<T>(value)) {
+        return Object.entries(value)
+            .filter(([bp]) => breakpoints.includes(bp as any))
+            .map(([bp, val]) => processMappedValue(mapper(val as T), bp))
+            .join(" ");
     }
 
-    return classes.join(" ");
+    return mapper(value as T);
 }
 
 /* ==========================================================================
- * Helpers
+ * Specific Resolvers
  * ========================================================================== */
 
-export function resolveDimension(
-    value: Responsive<string | number> | undefined,
-    prefix: "w" | "h"
-): { className?: string; style?: React.CSSProperties } {
-    if (value === undefined) return {};
-
-    const tokenMap = prefix === "w" ? widthTokenMap : heightTokenMap;
-
-    // Handle single primitive values (Standard execution)
-    if (typeof value === "string" || typeof value === "number") {
-        if (typeof value === "string" && value in tokenMap) {
-            return { className: tokenMap[value as keyof typeof tokenMap] };
-        }
-        return {
-            style: { [prefix === "w" ? "width" : "height"]: typeof value === "number" ? `${value}px` : value }
-        };
+const resolveMarginValue = (val: MarginValue): string => {
+    if (typeof val === "string" && val in marginSizeMap) {
+        return `m-${marginSizeMap[val as keyof typeof marginSizeMap]}`;
     }
+    const normalized = typeof val === "number" ? `${val}px` : val;
+    return `m-[${normalized}]`;
+};
 
-    // Handle responsive breakpoint object execution
-    const classes: string[] = [];
+const resolveDimensionValue = (val: string | number, prefix: "w" | "h"): string => {
+    const tokenMap = prefix === "w" ? widthTokenMap : heightTokenMap;
+    if (typeof val === "string" && val in tokenMap) {
+        return tokenMap[val as keyof typeof tokenMap];
+    }
+    return "";
+};
 
-    Object.entries(value).forEach(([bp, val]) => {
-        if (val === undefined) return;
-
-        const isBase = bp === "base";
-        const bpPrefix = isBase ? "" : `${bp}:`;
-
-        if (typeof val === "string" && val in tokenMap) {
-            // Map token (e.g. { md: "full" } -> "md:w-full")
-            const tokenClass = tokenMap[val as keyof typeof tokenMap];
-            classes.push(isBase ? tokenClass : `${bpPrefix}${tokenClass}`);
-        } else {
-            // Map arbitrary custom value (e.g. { lg: 500 } -> "lg:w-[500px]")
-            const normalizedVal = typeof val === "number" ? `${val}px` : val;
-            classes.push(`${bpPrefix}${prefix}-[${normalizedVal}]`);
+const resolveOverflowValue = (val: OverflowValue | OverflowObject): string => {
+    if (typeof val === "object" && val !== null) {
+        const classes = [];
+        if (val.x) {
+            classes.push((overflowMap[val.x] || "").replace(/overflow-/g, "overflow-x-"));
         }
-    });
-
-    return { className: classes.join(" ") };
-}
+        if (val.y) {
+            classes.push((overflowMap[val.y] || "").replace(/overflow-/g, "overflow-y-"));
+        }
+        return classes.join(" ");
+    }
+    return overflowMap[val as OverflowValue] || "";
+};
 
 /* ==========================================================================
  * Build Classes
@@ -307,12 +346,14 @@ export function resolveDimension(
 
 export function buildContainerClassName({
                                             surface = "none",
+                                            position,
                                             border = "none",
                                             hoverBorder = "none",
                                             borderPosition = "all",
                                             radius = "none",
                                             elevation = "none",
                                             padding = "none",
+                                            margin = "none",
                                             gap = "none",
                                             direction = "column",
                                             align = "stretch",
@@ -325,10 +366,14 @@ export function buildContainerClassName({
                                             width,
                                             height,
                                             hideScrollbar,
+                                            scrollSnap,
+                                            snapAlign,
                                             className,
                                         }: Partial<ContainerProps>) {
-    const widthResult = resolveDimension(width, "w");
-    const heightResult = resolveDimension(height, "h");
+
+    const isAbsolutePosition = typeof position === "string"
+        ? ["absolute", "fixed", "sticky"].includes(position)
+        : typeof position === "object" && position !== null && ["absolute", "fixed", "sticky"].includes(position.base || "");
 
     return clsx(
         "flex",
@@ -338,18 +383,22 @@ export function buildContainerClassName({
         borderPositionMap[borderPosition],
         radiusMap[radius],
         elevationMap[elevation],
-        paddingMap[padding],
-        gapMap[gap],
-        directionMap[direction],
-        alignMap[align],
-        justifyMap[justify],
-        overflowMap[overflow],
+        processResponsive(position, val => positionMap[val] || ""),
+        processResponsive(margin, resolveMarginValue),
+        processResponsive(padding, val => paddingMap[val] || ""),
+        processResponsive(gap, val => gapMap[val] || ""),
+        processResponsive(direction, val => directionMap[val] || ""),
+        processResponsive(align, val => alignMap[val] || ""),
+        processResponsive(justify, val => justifyMap[val] || ""),
+        processResponsive(overflow, resolveOverflowValue),
+        processResponsive(anchor, val => isAbsolutePosition ? absoluteAnchorMap[val] : flexAnchorMap[val]),
+        processResponsive(width, val => resolveDimensionValue(val, "w")),
+        processResponsive(height, val => resolveDimensionValue(val, "h")),
+        processResponsive(scrollSnap, val => scrollSnapMap[val] || ""),
+        processResponsive(snapAlign, val => snapAlignMap[val] || ""),
         interactionMap[interaction],
         motionMap[motionEffect],
         hidden && hiddenMap[hidden],
-        anchorMap[anchor],
-        widthResult.className,
-        heightResult.className,
         hideScrollbar && "scrollbar-none",
         className
     );
@@ -360,28 +409,37 @@ export function buildContainerClassName({
  * ========================================================================== */
 
 export function buildContainerStyle({
-                                        margin,
-                                        width,
-                                        height,
                                         minWidth,
                                         minHeight,
                                         maxWidth,
                                         maxHeight,
+                                        width,
+                                        height,
                                         style,
                                     }: Partial<ContainerProps>): MotionStyle {
-    const widthResult = resolveDimension(width, "w");
-    const heightResult = resolveDimension(height, "h");
-    const marginClasses = resolveMargin(margin);
-
-    return {
-        ...widthResult.style,
-        ...heightResult.style,
-        // @ts-ignore
-        marginClasses,
+    const customStyle: Record<string, any> = {
         minWidth,
         minHeight,
         maxWidth,
         maxHeight,
         ...style,
     };
+
+    if (typeof width === "number" || (typeof width === "string" && !(width in widthTokenMap))) {
+        customStyle.width = width;
+    } else if (isResponsiveObject(width) && width.base) {
+        if (typeof width.base === "number" || (typeof width.base === "string" && !(width.base in widthTokenMap))) {
+            customStyle.width = width.base;
+        }
+    }
+
+    if (typeof height === "number" || (typeof height === "string" && !(height in heightTokenMap))) {
+        customStyle.height = height;
+    } else if (isResponsiveObject(height) && height.base) {
+        if (typeof height.base === "number" || (typeof height.base === "string" && !(height.base in heightTokenMap))) {
+            customStyle.height = height.base;
+        }
+    }
+
+    return customStyle as MotionStyle;
 }

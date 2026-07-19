@@ -20,12 +20,13 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
 
             // Design system props
             surface = "none",
+            position,
             border = "none",
             hoverBorder = "none",
             borderPosition = "all",
             radius = "none",
             elevation = "none",
-            padding = "sm",
+            padding = "none",
             gap = "none",
             margin = "none",
             direction = "row",
@@ -42,6 +43,8 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
             hideScrollbar = true,
             interaction = "none",
             hidden,
+            scrollSnap,
+            snapAlign,
 
             // Animation configuration properties
             animate = false,
@@ -62,6 +65,7 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
         // Build styling parameters
         const designParams = {
             surface,
+            position,
             border,
             hoverBorder,
             borderPosition,
@@ -80,45 +84,35 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
             hideScrollbar,
             interaction,
             hidden,
+            scrollSnap,
+            snapAlign,
             motionEffect,
             className,
         };
 
         const classes = buildContainerClassName(designParams);
         const styles = buildContainerStyle({
-            width,
-            height,
             minWidth,
             minHeight,
             maxWidth,
             maxHeight,
+            width,
+            height,
             style,
         });
 
-        // Non-animated Fallback
-        if (!animate || motionEffect === "none") {
-            return (
-                <div
-                    ref={ref}
-                    className={classes}
-                    style={styles as React.CSSProperties}
-                    {...(props as React.HTMLAttributes<HTMLDivElement>)}
-                >
-                    {children}
-                </div>
-            );
-        }
+        // Determine if orchestration logic should be active
+        const shouldAnimate = animate && motionEffect !== "none";
 
-        // Standard Animated Container
         return (
             <motion.div
                 ref={ref}
                 className={classes}
                 style={styles}
-                variants={motionVariants ?? defaultVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once, amount: viewportAmount }}
+                variants={shouldAnimate ? (motionVariants ?? defaultVariants) : undefined}
+                initial={shouldAnimate ? "hidden" : undefined}
+                whileInView={shouldAnimate ? "visible" : undefined}
+                viewport={shouldAnimate ? { once, amount: viewportAmount } : undefined}
                 {...props}
             >
                 {children}

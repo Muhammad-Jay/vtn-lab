@@ -3,16 +3,21 @@
 import React from "react";
 import { motion, MotionStyle } from "framer-motion";
 import { cn } from "../../../lib/utils";
-import { AutoGridProps, GridAnimation } from "./types";
+import { AutoGridProps, GridAnimation, GridBreakpoint } from "./types";
 import { gapMap, gridColsMap } from "./maps";
 
-function resolveColumns(columns?: AutoGridProps["columns"]) {
+export const GridAnimationContext = React.createContext<GridAnimation>("layout");
+
+function resolveColumns(columns?: AutoGridProps["columns"]): string {
     if (!columns) return "";
-    return Object.entries(columns)
-        .map(([bp, value]) => {
-            if (!value) return "";
-            return gridColsMap[bp as keyof typeof gridColsMap]?.[value as keyof typeof gridColsMap.base];
+    // Avoid Object.entries key widening by looping through structured keys directly
+    return (Object.keys(columns) as GridBreakpoint[])
+        .map((bp) => {
+            const val = columns[bp];
+            if (val === undefined) return "";
+            return gridColsMap[bp]?.[val] || "";
         })
+        .filter(Boolean)
         .join(" ");
 }
 
@@ -21,10 +26,7 @@ const getAnimationProps = (preset: GridAnimation) => {
         case "layout":
             return {
                 layout: true,
-                transition: {
-                    duration: 0.35,
-                    ease: [0.25, 0.1, 0.25, 1] as const
-                }
+                transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] as const }
             };
         case "fade":
             return {
@@ -49,7 +51,7 @@ export const AutoGridRoot = React.forwardRef<HTMLDivElement, AutoGridProps>(
             gap = 6,
             scroll = false,
             hideScrollbar = true,
-            autoRows = "minmax(0, auto)",
+            autoRows = "auto",
             animation = "layout",
             emptyState,
             isEmpty,
@@ -59,11 +61,9 @@ export const AutoGridRoot = React.forwardRef<HTMLDivElement, AutoGridProps>(
         },
         ref
     ) => {
-        // Evaluate empty state
         const childCount = React.Children.toArray(children).filter(Boolean).length;
         const showEmptyState = isEmpty || (childCount === 0 && emptyState !== undefined);
 
-        // Change from React.CSSProperties to MotionStyle
         const dynamicStyle: MotionStyle = {
             gridAutoRows: autoRows,
             ...(mode === "fit" && {
@@ -73,26 +73,28 @@ export const AutoGridRoot = React.forwardRef<HTMLDivElement, AutoGridProps>(
         };
 
         return (
-            <motion.div
-                ref={ref}
-                {...getAnimationProps(animation)}
-                className={cn(
-                    "grid w-full",
-                    mode === "fixed" && resolveColumns(columns),
-                    gapMap[gap],
-                    scroll && "overflow-auto",
-                    scroll && hideScrollbar && "no-scrollbar",
-                    className
-                )}
-                style={dynamicStyle}
-                {...props}
-            >
-                {showEmptyState ? (
-                    <div className="col-span-full h-full w-full">{emptyState}</div>
-                ) : (
-                    children
-                )}
-            </motion.div>
+            <GridAnimationContext.Provider value={animation}>
+                <motion.div
+                    ref={ref}
+                    {...getAnimationProps(animation)}
+                    className={cn(
+                        "grid w-full",
+                        mode === "fixed" && resolveColumns(columns),
+                        gapMap[gap],
+                        scroll && "overflow-auto",
+                        scroll && hideScrollbar && "no-scrollbar",
+                        className
+                    )}
+                    style={dynamicStyle}
+                    {...props}
+                >
+                    {showEmptyState ? (
+                        <div className="col-span-full h-full w-full">{emptyState}</div>
+                    ) : (
+                        children
+                    )}
+                </motion.div>
+            </GridAnimationContext.Provider>
         );
     }
 );

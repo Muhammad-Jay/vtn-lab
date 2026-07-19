@@ -118,9 +118,9 @@ Example
 ```tsx
 columns={{
     base: 1,
-    sm: 2,
-    md: 3,
-    xl: 5,
+        sm: 2,
+        md: 3,
+        xl: 5,
 }}
 ```
 

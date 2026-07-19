@@ -1,4 +1,4 @@
-import { GridBreakpoint, GridColumnScale, SpacingScale } from "./types";
+import {GridBreakpoint, GridColumnScale, ItemAlign, SpacingScale} from "./types";
 
 export const gapMap: Record<SpacingScale, string> = {
     0: "gap-0!", 1: "gap-1!", 2: "gap-2!", 3: "gap-3!", 4: "gap-4!",
@@ -12,12 +12,12 @@ export const paddingMap: Record<SpacingScale, string> = {
     16: "p-16!", 20: "p-20!", 24: "p-24!",
 };
 
-export const alignMap = {
+export const alignMap: Record<ItemAlign, string> = {
     start: "self-start",
     center: "self-center",
     end: "self-end",
     stretch: "self-stretch",
-} as const;
+};
 
 export const gridColsMap: Record<GridBreakpoint, Record<GridColumnScale, string>> = {
     base: { 1: "grid-cols-1", 2: "grid-cols-2", 3: "grid-cols-3", 4: "grid-cols-4", 5: "grid-cols-5", 6: "grid-cols-6", 7: "grid-cols-7", 8: "grid-cols-8", 9: "grid-cols-9", 10: "grid-cols-10", 11: "grid-cols-11", 12: "grid-cols-12" },
