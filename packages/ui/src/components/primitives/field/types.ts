@@ -1,7 +1,12 @@
 import * as React from "react";
-
 import { HTMLMotionProps } from "framer-motion";
-import {SelectRootChangeEventDetails} from "@base-ui/react";
+import { SelectRootChangeEventDetails } from "@base-ui/react";
+import { Select as SelectPrimitive } from "@base-ui/react/select";
+import {Button} from "../button/Button";
+
+/* ============================================================================
+ * Shared Enums
+ * ========================================================================== */
 
 export type FieldSize =
     | "xs"
@@ -41,6 +46,90 @@ export type LabelPlacement =
     | "left"
     | "hidden";
 
+export interface ResponsiveLabelPlacement {
+
+    base?: LabelPlacement;
+
+    sm?: LabelPlacement;
+
+    md?: LabelPlacement;
+
+    lg?: LabelPlacement;
+
+    xl?: LabelPlacement;
+
+    "2xl"?: LabelPlacement;
+
+}
+
+/* ============================================================================
+ * Slot Class Names
+ * ========================================================================== */
+
+export interface FieldSlots {
+
+    root?: string;
+
+    label?: string;
+
+    description?: string;
+
+    helper?: string;
+
+    control?: string;
+
+    input?: string;
+
+    textarea?: string;
+
+    select?: string;
+
+    startAdornment?: string;
+
+    endAdornment?: string;
+
+    topAdornment?: string;
+
+    bottomAdornment?: string;
+
+}
+
+/* ============================================================================
+ * Slot Props
+ * ========================================================================== */
+
+export interface FieldSlotProps {
+
+    root?: React.HTMLAttributes<HTMLDivElement>;
+
+    label?: React.HTMLAttributes<HTMLDivElement>;
+
+    description?: React.ComponentPropsWithoutRef<typeof Button>;
+
+    helper?: React.HTMLAttributes<HTMLParagraphElement>;
+
+    control?: React.HTMLAttributes<HTMLDivElement>;
+
+    input?: React.InputHTMLAttributes<HTMLInputElement>;
+
+    textarea?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+    select?: SelectPrimitive.Trigger.Props;
+
+    startAdornment?: React.HTMLAttributes<HTMLDivElement>;
+
+    endAdornment?: React.HTMLAttributes<HTMLDivElement>;
+
+    topAdornment?: React.HTMLAttributes<HTMLDivElement>;
+
+    bottomAdornment?: React.HTMLAttributes<HTMLDivElement>;
+
+}
+
+/* ============================================================================
+ * Layout Props
+ * ========================================================================== */
+
 export interface FieldLayoutProps {
 
     label?: React.ReactNode;
@@ -51,21 +140,27 @@ export interface FieldLayoutProps {
 
     required?: boolean;
 
-    hideLabel?: HiddenBreakpoint;
+    disabled?: boolean;
 
-    labelPlacement?: LabelPlacement;
+    invalid?: boolean;
 
-    fullWidth?: boolean;
+    hidelabel?: HiddenBreakpoint;
 
-    className?: string;
+    labelplacement?: | LabelPlacement | ResponsiveLabelPlacement;
+
+    fullwidth?: boolean;
 
 }
+
+/* ============================================================================
+ * Shared Control Props
+ * ========================================================================== */
 
 export interface FieldControlProps {
 
     loading?: boolean;
 
-    size?: FieldSize;
+    controlSize?: FieldSize;
 
     radius?: FieldRadius;
 
@@ -74,38 +169,70 @@ export interface FieldControlProps {
     width?: FieldWidth;
 
     topAdornment?: React.ReactNode;
+
     bottomAdornment?: React.ReactNode;
+
     startAdornment?: React.ReactNode;
+
     endAdornment?: React.ReactNode;
+
+    className?: string;
+
+    styles?: FieldSlots;
+
+    slotProps?: FieldSlotProps;
 
 }
 
-export interface FieldRootProps
-    extends FieldLayoutProps {
+/* ============================================================================
+ * Root
+ * ========================================================================== */
+
+export interface FieldProps
+    extends FieldLayoutProps,
+        FieldControlProps {
 
     children: React.ReactNode;
 
 }
 
+/* ============================================================================
+ * Base Props
+ * ========================================================================== */
+
+export interface BaseFieldProps
+    extends FieldLayoutProps,
+        FieldControlProps {}
+
+/* ============================================================================
+ * Input
+ * ========================================================================== */
+
 // @ts-ignore
 export interface FieldInputProps
     extends Omit<
-        HTMLMotionProps<"input">,
+        React.InputHTMLAttributes<HTMLInputElement>,
         "size"
     >,
-        FieldLayoutProps,
-        FieldControlProps {}
+        BaseFieldProps {}
+
+/* ============================================================================
+ * TextArea
+ * ========================================================================== */
 
 export interface FieldTextAreaProps
-    extends HTMLMotionProps<"textarea">,
-        FieldLayoutProps,
-        FieldControlProps {}
+    extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+        BaseFieldProps {}
 
-export interface SelectOption {
+/* ============================================================================
+ * Select
+ * ========================================================================== */
+
+export interface SelectOption<T = string> {
+
+    value: T;
 
     label: React.ReactNode;
-
-    value: string;
 
     disabled?: boolean;
 
@@ -113,25 +240,68 @@ export interface SelectOption {
 
 }
 
-export interface FieldSelectProps
-    extends FieldLayoutProps,
-        FieldControlProps {
+export interface FieldSelectProps<T = string>
+    extends BaseFieldProps {
 
-    value?: string | null;
+    value?: T | null;
 
-    defaultValue?: string;
+    defaultValue?: T;
 
     placeholder?: string;
 
-    options?: SelectOption[];
+    disabled?: boolean;
+
+    options?: SelectOption<T>[];
 
     children?: React.ReactNode;
 
-    disabled?: boolean;
-
     onValueChange?(
-        value: string | null,
-        eventDetails: SelectRootChangeEventDetails
+        value: T | null,
+        details: SelectRootChangeEventDetails,
     ): void;
+
+}
+
+/* ============================================================================
+ * Context
+ * ========================================================================== */
+
+export interface FieldContextValue
+    extends FieldLayoutProps,
+        FieldControlProps {
+
+    closeDescription?: boolean;
+
+}
+
+/* ============================================================================
+ * Namespace
+ * ========================================================================== */
+
+export interface FieldNamespace {
+
+    Input: React.ComponentType<FieldInputProps>;
+
+    Password: React.ComponentType<FieldInputProps>;
+
+    TextArea: React.ComponentType<FieldTextAreaProps>;
+
+    Select: <T = string>(
+        props: FieldSelectProps<T>
+    ) => React.ReactElement;
+
+    Checkbox: React.ComponentType<any>;
+
+    Switch: React.ComponentType<any>;
+
+    RadioGroup: React.ComponentType<any>;
+
+    OTP: React.ComponentType<any>;
+
+    Combobox: React.ComponentType<any>;
+
+    DatePicker: React.ComponentType<any>;
+
+    File: React.ComponentType<any>;
 
 }

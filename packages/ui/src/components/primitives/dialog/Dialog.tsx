@@ -99,7 +99,7 @@ function Root({
 
     return (
         <DialogProvider value={context}>
-            <RadixDialog.Root {...props}>
+            <RadixDialog.Root modal={false} {...props}>
                 {extracted.trigger}
 
                 <RadixDialog.Portal>
@@ -117,6 +117,15 @@ function Root({
 
                     {/* Radix is strictly responsible for positioning and accessibility */}
                     <RadixDialog.Content
+                        onOpenAutoFocus={(e) => {
+                            console.log("dialog auto focus");
+                        }}
+                        onCloseAutoFocus={(e) => {
+                            console.log("dialog close auto focus");
+                        }}
+                        onFocusCapture={(e) => {
+                            console.log("focus", e.target);
+                        }}
                         onEscapeKeyDown={(e) => { if (!closeOnEscape) e.preventDefault(); }}
                         onPointerDownOutside={(e) => { if (!closeOnOverlayClick) e.preventDefault(); }}
                         className={[

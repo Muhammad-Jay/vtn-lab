@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
     entry: [
         'src/index.ts',
-        'src/layouts.ts',
+        'src/layout.ts',
         'src/menus.ts',
         'src/views.ts',
         'src/primitives.ts',

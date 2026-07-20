@@ -1,49 +1,45 @@
-export { FieldRoot } from "./Field.Root";
-export { FieldLabel } from "./Field.Label";
-export { FieldDescription } from "./Field.Description";
-export { FieldHelper } from "./Field.Helper";
+export * from "./types";
+export * from "./Field.Utils";
+export * from "./Field.Context";
+export * from "./namespace";
 
-// Factory
+/* ============================================================================
+ * Layout
+ * ========================================================================== */
 
-import {
-    createFieldNamespace,
-} from "./Field.Factory";
+export * from "./layout";
 
-// Controls
+/* ============================================================================
+ * Controls
+ * ========================================================================== */
 
-import { FieldInput } from "./input/Input";
-import { PasswordField } from "./input/Password";
-import { FieldTextArea } from "./textarea/Textarea";
-import { FieldSelect } from "./select/Select";
+export * from "./controls";
 
-// Namespace
+/* ============================================================================
+ * Compound Namespace
+ * ========================================================================== */
+
+import { createFieldNamespace } from "./namespace";
+
+import { FieldInput } from "./controls/Input";
+import { FieldPassword } from "./controls/Password";
+import { FieldTextArea } from "./controls/TextArea";
+import { FieldSelect } from "./controls/Select";
+
+/* Placeholder exports */
+
+const Placeholder = (() => null) as any;
 
 export const Field = createFieldNamespace({
     Input: FieldInput,
-    Password: PasswordField,
-    OTP: () => null,
+    Password: FieldPassword,
     TextArea: FieldTextArea,
     Select: FieldSelect,
-    Checkbox: () => null,
-    Switch: () => null,
-    RadioGroup: () => null,
-    Combobox: () => null,
-    DatePicker: () => null,
-    File: () => null,
+    Checkbox: Placeholder,
+    Switch: Placeholder,
+    RadioGroup: Placeholder,
+    OTP: Placeholder,
+    Combobox: Placeholder,
+    DatePicker: Placeholder,
+    File: Placeholder,
 });
-
-export type {
-    FieldSize,
-    FieldRadius,
-    FieldVariant,
-    FieldWidth,
-    HiddenBreakpoint,
-    LabelPlacement,
-    FieldLayoutProps,
-    FieldControlProps,
-    FieldRootProps,
-    FieldInputProps,
-    FieldTextAreaProps,
-    FieldSelectProps,
-    SelectOption,
-} from "./types";

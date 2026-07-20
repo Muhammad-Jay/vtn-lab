@@ -42,7 +42,7 @@ export interface SplitScreenProps {
     ratio?: [number, number] | SplitRatio;
 
     /**
-     * Breakpoint where layouts becomes horizontal.
+     * Breakpoint where layout becomes horizontal.
      */
     splitAt?: SplitBreakpoint;
 
@@ -57,7 +57,7 @@ export interface SplitScreenProps {
     variant?: SplitVariant;
 
     /**
-     * Enable layouts animation.
+     * Enable layout animation.
      */
     animated?: boolean;
 

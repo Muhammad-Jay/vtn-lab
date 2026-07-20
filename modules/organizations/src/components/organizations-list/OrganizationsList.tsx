@@ -3,7 +3,7 @@
 import {Container} from "@repo/ui/views";
 import {MOCK_ORGANIZATIONS} from "../../constants/test";
 import {AutoGrid} from "@repo/ui/layouts";
-import {Text} from "@repo/ui/primitives";
+import {Field, Text} from "@repo/ui/primitives";
 import {ListHeader} from "./ListHeader";
 
 export function OrganizationsList() {
@@ -75,6 +75,15 @@ export function OrganizationsList() {
                                <Text.Muted>
                                    {description}
                                </Text.Muted>
+
+                               <Field.Select
+                                   labelplacement={"left"}
+                                   label="Country"
+                                   options={[
+                                       { value: "ng", label: "Nigeria" },
+                                       { value: "us", label: "United States" },
+                                   ]}
+                               />
                            </Container>
                        </AutoGrid.Item>
                     ))}

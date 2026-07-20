@@ -16,6 +16,7 @@ export function RightSectionContent() {
             gap={"sm"}
             align={"center"}
             justify={"start"}
+            hidden={"md"}
         >
 
             <Container
