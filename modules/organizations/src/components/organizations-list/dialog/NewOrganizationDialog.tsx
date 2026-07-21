@@ -1,117 +1,134 @@
 "use client";
 
-import {Button, Dialog, Field, Text} from "@repo/ui/primitives";
-import {Plus} from "lucide-react";
-import {Container} from "@repo/ui/views";
+import { Button, Dialog, Field, Text } from "@repo/ui/primitives";
+import { Plus, Building2, Globe2 } from "lucide-react";
+import { Container } from "@repo/ui/views";
 
 export function NewOrganizationDialog() {
-
     return (
         <Dialog
-            animation={"fade"}
-            blur={"sm"}
+            animation="fade"
+            blur="lg"
             containerProps={{
-                width: "60dvw",
-                surface: "surface-2",
+                width: 650,
+                surface: "glass-4",
                 elevation: "3",
-                border: "default",
+                border: "strong",
                 radius: "2xl",
-                height: 650,
+                height: "auto",
+                maxHeight: "85vh",
                 overflow: "scroll",
                 direction: "column",
-                align: "center",
-                justify: "start",
-                gap: "lg",
+                justify: "between",
+                gap: "none",
                 padding: "sm",
                 margin: "none"
             }}
         >
-
-            {/* _________Trigger_______ */}
-            <Dialog.Trigger
-                asChild>
+            {/* _________Trigger _______ */}
+            <Dialog.Trigger asChild>
                 <Button.Primary
-                    className={"p-2.5!"}
-                    hideContent={"md"}
-                    leading={<Plus className={"text-lg font-semibold"}/>}
-                    size={"xl"}
+                    className="p-2.5!"
+                    hideContent="md"
+                    leading={<Plus className="size-4" />}
+                    size="lg"
                 >
-                    <Text.Label color={"secondary"}>New organization</Text.Label>
+                    New Organization
                 </Button.Primary>
             </Dialog.Trigger>
 
-            {/* _________Content_______ */}
-            <Dialog.Content
-            >
+            {/* _________ Content _______ */}
+            <Dialog.Content>
                 <Container
-                    surface={"none"}
-                    padding={"none"}
-                    margin={"none"}
-                    width={"100%"}
-                    height={"100%"}
-                    align={"center"}
-                    justify={"center"}
-                    direction={"column"}
-                    overflow={"hidden"}
+                    surface="none"
+                    padding="xl"
+                    margin="none"
+                    width="100%"
+                    height="100%"
+                    align="stretch"
+                    justify="start"
+                    gap="xl"
+                    direction="column"
+                    overflow="scroll"
+                    hideScrollbar
                 >
+                    <div className="flex flex-col gap-1.5 mb-2">
+                        <Text.H4>Create Organization</Text.H4>
+                        <Text.Muted className="text-sm">
+                            Configure the base identity and infrastructure region for your new workspace.
+                        </Text.Muted>
+                    </div>
 
-                    <Field.Input
-                        label="Email"
-                        hidelabel={"never"}
-                        type="email"
-                        slotProps={{
-                            control: { className: "bg-red-50 border-red-500 shadow-lg" },
-                            label: { className: "text-red-500!" },
-                        }}
-                        fullwidth={true}
-                        description={"just a normal des"}
-                        labelplacement={{
-                            base: "left",
-                            md: "top",
-                        }}
-                    />
+                    <div className="flex flex-col gap-6">
+                        <Field.Input
+                            label="Organization Name"
+                            placeholder="e.g., Quantum Dynamics"
+                            fullwidth={true}
+                            startAdornment={<Building2 className="size-4 text-text-muted" />}
+                            helper="This will be the public-facing name of your organization."
+                            labelplacement="top"
+                        />
 
-                    <Field.Password
-                        fullwidth={true}
-                        labelplacement={"left"}
-                        label="Password"
-                        description={"Password must not be less than 6 characters"}
-                    />
+                        <Field.Input
+                            label="Workspace Slug"
+                            placeholder="quantum-dynamics"
+                            fullwidth={true}
+                            startAdornment={<span className="text-text-muted text-sm pr-1">app.com/</span>}
+                            helper="A unique, URL-friendly identifier. Cannot be changed later."
+                            labelplacement="top"
+                        />
 
-                    <Field.TextArea
-                        bottomAdornment={
-                            <Container
-                                surface={"glass-1"}
-                                width={"600px"}
-                                interaction={"hover"}
-                                height={100}
-                                radius={"md"}
-                            >
-                            </Container>
-                        }
-                        fullwidth={true}
-                        label="Bio"
-                        helper="Tell us about yourself."
-                    />
+                        <Field.TextArea
+                            fullwidth={true}
+                            labelplacement="top"
+                            label="Description"
+                            placeholder="Briefly describe your organization's primary objective..."
+                            helper="Optional. This helps team members understand the workspace context."
+                            slotProps={{
+                                textarea: { rows: 4 }
+                            }}
+                        />
 
-                    <Field.Select
-                        fullwidth={true}
-                        width={"full"}
-                        slotProps={{
-                            select: {
-                                className: "w-[300px]!"
-                            },
-                        }}
-                        labelplacement={"left"}
-                        label="Country"
-                        options={[
-                            { value: "ng", label: "Nigeria" },
-                            { value: "us", label: "United States" },
-                        ]}
-                    />
+                        <Field.Select
+                            fullwidth={true}
+                            labelplacement="top"
+                            label="Data Residency Region"
+                            placeholder="Select a region..."
+                            startAdornment={<Globe2 className="size-4 text-text-muted" />}
+                            helper="Determines where your primary databases and compliance records are stored."
+                            options={[
+                                { value: "us-east", label: "US East (N. Virginia)" },
+                                { value: "eu-central", label: "EU Central (Frankfurt)" },
+                                { value: "af-west", label: "Africa West (Lagos)" },
+                            ]}
+                        />
+                    </div>
                 </Container>
             </Dialog.Content>
 
+            {/* _________ Footer _______ */}
+            <Dialog.Footer>
+                <Container
+                    surface="surface-2"
+                    border="default"
+                    radius="none"
+                    padding="lg"
+                    direction="row"
+                    align="center"
+                    justify="end"
+                    gap="md"
+                    width="full"
+                    className="border-t border-x-0 border-b-0"
+                >
+                    <Button.Ghost size="lg">
+                        Cancel
+                    </Button.Ghost>
+
+                    <Button.Primary size="lg">
+                        Create Workspace
+                    </Button.Primary>
+                </Container>
+            </Dialog.Footer>
         </Dialog>
-    )
+    );
 }

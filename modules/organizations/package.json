@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@foundation/core": "workspace:*",
+    "@foundation/domain": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@tanstack/react-query": "^5.101.3",
     "lucide-react": "^1.23.0"
   },
   "peerDependencies": {
@@ -33,7 +35,7 @@
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "eslint": "^9.39.1",
-    "typescript": "5.9.2",
-    "tsup": "^8.0.1"
+    "tsup": "^8.0.1",
+    "typescript": "5.9.2"
   }
 }

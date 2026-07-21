@@ -10,19 +10,10 @@ export type Responsive<T> = T | {
     "2xl"?: T;
 };
 
-export type ContainerSurface =
-    | "none"
-    | "surface-0" | "surface-1" | "surface-2" | "surface-3" | "surface-4" | "surface-5"
-    | "panel-default" | "panel-inset" | "panel-raised" | "panel-floating"
-    | "card" | "card-interactive"
-    | "popover" | "dropdown" | "tooltip" | "modal"
-    | "glass-0" | "glass-1" | "glass-2" | "glass-3" | "glass-4"
-    | "liquid-0" | "liquid-1" | "liquid-2" | "liquid-3" | "liquid-4"
-    | "page" | "section" | "hero" | "dashboard" | "auth"
-    | "brand"
-    | "grid" | "grid-sm" | "grid-md" | "grid-lg"
-    | "dot" | "dot-lg"
-    | "mesh" | "noise" | "spotlight"
+export type ContainerSurface = | "none" | "surface-0" | "surface-1" | "surface-2" | "surface-3" | "surface-4" | "surface-5"
+    | "panel-default" | "panel-inset" | "panel-raised" | "panel-floating" | "card" | "card-interactive" | "popover" | "dropdown" | "tooltip" | "modal"
+    | "glass-0" | "glass-1" | "glass-2" | "glass-3" | "glass-4" | "liquid-0" | "liquid-1" | "liquid-2" | "liquid-3" | "liquid-4"
+    | "page" | "section" | "hero" | "dashboard" | "auth" | "brand" | "grid" | "grid-sm" | "grid-md" | "grid-lg" | "dot" | "dot-lg" | "mesh" | "noise" | "spotlight"
     | "radial" | "radial-top" | "radial-bottom" | "radial-left" | "radial-right";
 
 export type MarginValue = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | number | string;

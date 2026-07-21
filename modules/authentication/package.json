@@ -25,6 +25,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@foundation/domain": "workspace:*",
     "@foundation/core": "workspace:*",
     "@icons-pack/react-simple-icons": "^13.13.0",
     "@repo/ui": "workspace:*",

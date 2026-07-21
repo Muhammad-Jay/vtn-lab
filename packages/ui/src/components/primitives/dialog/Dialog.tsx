@@ -13,7 +13,21 @@ import {
 import { DialogProvider } from "./DialogContext";
 import { DIALOG_SIZE_PRESETS, getAnimationClass, getBlurClass } from "./Dialog.Utils";
 
-// Extract structural parts from children
+// Minification-safe Slot Key Mapping
+const SLOT_KEY = "__dialog_slot_type";
+
+function Trigger(props: DialogTriggerProps) { return <RadixDialog.Trigger asChild {...props} />; }
+Trigger[SLOT_KEY] = "trigger";
+
+function Header({ children, ...props }: DialogHeaderProps) { return <header className="mb-6" {...props}>{children}</header>; }
+Header[SLOT_KEY] = "header";
+
+function Content({ children, ...props }: DialogContentProps) { return <div {...props}>{children}</div>; }
+Content[SLOT_KEY] = "content";
+
+function Footer({ children, ...props }: DialogFooterProps) { return <footer className="mt-8 flex w-full justify-end gap-3" {...props}>{children}</footer>; }
+Footer[SLOT_KEY] = "footer";
+
 function extractChildren(children: React.ReactNode) {
     let trigger = null, header = null, content = null, footer = null;
     const body: React.ReactNode[] = [];
@@ -23,34 +37,21 @@ function extractChildren(children: React.ReactNode) {
             body.push(child);
             return;
         }
-        switch (child.type) {
-            case Trigger: trigger = child; break;
-            case Header: header = child; break;
-            case Content: content = child; break;
-            case Footer: footer = child; break;
+
+        // Read slot key safely regardless of HOC wrappers or bundler minification
+        const slotType = (child.type as any)[SLOT_KEY];
+
+        switch (slotType) {
+            case "trigger": trigger = child; break;
+            case "header": header = child; break;
+            case "content": content = child; break;
+            case "footer": footer = child; break;
             default: body.push(child);
         }
     });
 
     return { trigger, header, content, footer, body };
 }
-
-// Fallback when no custom header is provided
-function DefaultHeader({ title, subtitle }: { title?: React.ReactNode; subtitle?: React.ReactNode }) {
-    if (!title && !subtitle) return null;
-    return (
-        <>
-            {title && <h2 className="text-xl font-semibold">{title}</h2>}
-            {subtitle && <p className="text-muted-foreground mt-1">{subtitle}</p>}
-        </>
-    );
-}
-
-// Dummy structural components
-function Trigger(props: DialogTriggerProps) { return <RadixDialog.Trigger asChild {...props} />; }
-function Header({ children }: DialogHeaderProps) { return <>{children}</>; }
-function Content({ children }: DialogContentProps) { return <>{children}</>; }
-function Footer({ children }: DialogFooterProps) { return <>{children}</>; }
 
 function Root({
                   children,
@@ -68,16 +69,12 @@ function Root({
                   overlayClassName,
                   closeOnEscape = true,
                   closeOnOverlayClick = true,
+                  slotProps = {}, // New slotProps configuration block
+                  modal = true,   // Fixed accessibility standard default
                   ...props
-              }: DialogProps) {
+              }: DialogProps & { slotProps?: any }) {
 
-    // Parse layout architecture from children
     const extracted = extractChildren(children);
-
-    // Resolve structural hierarchy
-    const finalHeader = header ?? extracted.header ?? <DefaultHeader title={title} subtitle={subtitle} />;
-    const finalContent = extracted.content ?? extracted.body;
-    const finalFooter = footer ?? extracted.footer;
     const preset = DIALOG_SIZE_PRESETS[size];
 
     const close = React.useCallback(() => {
@@ -87,14 +84,7 @@ function Root({
     const context = React.useMemo(() => ({
         open: props.open ?? false,
         onOpenChange: props.onOpenChange ?? (() => {}),
-        close,
-        size,
-        animation,
-        blur,
-        showCloseButton,
-        closeOnEscape,
-        closeOnOverlayClick,
-        containerProps,
+        close, size, animation, blur, showCloseButton, closeOnEscape, closeOnOverlayClick, containerProps,
     }), [props.open, props.onOpenChange, close, size, animation, blur, showCloseButton, closeOnEscape, closeOnOverlayClick, containerProps]);
 
     return (
@@ -115,38 +105,56 @@ function Root({
                         style={{ ...overlayStyle, ...overlayProps?.style }}
                     />
 
-                    {/* Radix is strictly responsible for positioning and accessibility */}
+                    {/* Both Sizing presets and accessibility mapping belong directly on the wrapper frame */}
                     <RadixDialog.Content
-                        onOpenAutoFocus={(e) => {
-                            console.log("dialog auto focus");
-                        }}
-                        onCloseAutoFocus={(e) => {
-                            console.log("dialog close auto focus");
-                        }}
-                        onFocusCapture={(e) => {
-                            console.log("focus", e.target);
-                        }}
                         onEscapeKeyDown={(e) => { if (!closeOnEscape) e.preventDefault(); }}
                         onPointerDownOutside={(e) => { if (!closeOnOverlayClick) e.preventDefault(); }}
                         className={[
-                            "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 focus:outline-none",
+                            "fixed left-1/2 top-1/2 z-50 pt-3! -translate-x-1/2 -translate-y-1/2 focus:outline-none w-full",
                             getAnimationClass(animation),
                         ].join(" ")}
+                        style={{ maxWidth: preset?.maxWidth || "440px" }} // Binds core layout boundaries safely
+                        {...slotProps.contentProps}
                     >
-                        {/* Container is strictly responsible for width, sizing, and layout */}
                         <Container
-                            surface="modal"
+                            surface="panel-raised"
                             radius="2xl"
                             elevation="4"
                             padding="xl"
+                            border={"default"}
+                            className={"border-2"}
+                            anchor={"center"}
+                            width="100%"
                             {...preset}
                             {...containerProps}
                         >
-                            {finalHeader && <header className="mb-6">{finalHeader}</header>}
+                            {/* Radix Title wrapper injection guarantees Screen Readers read the header */}
+                            {(title || subtitle || extracted.header || header) && (
+                                <Header {...slotProps.headerProps}>
+                                    {header ?? extracted.header ?? (
+                                        <>
+                                            {title && (
+                                                <RadixDialog.Title className="text-xl font-semibold">
+                                                    {title}
+                                                </RadixDialog.Title>
+                                            )}
+                                            {subtitle && (
+                                                <RadixDialog.Description className="text-muted-foreground mt-1">
+                                                    {subtitle}
+                                                </RadixDialog.Description>
+                                            )}
+                                        </>
+                                    )}
+                                </Header>
+                            )}
 
-                            <main>{finalContent}</main>
+                            <main>{extracted.content ?? extracted.body}</main>
 
-                            {finalFooter && <footer className="mt-8 flex justify-end gap-3">{finalFooter}</footer>}
+                            {(footer || extracted.footer) && (
+                                <Footer {...slotProps.footerProps}>
+                                    {footer ?? extracted.footer}
+                                </Footer>
+                            )}
 
                             {showCloseButton && (
                                 <RadixDialog.Close className="absolute right-5 top-5 opacity-70 hover:opacity-100 transition-opacity">

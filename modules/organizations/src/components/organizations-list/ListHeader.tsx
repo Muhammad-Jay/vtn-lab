@@ -1,51 +1,31 @@
 "use client";
 
-import {Container} from "@repo/ui/views";
-import {Field} from "@repo/ui/primitives";
-import {NewOrganizationDialog} from "./dialog/NewOrganizationDialog";
+import { Container } from "@repo/ui/views";
+import { Text } from "@repo/ui/primitives";
+import { NewOrganizationDialog } from "./dialog/NewOrganizationDialog";
 
 export function ListHeader() {
     return (
         <Container
-            surface={"surface-1"}
-            border={"none"}
-            radius={"xl"}
-            elevation={"none"}
-            width={"full"}
-            height={100}
-            direction={"row"}
-            align={"center"}
-            justify={"between"}
-
+            surface="surface-2"
+            border="default"
+            radius="xl"
+            elevation="none"
+            width="full"
+            direction="row"
+            padding="lg"
+            align="center"
+            justify="between"
+            className="shrink-0"
         >
-            <Container
-                surface={"none"}
-                width={"full"}
-                border={"none"}
-                align={"center"}
-                justify={"center"}
-                padding={"lg"}
-            >
+            <div className="flex flex-col gap-1">
+                <Text.H5>Organizations</Text.H5>
+                <Text.Muted className="text-sm">
+                    Manage your workspaces and access controls.
+                </Text.Muted>
+            </div>
 
-                <Field.Input
-                    type={"text"}
-                    variant={"ghost"}
-                    border={"none"}
-                />
-            </Container>
-
-            <Container
-                surface={"none"}
-                width={"fit"}
-                padding={"md"}
-                border={"none"}
-                align={"center"}
-                justify={"center"}
-            >
-
-              <NewOrganizationDialog/>
-            </Container>
-
+            <NewOrganizationDialog />
         </Container>
-    )
+    );
 }

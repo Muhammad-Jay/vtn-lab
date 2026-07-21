@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "@foundation/domain": "workspace:*",
+    "@foundation/core": "workspace:*",
     "lucide-react": "^1.23.0"
   },
   "peerDependencies": {

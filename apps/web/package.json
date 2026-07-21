@@ -12,6 +12,7 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@foundation/app": "workspace:*",
     "@heroui/styles": "^3.2.2",
     "@modules/authentication": "workspace:*",
     "@modules/organizations": "workspace:*",

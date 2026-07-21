@@ -19,6 +19,14 @@
     "./services": {
       "import": "./src/services/index.ts",
       "types": "./src/services/index.ts"
+    },
+    "./api-client": {
+      "import": "./src/api/client.ts",
+      "types": "./src/api/client.ts"
+    },
+    "./query": {
+      "import": "./src/queries/queryClient.ts",
+      "types": "./src/queries/queryClient.ts"
     }
   },
   "scripts": {
@@ -29,10 +37,12 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@foundation/domain": "workspace:*",
     "@repo/auth": "workspace:*",
     "@repo/api-client": "workspace:*",
     "@repo/ui": "workspace:*",
-    "lucide-react": "^1.23.0"
+    "lucide-react": "^1.23.0",
+    "@tanstack/react-query": "^5.101.3"
   },
   "peerDependencies": {
     "next": "16.2.0",
