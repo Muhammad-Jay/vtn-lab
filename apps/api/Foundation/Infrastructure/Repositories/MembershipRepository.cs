@@ -10,7 +10,7 @@ internal sealed class MembershipRepository : IMembershipRepository
 
     public MembershipRepository(ApplicationDbContext db) => _db = db;
 
-    public async Task<List<Membership>> GetByOrganizationIdAsync(Guid organizationId, CancellationToken ct = default)
+    public async Task<List<OrganizationMember>> GetByOrganizationIdAsync(Guid organizationId, CancellationToken ct = default)
     {
         return await _db.Memberships
             .AsNoTracking()
@@ -19,18 +19,18 @@ internal sealed class MembershipRepository : IMembershipRepository
             .ToListAsync(ct);
     }
 
-    public async Task<Membership?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<OrganizationMember?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await _db.Memberships
             .FirstOrDefaultAsync(m => m.Id == id && m.IsActive, ct);
     }
 
-    public void Add(Membership membership)
+    public void Add(OrganizationMember membership)
     {
         _db.Memberships.Add(membership);
     }
 
-    public void Delete(Membership membership)
+    public void Delete(OrganizationMember membership)
     {
         // Membership removal: update IsActive to false
         _db.Memberships.Update(membership);

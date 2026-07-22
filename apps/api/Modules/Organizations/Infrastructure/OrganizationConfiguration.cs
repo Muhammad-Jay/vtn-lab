@@ -11,7 +11,7 @@ public sealed class OrganizationConfiguration
     public void Configure(
         EntityTypeBuilder<Organization> builder)
     {
-        builder.ToTable("organizations", "organizations");
+        builder.ToTable("organization", "organization");
 
         builder.HasKey(x => x.Id);
 

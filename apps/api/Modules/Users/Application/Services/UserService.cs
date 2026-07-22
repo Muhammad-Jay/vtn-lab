@@ -15,29 +15,25 @@ public sealed class UserService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task UpsertFromWebhookAsync(
+    public async Task UpdateProfileAsync(
         string id, 
-        string email, 
         string? name, 
-        string? avatarUrl, 
+        string? image, 
         CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(id))
             throw new ValidationException("User ID from identity provider is required.");
 
-        if (string.IsNullOrWhiteSpace(email))
-            throw new ValidationException("User email is required.");
-
         var existingUser = await _repository.GetByIdAsync(id, ct);
 
         if (existingUser is null)
         {
-            var newUser = new User(id, email, name, avatarUrl);
+            var newUser = new User(id, name, image);
             _repository.Add(newUser);
         }
         else
         {
-            existingUser.UpdateProfile(name, avatarUrl);
+            existingUser.UpdateProfile(name, image);
             await _repository.UpdateAsync(existingUser, ct);
         }
 

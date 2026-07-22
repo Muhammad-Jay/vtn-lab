@@ -10,7 +10,7 @@ public sealed class BillingConfiguration : IEntityTypeConfiguration<BillingRecor
     public void Configure(EntityTypeBuilder<BillingRecord> builder)
     {
         builder.ToTable(
-            "billing_records",
+            "billing",
             "billing");
         builder.HasKey(x => x.Id);
 

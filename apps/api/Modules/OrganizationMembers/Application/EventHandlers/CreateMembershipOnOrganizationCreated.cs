@@ -17,7 +17,7 @@ public sealed class CreateMembershipOnOrganizationCreated : IEventHandler<Organi
 
     public async Task HandleAsync(OrganizationCreatedEvent @event, CancellationToken ct = default)
     {
-        var membership = new Membership(@event.OrganizationId, @event.OwnerId, MembershipRole.OWNER);
+        var membership = new OrganizationMember(@event.OrganizationId, @event.OwnerId, OrganizationMembershipRole.OWNER);
         
         _membershipRepository.Add(membership);
     }

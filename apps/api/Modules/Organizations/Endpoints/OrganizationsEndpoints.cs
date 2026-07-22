@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using Application.Security;
 using Domain.Entity.MembershipRole;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +23,11 @@ public static class OrganizationEndpoints
             ClaimsPrincipal user,
             Queries queries,
             CancellationToken cancellationToken,
-            [FromQuery] MembershipRole? role,
+            [FromQuery] OrganizationMembershipRole? role,
             [FromQuery] bool detailed = false,
             [FromQuery] int limit = 3) => 
         {
-            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = user.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 return Results.Unauthorized();
@@ -63,7 +65,7 @@ public static class OrganizationEndpoints
             OrganizationService service,
             CancellationToken cancellationToken) =>
         {
-            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = user.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 return Results.Unauthorized();

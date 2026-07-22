@@ -13,7 +13,7 @@
 //     string Slug,
 //     string? LogoUrl,
 //     List<ProjectDetail> Projects,
-//     List<MemberDetail> Members,
+//     List<MemberDetail> OrganizationMembers,
 //     List<IntegrationDetail> Integrations
 // );
 //

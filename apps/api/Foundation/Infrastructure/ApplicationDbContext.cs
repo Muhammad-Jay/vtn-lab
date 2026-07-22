@@ -1,4 +1,5 @@
 using Activities.Domain;
+using Authentication.Domain;
 using Billing.Domain;
 using Documents.Domain;
 using Foundation.Application.Abstractions;
@@ -18,10 +19,19 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     {
     }
 
+    // --- Users Module ---
+    public DbSet<User> Users => Set<User>();
+    
+    // --- Authentication Module (Better Auth Read-Only Entities) ---
+    public DbSet<Session> Sessions => Set<Session>();
+    public DbSet<Account> Accounts => Set<Account>();
+    public DbSet<Verification> Verifications => Set<Verification>();
+    public DbSet<Jwks> Jwks => Set<Jwks>();
+
+    // --- Application Core Modules ---
     public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<Project> Projects => Set<Project>();
-    public DbSet<User> Users => Set<User>();
-    public DbSet<Membership> Memberships => Set<Membership>();
+    public DbSet<OrganizationMember> Memberships => Set<OrganizationMember>();
     public DbSet<Document> Documents => Set<Document>();
     public DbSet<Integration> Integrations => Set<Integration>();
     public DbSet<ProjectIntegration> ProjectIntegrations => Set<ProjectIntegration>();
@@ -30,20 +40,21 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // =========================================================================
-        // MODULE ENTITY CONFIGURATION DISCOVERY
-        // =========================================================================
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(Organizations.Infrastructure.OrganizationConfiguration).Assembly);
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(Projects.Infrastructure.ProjectConfiguration).Assembly);
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(Members.Infrastructure.MembershipConfiguration).Assembly);
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(Documents.Infrastructure.DocumentConfiguration).Assembly);
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(Integrations.Infrastructure.IntegrationConfiguration).Assembly);
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(Activities.Infrastructure.ActivityConfiguration).Assembly);
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(Billing.Infrastructure.BillingConfiguration).Assembly);
-        
         base.OnModelCreating(modelBuilder);
-
+        
+        // Forces EF Core migrations to ONLY look at and modify tables inside the "app" schema
+        modelBuilder.HasDefaultSchema("app");
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Organizations.Infrastructure.OrganizationConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Projects.Infrastructure.ProjectConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Members.Infrastructure.MembershipConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Documents.Infrastructure.DocumentConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Integrations.Infrastructure.IntegrationConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Activities.Infrastructure.ActivityConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Billing.Infrastructure.BillingConfiguration).Assembly);
+        
         // =========================================================================
         // CROSS-MODULE SHADOW RELATIONSHIPS (REFERENTIAL INTEGRITY CORRELATION)
         // =========================================================================
@@ -55,14 +66,14 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
             .HasForeignKey(p => p.OrganizationId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // --- Members Module Relations ---
-        modelBuilder.Entity<Membership>()
+        // --- OrganizationMembers Module Relations ---
+        modelBuilder.Entity<OrganizationMember>()
             .HasOne<User>()
             .WithMany()
             .HasForeignKey(m => m.UserId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        modelBuilder.Entity<Membership>()
+        modelBuilder.Entity<OrganizationMember>()
             .HasOne<Organization>()
             .WithMany()
             .HasForeignKey(m => m.OrganizationId)

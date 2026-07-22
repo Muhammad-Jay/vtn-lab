@@ -16,9 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Authentication\Authentication.csproj" />
     <ProjectReference Include="..\..\Modules\Organizations\Organizations.csproj" />
     <ProjectReference Include="..\..\Modules\Integrations\Integrations.csproj" />
-    <ProjectReference Include="..\..\Modules\Members\Members.csproj" />
+    <ProjectReference Include="..\..\Modules\OrganizationMembers\OrganizationMembers.csproj" />
     <ProjectReference Include="..\..\Modules\Documents\Documents.csproj" />
     <ProjectReference Include="..\..\Modules\Projects\Projects.csproj" />
     <ProjectReference Include="..\..\Modules\Activities\Activities.csproj" />

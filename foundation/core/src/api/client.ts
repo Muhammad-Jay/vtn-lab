@@ -18,6 +18,8 @@ export const api = createApiClient({
     async getToken() {
         const session = await getSession();
 
+        console.log(">>>>> Received session token from api client: ", session?.accessToken);
+
         return session?.accessToken ?? null;
     },
 });

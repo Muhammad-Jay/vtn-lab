@@ -4,6 +4,11 @@ import { Button, Dialog, Field, Text } from "@repo/ui/primitives";
 import { Plus, Building2, Globe2 } from "lucide-react";
 import { Container } from "@repo/ui/views";
 
+/*
+* TODO(UI):
+*  improve the dialog and add the necessary fields needed to create a new organization.
+*  */
+
 export function NewOrganizationDialog() {
     return (
         <Dialog

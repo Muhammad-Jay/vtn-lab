@@ -37,7 +37,7 @@ public static class MemberEndpoints
             var id = await service.InviteMemberAsync(
                 organizationId,
                 request.UserId,
-                (MembershipRole)request.Role,
+                (OrganizationMembershipRole)request.Role,
                 cancellationToken);
 
             return Results.Created($"/api/v1/organizations/{organizationId}/members/{id}", id);
@@ -50,7 +50,7 @@ public static class MemberEndpoints
             MemberService service,
             CancellationToken cancellationToken) =>
         {
-            await service.UpdateRoleAsync(memberId, (MembershipRole)request.Role, request.IsActive, cancellationToken);
+            await service.UpdateRoleAsync(memberId, (OrganizationMembershipRole)request.Role, request.IsActive, cancellationToken);
             return Results.NoContent();
         });
 

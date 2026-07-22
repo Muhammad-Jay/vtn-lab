@@ -10,7 +10,7 @@ public sealed class
 {
     public void Configure(EntityTypeBuilder<Integration> builder)
     {
-        builder.ToTable("integrations", "integrations");
+        builder.ToTable("integration", "integration");
 
         builder.HasKey(x => x.Id);
 
@@ -43,7 +43,7 @@ public sealed class
         {
             builder.ToTable(
                 "project_integrations",
-                "integrations");
+                "integration");
 
             builder.HasKey(x => x.Id);
 

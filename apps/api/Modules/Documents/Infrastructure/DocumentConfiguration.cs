@@ -9,7 +9,7 @@ public sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
     public void Configure(EntityTypeBuilder<Document> builder)
     {
-        builder.ToTable("documents", "documents");
+        builder.ToTable("document", "document");
 
         builder.HasKey(x => x.Id);
 

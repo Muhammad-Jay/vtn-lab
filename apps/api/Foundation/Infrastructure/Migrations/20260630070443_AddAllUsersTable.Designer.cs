@@ -208,7 +208,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("ProjectIntegrations");
                 });
 
-            modelBuilder.Entity("Members.Domain.Membership", b =>
+            modelBuilder.Entity("OrganizationMembers.Domain.Membership", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -406,7 +406,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Members.Domain.Membership", b =>
+            modelBuilder.Entity("OrganizationMembers.Domain.Membership", b =>
                 {
                     b.HasOne("Organizations.Domain.Organization", null)
                         .WithMany()

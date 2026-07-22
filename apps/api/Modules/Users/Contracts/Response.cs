@@ -4,6 +4,8 @@ public sealed record UserResponse(
     string Id,
     string Email,
     string? Name,
-    string? AvatarUrl,
-    DateTime CreatedAt,
-    DateTime UpdatedAt);
+    string? Image,
+    string? DisplayName,
+    string? Username,
+    DateTimeOffset CreatedAt,
+    DateTimeOffset UpdatedAt);

@@ -4,6 +4,7 @@ using Activities.Endpoints;
 using Api.Infrastructure;
 using API.Middleware;
 using Application;
+using Authentication.DependencyInjection;
 using Billing.DependencyInjection;
 using Billing.Endpoints;
 using Documents.DependencyInjection;
@@ -33,6 +34,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         connectionString);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LocalDevPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // Matches Frontend Issuer url
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // Critical for Better Auth cross-domain cookie lifecycles
+    });
+});
+
 // Modules Dependency Injections
 builder.Services.AddAppCaching(builder.Configuration);
 builder.Services.AddInfrastructure();
@@ -44,6 +56,8 @@ builder.Services.AddDocuments();
 builder.Services.AddIntegrations();
 builder.Services.AddActivities();
 builder.Services.AddBilling();
+
+builder.Services.AddAppAuthentication(builder.Configuration);
 
 builder.Services.AddCoreEventEngine(
     // Cache System
@@ -60,12 +74,14 @@ builder.Services.AddCoreEventEngine(
     typeof(Users.DependencyInjection.DependencyInjection).Assembly
 );
 
-builder.Services.AddAuthentication("TestAuthScheme")
-    .AddScheme<TestAuthOptions, TestAuthHandler>("TestAuthScheme", options => { });
+// builder.Services.AddAuthentication("TestAuthScheme")
+//     .AddScheme<TestAuthOptions, TestAuthHandler>("TestAuthScheme", options => { });
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+app.UseCors("LocalDevPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -77,7 +93,12 @@ app.UseMiddleware<GlobalExceptionHandler>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 var apiVersionGroup = app.MapGroup("/api/v1");
+
+apiVersionGroup.RequireAuthorization();
 
 // Module Registrations
 apiVersionGroup.MapOrganizations();

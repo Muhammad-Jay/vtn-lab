@@ -1,6 +1,6 @@
 namespace Domain.Entity.MembershipRole;
 
-public enum MembershipRole
+public enum OrganizationMembershipRole
 {
     OWNER,
     ADMIN,

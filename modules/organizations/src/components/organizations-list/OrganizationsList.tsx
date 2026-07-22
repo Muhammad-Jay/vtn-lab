@@ -6,13 +6,21 @@ import { Text } from "@repo/ui/primitives";
 import { ListHeader } from "./ListHeader";
 import { MOCK_ORGANIZATIONS } from "../../constants/test";
 import { OrganizationsListSkeleton }  from "./LoadingSkeleton";
-// import { useOrganizations } from "../../queries/orgQueries";
+import { useOrganizations } from "../../queries/orgQueries";
 
 export function OrganizationsList() {
     // TODO: Replace with your actual data fetching hook
-    // const { data: organizations, isLoading } = useOrganizations();
-    const isLoading = true; // Toggle this to true to see the skeleton in action
-    const organizations = MOCK_ORGANIZATIONS;
+    const { data: organizations, isLoading, error, isError } = useOrganizations();
+    // const isLoading = true;
+    // const organizations = MOCK_ORGANIZATIONS;
+    
+    if(isError){
+        console.log("Better Error from Orgs: ", error?.message)
+        
+        return (<p>Error from better auth orgs: {error?.message ?? ""}</p>)
+    }
+
+    console.log("Orgs: ", organizations);
 
     return (
         <Container
@@ -61,7 +69,7 @@ export function OrganizationsList() {
                     {isLoading ? (
                         <OrganizationsListSkeleton />
                     ) : (
-                        organizations.map(({ id, name, description, slug, logoUrl }) => (
+                        organizations && organizations?.map(({ id, name, description, slug, logoUrl }) => (
                             <AutoGrid.Item key={id} span={{ base: 1 }}>
                                 <Container
                                     surface="surface-2"

@@ -9,7 +9,7 @@ public sealed class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 {
     public void Configure(EntityTypeBuilder<Activity> builder)
     {
-        builder.ToTable("activities", "activity");
+        builder.ToTable("activities", "activities");
 
         builder.HasKey(x => x.Id);
 

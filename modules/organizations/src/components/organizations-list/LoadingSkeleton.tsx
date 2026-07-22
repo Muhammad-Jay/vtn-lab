@@ -7,11 +7,11 @@ export function OrganizationsListSkeleton() {
     // Render 4 skeleton cards to fill the initial viewport space cleanly
     return (
         <>
-            {Array.from({ length: 4 }).map((_, index) => (
+            {Array.from({ length: 9 }).map((_, index) => (
                 <AutoGrid.Item key={index} span={{ base: 1 }}>
                     <Container
                         surface="surface-2"
-                        border="default"
+                        border="subtle"
                         radius="xl"
                         gap="sm"
                         direction="column"
@@ -20,6 +20,7 @@ export function OrganizationsListSkeleton() {
                         minHeight={170}
                         align="start"
                         justify="between"
+                        className={'animate-pulse'}
                     >
                         <div className="flex flex-col gap-4 w-full animate-pulse">
                             {/* Title & Status Badge Row */}

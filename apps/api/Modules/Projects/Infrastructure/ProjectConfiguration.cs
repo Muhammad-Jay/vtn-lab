@@ -9,7 +9,7 @@ public sealed class ProjectConfiguration : IEntityTypeConfiguration<Project>
 {
     public void Configure(EntityTypeBuilder<Project> builder)
     {
-        builder.ToTable("projects", "projects");
+        builder.ToTable("project", "project");
 
         builder.HasKey(x => x.Id);
 

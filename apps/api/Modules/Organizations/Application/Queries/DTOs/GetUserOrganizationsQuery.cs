@@ -5,7 +5,7 @@ namespace Organizations.Application.Queries.DTOs;
 
 public sealed record GetUserOrganizationsQuery(
     string UserId, 
-    MembershipRole? Role,
+    OrganizationMembershipRole? Role,
     bool Detailed,
     int DetailLimit = 3);
 

@@ -21,7 +21,7 @@ public class OrganizationQueries : IOrganizationQueries
         GetUserOrganizationsQuery query, 
         CancellationToken ct = default)
     {
-        var memberships = _db.Set<Membership>()
+        var memberships = _db.Set<OrganizationMember>()
             .AsNoTracking()
             .Where(x => x.UserId == query.UserId && x.IsActive);
         
@@ -41,7 +41,7 @@ public class OrganizationQueries : IOrganizationQueries
                     org.Description,
                     org.Slug,
                     org.LogoUrl,
-                    MemberCount = _db.Set<Membership>().Count(m => m.OrganizationId == org.Id && m.IsActive),
+                    MemberCount = _db.Set<OrganizationMember>().Count(m => m.OrganizationId == org.Id && m.IsActive),
                     ProjectCount = _db.Set<Project>().Count(p => p.OrganizationId == org.Id && p.DeletedAt == null),
                     
                     // Conditionally load the child collections based on the detailed flag
@@ -55,7 +55,7 @@ public class OrganizationQueries : IOrganizationQueries
                         : new List<ProjectDetail>(),
 
                     Members = query.Detailed 
-                        ? _db.Set<Membership>()
+                        ? _db.Set<OrganizationMember>()
                             .Where(m => m.OrganizationId == org.Id)
                             .Take(query.DetailLimit)
                             .Select(m => new MemberDetail(m.UserId, m.Role.ToString(), m.IsActive))

@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Foundation\Cache\Cache.csproj" />
     <ProjectReference Include="..\Foundation\Application\Application.csproj" />
     <ProjectReference Include="..\Foundation\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Foundation\Authentication\Authentication.csproj" />
 
     <ProjectReference Include="..\Modules\Organizations\Organizations.csproj" />
     <ProjectReference Include="..\Modules\Projects\Projects.csproj" />

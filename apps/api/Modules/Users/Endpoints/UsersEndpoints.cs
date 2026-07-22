@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Application.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -16,24 +17,30 @@ public static class UserEndpoints
             UserService service,
             CancellationToken cancellationToken) =>
         {
-            var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = principal.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 return Results.Unauthorized();
             }
 
             var user = await service.GetByIdAsync(userId, cancellationToken);
+            if (user is null)
+            {
+                return Results.NotFound();
+            }
 
             var response = new UserResponse(
                 user.Id,
                 user.Email,
                 user.Name,
-                user.AvatarUrl,
+                user.Image,
+                user.DisplayName,
+                user.Username,
                 user.CreatedAt,
                 user.UpdatedAt);
 
             return Results.Ok(response);
-        });
+        }).RequireAuthorization();
 
         group.MapPatch("/users/me", async (
             ClaimsPrincipal principal,
@@ -41,23 +48,26 @@ public static class UserEndpoints
             UserService service,
             CancellationToken cancellationToken) =>
         {
-            var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = principal.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 return Results.Unauthorized();
             }
 
             var user = await service.GetByIdAsync(userId, cancellationToken);
+            if (user is null)
+            {
+                return Results.NotFound();
+            }
 
-            await service.UpsertFromWebhookAsync(
+            await service.UpdateProfileAsync(
                 user.Id,
-                user.Email,
                 request.Name,
-                request.AvatarUrl,
+                request.Image,
                 cancellationToken);
 
             return Results.NoContent();
-        });
+        }).RequireAuthorization();
 
         return group;
     }

@@ -19,13 +19,13 @@ public sealed class MemberService
     public async Task<Guid> InviteMemberAsync(
         Guid organizationId, 
         string userId, 
-        MembershipRole role, 
+        OrganizationMembershipRole role, 
         CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(userId))
             throw new ValidationException("User ID is required to add a member.");
 
-        var membership = new Membership(organizationId, userId, role);
+        var membership = new OrganizationMember(organizationId, userId, role);
 
         _repository.Add(membership);
         await _unitOfWork.SaveChangesAsync(ct);
@@ -33,17 +33,17 @@ public sealed class MemberService
         return membership.Id;
     }
 
-    public async Task<List<Membership>> GetMembersByOrganizationIdAsync(Guid organizationId, CancellationToken ct = default)
+    public async Task<List<OrganizationMember>> GetMembersByOrganizationIdAsync(Guid organizationId, CancellationToken ct = default)
     {
         return await _repository.GetByOrganizationIdAsync(organizationId, ct);
     }
 
-    public async Task UpdateRoleAsync(Guid id, MembershipRole newRole, bool isActive = true, CancellationToken ct = default)
+    public async Task UpdateRoleAsync(Guid id, OrganizationMembershipRole newRole, bool isActive = true, CancellationToken ct = default)
     {
         var membership = await _repository.GetByIdAsync(id, ct);
         
         if (membership is null)
-            throw new NotFoundException(nameof(Membership), id);
+            throw new NotFoundException(nameof(OrganizationMember), id);
 
         membership.UpdateRole(newRole);
         membership.SetActive(isActive);
@@ -56,7 +56,7 @@ public sealed class MemberService
         var membership = await _repository.GetByIdAsync(id, ct);
         
         if (membership is null)
-            throw new NotFoundException(nameof(Membership), id);
+            throw new NotFoundException(nameof(OrganizationMember), id);
 
         membership.Deactivate();
 

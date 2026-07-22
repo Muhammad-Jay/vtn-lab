@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Members.Infrastructure;
 
-public sealed class MembershipConfiguration : IEntityTypeConfiguration<Membership>
+public sealed class MembershipConfiguration : IEntityTypeConfiguration<OrganizationMember>
 {
-    public void Configure(EntityTypeBuilder<Membership> builder)
+    public void Configure(EntityTypeBuilder<OrganizationMember> builder)
     {
-        builder.ToTable("memberships", "members");
+        builder.ToTable("organization_member", "organization_member");
 
         builder.HasKey(x => x.Id);
 
