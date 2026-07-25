@@ -1,15 +1,15 @@
 using Activities.Domain;
 using Authentication.Domain;
+using Authentication.Infrastructure;
 using Billing.Domain;
 using Documents.Domain;
 using Foundation.Application.Abstractions;
 using Integrations.Domain;
-using Members.Domain;
 using Microsoft.EntityFrameworkCore;
+using OrganizationMembers.Domain;
 using Organizations.Domain;
 using Projects.Domain;
 using Users.Domain;
-using Users.Infrastructure;
 
 namespace Infrastructure;
 
@@ -42,14 +42,16 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     {
         base.OnModelCreating(modelBuilder);
         
-        // Forces EF Core migrations to ONLY look at and modify tables inside the "app" schema
-        modelBuilder.HasDefaultSchema("app");
+//         // Forces EF Core migrations to ONLY look at and modify tables inside the "app" schema
+//         modelBuilder.HasDefaultSchema("app");
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Authentication.Infrastructure.AccountConfiguration).Assembly);
         
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Users.Infrastructure.UserConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Organizations.Infrastructure.OrganizationConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Projects.Infrastructure.ProjectConfiguration).Assembly);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Members.Infrastructure.MembershipConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrganizationMembers.Infrastructure.MembershipConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Documents.Infrastructure.DocumentConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Integrations.Infrastructure.IntegrationConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Activities.Infrastructure.ActivityConfiguration).Assembly);

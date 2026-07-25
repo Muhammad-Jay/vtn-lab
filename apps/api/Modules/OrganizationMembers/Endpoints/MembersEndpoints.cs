@@ -2,10 +2,10 @@ using Domain.Entity.MembershipRole;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Members.Application.Services;
-using Members.Contracts;
+using OrganizationMembers.Application.Services;
+using OrganizationMembers.Contracts;
 
-namespace Members.Endpoints;
+namespace OrganizationMembers.Endpoints;
 
 public static class MemberEndpoints
 {

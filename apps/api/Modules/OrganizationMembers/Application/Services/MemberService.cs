@@ -1,9 +1,9 @@
-using Members.Domain;
+using OrganizationMembers.Domain;
 using Foundation.Application.Abstractions;
 using Application.Exceptions;
 using Domain.Entity.MembershipRole;
 
-namespace Members.Application.Services;
+namespace OrganizationMembers.Application.Services;
 
 public sealed class MemberService
 {

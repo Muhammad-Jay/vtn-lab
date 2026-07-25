@@ -6,7 +6,7 @@ using Foundation.Application.Abstractions;
 using Infrastructure.Queries.Organization;
 using Infrastructure.Repositories;
 using Integrations.Application.Services;
-using Members.Application.Services;
+using OrganizationMembers.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Organizations.Application.Queries;
 using Organizations.Application.Services;
@@ -26,7 +26,7 @@ public static class DependencyInjection
         // Repository Registrations
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
-        services.AddScoped<IMembershipRepository, MembershipRepository>();
+        services.AddScoped<IMembershipRepository, OrganizationMembersRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IDocumentRepository, DocumentRepository>();
         services.AddScoped<IIntegrationRepository, IntegrationRepository>();

@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1784016056287,
-      "tag": "0000_heavy_blackheart",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1784634414421,
-      "tag": "0001_dry_banshee",
+      "when": 1784731064324,
+      "tag": "0000_legal_maelstrom",
       "breakpoints": true
     }
   ]

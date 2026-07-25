@@ -72,8 +72,8 @@ public static class OrganizationEndpoints
             }
 
             Console.WriteLine($">>>>>>>>>>>>>>>  Received Create Request {userId}");
-            var id = await service.Create(userId, request.Name, request.Description, cancellationToken);
-            return Results.Created($"/api/v1/organizations/{id}", id);
+            var newOrg = await service.Create(userId, request.Name, request.Description, cancellationToken);
+            return Results.Created($"/api/v1/organizations/{newOrg.Id}", newOrg);
         });
 
         orgs.MapPatch("/{organizationId:guid}", async (

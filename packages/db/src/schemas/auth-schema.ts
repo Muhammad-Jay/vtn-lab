@@ -7,10 +7,25 @@ export const user = pgTable("user", {
     email: text("email").notNull().unique(),
     emailVerified: boolean("email_verified").default(false).notNull(),
     image: text("image"),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at")
+
+    /* Platform Profile */
+    displayName: text("display_name"),
+    username: text("username").unique(),
+    locale: text("locale").default("en").notNull(),
+    timeZone: text("time_zone").default("UTC").notNull(),
+
+    /* Platform State */
+    onboardingCompleted: boolean("onboarding_completed").default(false).notNull(),
+    isActive: boolean("is_active").default(true).notNull(),
+    lastOrganizationId: text("last_organization_id"),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+
+    /* Audit */
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
         .defaultNow()
-        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .$onUpdate(() => new Date())
         .notNull(),
 });
 

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Domain.Entity.MembershipRole;
 using Microsoft.EntityFrameworkCore;
 
-namespace Members.Domain;
+namespace OrganizationMembers.Domain;
 
 [Index(nameof(OrganizationId), nameof(IsActive))]
 public sealed class OrganizationMember

@@ -1,8 +1,11 @@
 "use client";
 
-import { Button, Dialog, Field, Text } from "@repo/ui/primitives";
+import { Button, Dialog, Field, Text, toast } from "@repo/ui/primitives";
 import { Plus, Building2, Globe2 } from "lucide-react";
 import { Container } from "@repo/ui/views";
+import {useCreateOrganization} from "../../../mutations/createOrg";
+import {useState} from "react";
+import {NewOrganization} from "@foundation/domain";
 
 /*
 * TODO(UI):
@@ -10,6 +13,38 @@ import { Container } from "@repo/ui/views";
 *  */
 
 export function NewOrganizationDialog() {
+    const [formData, setFormData] = useState<NewOrganization>({
+        name: "",
+        description: undefined,
+        logoUrl: undefined,
+    });
+
+    const { mutate, isPending } = useCreateOrganization({
+        onSuccess: (data) => {
+            setFormData({ name: "", description: undefined, logoUrl: undefined });
+            console.log("New organization created successfully: ", data);
+            toast.success("Organization created successfully", {
+                description: data.name,
+                position: "top-right",
+            })
+        },
+        onError: (error) => {
+            console.error("Failed to create organization:", error.message);
+            toast.error("Failed to create organization", {
+                description: error.message,
+                position: "top-right",
+            })
+        },
+    });
+
+    const handleSubmit = () => {
+        if (!formData.name) {
+            return;
+        }
+
+        mutate(formData);
+    };
+
     return (
         <Dialog
             animation="fade"
@@ -69,6 +104,10 @@ export function NewOrganizationDialog() {
                             label="Organization Name"
                             placeholder="e.g., Quantum Dynamics"
                             fullwidth={true}
+                            value={formData.name}
+                            onChange={(e) => {
+                                setFormData(prevState => ({...prevState, name: e.target.value}));
+                            }}
                             startAdornment={<Building2 className="size-4 text-text-muted" />}
                             helper="This will be the public-facing name of your organization."
                             labelplacement="top"
@@ -87,11 +126,28 @@ export function NewOrganizationDialog() {
                             fullwidth={true}
                             labelplacement="top"
                             label="Description"
+                            value={formData.description}
+                            onChange={(e) => {
+                                setFormData(prevState => ({...prevState, description: e.target.value}));
+                            }}
                             placeholder="Briefly describe your organization's primary objective..."
                             helper="Optional. This helps team members understand the workspace context."
                             slotProps={{
                                 textarea: { rows: 4 }
                             }}
+                        />
+
+                        <Field.Input
+                            label="Logo URL"
+                            placeholder="quantum-dynamics.app.com"
+                            fullwidth={true}
+                            value={formData.logoUrl}
+                            onChange={(e) => {
+                                setFormData(prevState => ({...prevState, logoUrl: e.target.value}));
+                            }}
+                            startAdornment={<span className="text-text-muted text-sm pr-1">app.com/</span>}
+                            helper="A unique, URL-friendly identifier. Cannot be changed later."
+                            labelplacement="top"
                         />
 
                         <Field.Select
@@ -125,11 +181,17 @@ export function NewOrganizationDialog() {
                     width="full"
                     className="border-t border-x-0 border-b-0"
                 >
-                    <Button.Ghost size="lg">
+                    <Button.Ghost className={"bg-transparent! text-primary!"} size="lg">
                         Cancel
                     </Button.Ghost>
 
-                    <Button.Primary size="lg">
+                    <Button.Primary
+                        size="lg"
+                        onClick={handleSubmit}
+                        loading={isPending}
+                        loadingPosition={"leading"}
+                        loadingText={"Creating..."}
+                    >
                         Create Workspace
                     </Button.Primary>
                 </Container>

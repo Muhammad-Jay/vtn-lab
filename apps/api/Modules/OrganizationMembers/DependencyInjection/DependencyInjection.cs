@@ -1,7 +1,7 @@
-using Members.Application.Services;
+using OrganizationMembers.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Members.DependencyInjection;
+namespace OrganizationMembers.DependencyInjection;
 
 public static class DependencyInjection
 {

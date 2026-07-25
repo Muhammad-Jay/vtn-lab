@@ -1,4 +1,4 @@
-namespace Members.Contracts;
+namespace OrganizationMembers.Contracts;
 
 public sealed record MembershipResponse(
     Guid Id,

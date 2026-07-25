@@ -1,5 +1,3 @@
-// request.ts
-
 import {
     CacheMode,
     ClientOptions,

@@ -15,4 +15,6 @@ export default defineConfig({
     },
     verbose: true,
     strict: false,
+    schemaFilter: ["public"],
+    tablesFilter: ["user", "account", "session", "verification", "jwks"],
 });

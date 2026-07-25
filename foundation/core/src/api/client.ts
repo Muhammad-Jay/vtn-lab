@@ -2,6 +2,11 @@ import { createApiClient } from "@repo/api-client";
 
 import { getSession } from "@repo/auth/services";
 
+export type {
+    ApiError,
+    ClientOptions,
+} from "@repo/api-client";
+
 export const api = createApiClient({
     baseUrl: process.env.NEXT_PUBLIC_API_URL!,
 

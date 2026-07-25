@@ -1,10 +1,10 @@
 using Application.Abstractions;
 using Domain.Contracts.Organizations;
 using Domain.Entity.MembershipRole;
-using Members.Application.Services;
-using Members.Domain;
+using OrganizationMembers.Application.Services;
+using OrganizationMembers.Domain;
 
-namespace Members.Application.EventHandlers;
+namespace OrganizationMembers.Application.EventHandlers;
 
 public sealed class CreateMembershipOnOrganizationCreated : IEventHandler<OrganizationCreatedEvent>
 {

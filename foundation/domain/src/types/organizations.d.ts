@@ -9,3 +9,9 @@ export type Organization = {
 }
 
 export type Organizations = Organization[];
+
+export type NewOrganization = {
+    name: string;
+    description?: string;
+    logoUrl?: string;
+}

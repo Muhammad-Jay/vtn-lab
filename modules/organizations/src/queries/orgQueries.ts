@@ -7,10 +7,7 @@ import { organizationsApi } from "../api/organizationsApi";
 export function useOrganizations() {
 
     return useQuery({
-
         queryKey: orgQueryKeys.list,
-
         queryFn: () => organizationsApi.list(),
-
     });
 }

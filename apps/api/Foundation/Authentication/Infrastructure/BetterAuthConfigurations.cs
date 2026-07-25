@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Infrastructure;
 
-internal sealed class SessionConfiguration : IEntityTypeConfiguration<Session>
+public sealed class SessionConfiguration : IEntityTypeConfiguration<Session>
 {
     public void Configure(EntityTypeBuilder<Session> builder)
     {
@@ -25,7 +25,7 @@ internal sealed class SessionConfiguration : IEntityTypeConfiguration<Session>
     }
 }
 
-internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
+public sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
 {
     public void Configure(EntityTypeBuilder<Account> builder)
     {
@@ -50,7 +50,7 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
     }
 }
 
-internal sealed class VerificationConfiguration : IEntityTypeConfiguration<Verification>
+public sealed class VerificationConfiguration : IEntityTypeConfiguration<Verification>
 {
     public void Configure(EntityTypeBuilder<Verification> builder)
     {
@@ -68,7 +68,7 @@ internal sealed class VerificationConfiguration : IEntityTypeConfiguration<Verif
     }
 }
 
-internal sealed class JwksConfiguration : IEntityTypeConfiguration<Jwks>
+public sealed class JwksConfiguration : IEntityTypeConfiguration<Jwks>
 {
     public void Configure(EntityTypeBuilder<Jwks> builder)
     {

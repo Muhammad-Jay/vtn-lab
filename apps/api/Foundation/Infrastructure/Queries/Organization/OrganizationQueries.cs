@@ -1,9 +1,8 @@
 using Integrations.Domain;
-using Members.Domain;
+using OrganizationMembers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Organizations.Application.Queries;
 using Organizations.Application.Queries.DTOs;
-using Organizations.Domain;
 using Projects.Domain;
 
 namespace Infrastructure.Queries.Organization;

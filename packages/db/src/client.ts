@@ -8,7 +8,7 @@ const client = postgres({
     host: 'aws-0-eu-west-1.pooler.supabase.com',
     port: 5432, // Or 6543
     database: 'postgres',
-    username: 'postgres.tdwsajgcydyoerlgsphk',
+    username: 'postgres.upwcpjyraxgukfhnjkdc',
     password: 'J$ynC420042004', // Raw special characters are completely safe here
     prepare: false
 });

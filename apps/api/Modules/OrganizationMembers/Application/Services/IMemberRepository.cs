@@ -1,6 +1,6 @@
-using Members.Domain;
+using OrganizationMembers.Domain;
 
-namespace Members.Application.Services;
+namespace OrganizationMembers.Application.Services;
 public interface IMembershipRepository
 {
     Task<List<OrganizationMember>> GetByOrganizationIdAsync(Guid organizationId, CancellationToken ct = default);

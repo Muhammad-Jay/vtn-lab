@@ -1,7 +1,6 @@
 using Cache.DependencyInjection;
 using Activities.DependencyInjection;
 using Activities.Endpoints;
-using Api.Infrastructure;
 using API.Middleware;
 using Application;
 using Authentication.DependencyInjection;
@@ -13,8 +12,8 @@ using Infrastructure;
 using Infrastructure.DependencyInjection;
 using Integrations.DependencyInjection;
 using Integrations.Endpoints;
-using Members.DependencyInjection;
-using Members.Endpoints;
+using OrganizationMembers.DependencyInjection;
+using OrganizationMembers.Endpoints;
 using Microsoft.EntityFrameworkCore;
 using Organizations.DependencyInjection;
 using Organizations.Endpoints;
@@ -65,7 +64,7 @@ builder.Services.AddCoreEventEngine(
     
     // Modules
     typeof(Organizations.DependencyInjection.DependencyInjection).Assembly,
-    typeof(Members.DependencyInjection.DependencyInjection).Assembly,
+    typeof(OrganizationMembers.DependencyInjection.DependencyInjection).Assembly,
     typeof(Projects.DependencyInjection.DependencyInjection).Assembly,
     typeof(Activities.DependencyInjection.DependencyInjection).Assembly,
     typeof(Billing.DependencyInjection.DependencyInjection).Assembly,
@@ -97,6 +96,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 var apiVersionGroup = app.MapGroup("/api/v1");
+
+apiVersionGroup.MapGet("/", () =>
+{
+    return Results.Ok("I'm reachable.");
+});
 
 apiVersionGroup.RequireAuthorization();
 

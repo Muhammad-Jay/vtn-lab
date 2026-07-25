@@ -1,14 +1,14 @@
-using Members.Application.Services;
+using OrganizationMembers.Application.Services;
 using Microsoft.EntityFrameworkCore;
-using Members.Domain;
+using OrganizationMembers.Domain;
 
 namespace Infrastructure.Repositories;
 
-internal sealed class MembershipRepository : IMembershipRepository
+internal sealed class OrganizationMembersRepository : IMembershipRepository
 {
     private readonly ApplicationDbContext _db;
 
-    public MembershipRepository(ApplicationDbContext db) => _db = db;
+    public OrganizationMembersRepository(ApplicationDbContext db) => _db = db;
 
     public async Task<List<OrganizationMember>> GetByOrganizationIdAsync(Guid organizationId, CancellationToken ct = default)
     {

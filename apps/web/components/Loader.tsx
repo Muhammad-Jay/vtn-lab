@@ -5,7 +5,7 @@ import { Container } from "@repo/ui/views";
 export function Loader() {
     return (
         <Container
-            surface="surface-1"
+            surface="surface-0"
             width="screen"
             height="screen"
             align="center"

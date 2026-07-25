@@ -1,8 +1,8 @@
-using Members.Domain;
+using OrganizationMembers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Members.Infrastructure;
+namespace OrganizationMembers.Infrastructure;
 
 public sealed class MembershipConfiguration : IEntityTypeConfiguration<OrganizationMember>
 {

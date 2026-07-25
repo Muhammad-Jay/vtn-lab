@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Caching;
 using Application.Abstractions;
-using Domain.Contracts.Organizations; // Assuming this is where your IEventHandler lives
+using Domain.Contracts.Organizations;
 
 namespace Cache.Handlers;
 

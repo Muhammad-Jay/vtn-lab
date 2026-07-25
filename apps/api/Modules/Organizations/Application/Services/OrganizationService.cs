@@ -25,7 +25,7 @@ public sealed class OrganizationService
     }
 
     // Create
-    public async Task<Guid> Create(string userId, string name, string description, CancellationToken ct = default)
+    public async Task<Organization> Create(string userId, string name, string description, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ValidationException("Organization name cannot be empty.");
@@ -51,7 +51,7 @@ public sealed class OrganizationService
         
         await _unitOfWork.SaveChangesAsync(ct);
         
-        return organization.Id;
+        return organization;
     }
 
     // Read (Get By Id)
