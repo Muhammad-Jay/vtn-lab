@@ -37,7 +37,7 @@ public static class OrganizationEndpoints
             var query = new GetUserOrganizationsQuery(userId, role, detailed, limit);
             var response = await queries.GetUserOrganizations(query, cancellationToken);
 
-            return Results.Ok(response);
+            return Results.Ok(response.Organizations);
         });
 
         orgs.MapGet("/{organizationId:guid}", async (

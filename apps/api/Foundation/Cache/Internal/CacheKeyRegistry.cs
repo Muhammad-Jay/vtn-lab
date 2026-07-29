@@ -15,4 +15,10 @@ internal sealed class CacheKeyRegistry : ICacheKeyRegistry
 
     public string GetOrganizationTag(Guid organizationId) 
         => $"tag:organizations:{organizationId.ToString().ToLowerInvariant()}";
+
+    public string CreateOrganizationProjectQueryKey(Guid organizationId, string role, bool detailed, int limit)
+        => $"{SystemPrefix}:organizations:{organizationId.ToString().ToLowerInvariant()}:projects:role={role.ToLowerInvariant()}:detailed={detailed.ToString().ToLowerInvariant()}:limit={limit}";
+
+    public string GetProjectTag(Guid projectId)
+        => $"tag:projects:{projectId.ToString().ToLowerInvariant()}";
 }

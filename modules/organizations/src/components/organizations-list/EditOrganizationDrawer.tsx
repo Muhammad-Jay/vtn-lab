@@ -86,10 +86,7 @@ export function EditOrganizationDrawer({
 
     return (
         <Drawer.Root
-            placement={{
-                base: "right",
-                md: "bottom"
-            }}
+            placement={"right"}
             size={"lg"}
             animation={"slide"}
             backdrop={"transparent"}
@@ -148,7 +145,7 @@ export function EditOrganizationDrawer({
                         </Drawer.Header>
 
                         <Drawer.Body
-                            className=" space-y-5.5!">
+                            className=" space-y-6!">
                             <Field.Input
                                 label="Organization Name"
                                 labelplacement={{
@@ -161,7 +158,6 @@ export function EditOrganizationDrawer({
                                 value={formData.name}
                                 onChange={(e) => handleChange("name", e.target.value)}
                                 placeholder="Acme Corporation"
-                                required
                                 fullwidth
                             />
 
@@ -178,7 +174,6 @@ export function EditOrganizationDrawer({
                                 value={formData.slug}
                                 onChange={(e) => handleChange("slug", e.target.value)}
                                 placeholder="acme-corp"
-                                required
                                 fullwidth
                             />
 
@@ -210,7 +205,6 @@ export function EditOrganizationDrawer({
                                 value={formData.logoUrl}
                                 onChange={(e) => handleChange("logoUrl", e.target.value)}
                                 placeholder="https://cloud.aws.com/62572582773763/logo.png"
-                                required
                                 fullwidth
                             />
                         </Drawer.Body>

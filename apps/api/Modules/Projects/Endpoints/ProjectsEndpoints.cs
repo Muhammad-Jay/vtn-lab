@@ -1,6 +1,12 @@
+using System.Security.Claims;
+using Application.Security;
+using Domain.Entity.MembershipRole;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Projects.Application.Queries;
+using Projects.Application.Queries.DTOs;
 using Projects.Application.Services;
 using Projects.Contracts;
 
@@ -12,21 +18,24 @@ public static class ProjectEndpoints
     {
         group.MapGet("/organizations/{organizationId:guid}/projects", async (
             Guid organizationId,
-            ProjectService service,
-            CancellationToken cancellationToken) =>
+            ClaimsPrincipal user,
+            IProjectQueries queries,
+            CancellationToken cancellationToken,
+            [FromQuery] OrganizationMembershipRole? role,
+            [FromQuery] bool detailed = false,
+            [FromQuery] int limit = 3) =>
         {
-            var projects = await service.GetByOrganizationIdAsync(organizationId, cancellationToken);
+            var userId = user.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Results.Unauthorized();
+            }
+            
+            var query = new GetOrganizationProjectsQuery(userId, organizationId, role, detailed, limit);
 
-            var response = projects.Select(p => new ProjectResponse(
-                p.Id,
-                p.OrganizationId,
-                p.Name,
-                p.Slug,
-                p.Description,
-                p.CreatedAt,
-                p.UpdatedAt));
-
-            return Results.Ok(response);
+            var response = await queries.GetOrganizationProjects(query, cancellationToken);
+            
+            return Results.Ok(response.Projects);
         });
 
         group.MapPost("/organizations/{organizationId:guid}/projects", async (

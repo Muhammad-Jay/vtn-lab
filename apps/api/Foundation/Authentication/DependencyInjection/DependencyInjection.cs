@@ -60,17 +60,17 @@ public static class DependencyInjection
                     using var client = new HttpClient();
                     var jwksJson = client.GetStringAsync(jwksUri).GetAwaiter().GetResult();
 
-                    // --- 🚨 ADD THESE DEBUG LOGS ---
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine($"\n🔍 JWT HEADER 'kid' (Key ID): {kid}");
-                    Console.WriteLine($"🔍 JWKS JSON FROM BETTER AUTH: {jwksJson}\n");
-                    Console.ResetColor();
-                    // -------------------------------
+                    // // --- 🚨 ADD THESE DEBUG LOGS ---
+                    // Console.ForegroundColor = ConsoleColor.Cyan;
+                    // Console.WriteLine($"\n🔍 JWT HEADER 'kid' (Key ID): {kid}");
+                    // Console.WriteLine($"🔍 JWKS JSON FROM BETTER AUTH: {jwksJson}\n");
+                    // Console.ResetColor();
+                    // // -------------------------------
 
                     var keySet = new JsonWebKeySet(jwksJson);
                     var keys = keySet.GetSigningKeys();
 
-                    Console.WriteLine($"🔍 KEYS PARSED BY .NET: {keys.Count()}");
+                    // Console.WriteLine($"🔍 KEYS PARSED BY .NET: {keys.Count()}");
 
                     return keys;
                 }

@@ -14,7 +14,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
             data-slot="input-group"
             role="group"
             className={cn(
-                "group/controls-group relative flex h-10 w-full min-w-0 items-center rounded-lg border border-border-default transition-colors outline-none in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-disabled:bg-surface-2/50 has-disabled:opacity-50 has-[[data-slot=controls-group-control]:focus-visible]:border-border-focus has-[[data-slot=controls-group-control]:focus-visible]:ring-0 has-[[data-slot=controls-group-control]:focus-visible]:ring-border-focus/50 has-[[data-slot][aria-invalid=true]]:border-danger has-[[data-slot][aria-invalid=true]]:ring-3 has-[[data-slot][aria-invalid=true]]:ring-danger/20 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto dark:bg-surface-2/30 dark:has-disabled:bg-surface-2/80 dark:has-[[data-slot][aria-invalid=true]]:ring-danger/40 has-[>[data-align=block-end]]:[&>controls]:pt-3! has-[>[data-align=block-start]]:[&>controls]:pb-3! has-[>[data-align=inline-end]]:[&>controls]:pr-1.5! has-[>[data-align=inline-start]]:[&>controls]:pl-1.5!",
+                "group/controls-group relative flex h-10 w-full min-w-0 items-center bg-surface-5 rounded-lg border border-border-default transition-colors outline-none focus-visible:border-primary/50! focus-visible:border-1! in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-disabled:bg-surface-2/50 has-disabled:opacity-50 has-[[data-slot=input-group-control]:focus-visible]:border-primary/50 has-[[data-slot=input-group-control]:focus-visible]:border-1! has-[[data-slot=controls-group-control]:focus-visible]:ring-0 has-[[data-slot=controls-group-control]:focus-visible]:ring-border-focus/50 has-[[data-slot][aria-invalid=true]]:border-danger has-[[data-slot][aria-invalid=true]]:ring-3 has-[[data-slot][aria-invalid=true]]:ring-danger/20 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto dark:has-disabled:bg-surface-2/80 dark:has-[[data-slot][aria-invalid=true]]:ring-danger/40 has-[>[data-align=block-end]]:[&>controls]:pt-3! has-[>[data-align=block-start]]:[&>controls]:pb-3! has-[>[data-align=inline-end]]:[&>controls]:pr-1.5! has-[>[data-align=inline-start]]:[&>controls]:pl-1.5!",
                 className
             )}
             {...props}
@@ -125,7 +125,7 @@ function InputGroupInput({
         <Input
             data-slot="input-group-control"
             className={cn(
-                "flex-1 rounded-none border bg-transparent shadow-none focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent",
+                "flex-1 rounded-none border-none bg-surface-5! shadow-none focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0",
                 className
             )}
             {...props}

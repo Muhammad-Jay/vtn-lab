@@ -4,12 +4,14 @@ using Documents.Application.Services;
 using Domain.Caching;
 using Foundation.Application.Abstractions;
 using Infrastructure.Queries.Organization;
+using Infrastructure.Queries.Projects;
 using Infrastructure.Repositories;
 using Integrations.Application.Services;
 using OrganizationMembers.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Organizations.Application.Queries;
 using Organizations.Application.Services;
+using Projects.Application.Queries;
 using Projects.Application.Services;
 using Users.Application.Services;
 
@@ -36,12 +38,19 @@ public static class DependencyInjection
         
         // Queries Registrations
         services.AddScoped<OrganizationQueries>();
+        services.AddScoped<ProjectQueries>();
         
         services.AddScoped<IOrganizationQueries>(provider => 
             new CachedOrganizationQueries(
                 provider.GetRequiredService<OrganizationQueries>(), // Database Engine
                 provider.GetRequiredService<IAppCacheService>(),    // Cache Engine
                 provider.GetRequiredService<ICacheKeyRegistry>()    // String Registry
+            ));
+        services.AddScoped<IProjectQueries>(provider => 
+            new CachedProjectQueries(
+                provider.GetRequiredService<ProjectQueries>(), 
+                provider.GetRequiredService<IAppCacheService>(),  
+                provider.GetRequiredService<ICacheKeyRegistry>() 
             ));
         
         return services;
