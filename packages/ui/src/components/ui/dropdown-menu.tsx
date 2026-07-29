@@ -39,7 +39,7 @@ function DropdownMenuContent({
             >
                 <MenuPrimitive.Popup
                     data-slot="dropdown-menu-content"
-                    className={cn("z-50 p-1.5! max-h-(--available-height) w-(--anchor-width) space-y-4! min-w-32 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-surface-4 text-text-primary shadow-md ring-1 ring-text-primary/10 duration-100 outline-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:overflow-hidden data-closed:fade-out-0 data-closed:zoom-out-95", className )}
+                    className={cn("z-50 p-1.5! max-h-(--available-height) w-(--anchor-width) space-y-4! min-w-32 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-surface-4 text-text-primary shadow-2 ring-1 ring-text-primary/10 duration-100 outline-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:overflow-hidden data-closed:fade-out-0 data-closed:zoom-out-95", className )}
                     {...props}
                 />
             </MenuPrimitive.Positioner>
@@ -86,7 +86,7 @@ function DropdownMenuItem({
             data-inset={inset}
             data-variant={variant}
             className={cn(
-                "group/dropdown-menu-item relative flex cursor-default items-center space-x-1.5! space-y-1.5! rounded-md p-1! text-sm outline-hidden select-none focus:bg-surface-2 focus:text-text-primary not-data-[variant=destructive]:focus:**:text-text-primary data-inset:pl-7 data-[variant=destructive]:text-danger data-[variant=destructive]:focus:bg-danger-soft data-[variant=destructive]:focus:text-danger data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-danger",
+                "group/dropdown-menu-item relative flex cursor-default items-center space-x-1.5! space-y-1.5! hover:bg-menu-item! rounded-md p-1! text-sm outline-hidden select-none focus:bg-surface-2 focus:text-text-primary not-data-[variant=destructive]:focus:**:text-text-primary data-inset:pl-7 data-[variant=destructive]:text-danger data-[variant=destructive]:focus:bg-danger-soft data-[variant=destructive]:focus:text-danger data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-danger",
                 className
             )}
             {...props}
@@ -133,7 +133,7 @@ function DropdownMenuSubContent({
     return (
         <DropdownMenuContent
             data-slot="dropdown-menu-sub-content"
-            className={cn("w-auto min-w-[96px] rounded-lg bg-surface-4 p-1! text-text-primary shadow-lg ring-1 ring-text-primary/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className )}
+            className={cn("w-auto min-w-[96px] rounded-lg bg-surface-4 p-1! text-text-primary shadow-3 ring-1 ring-text-primary/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className )}
             align={align}
             alignOffset={alignOffset}
             side={side}

@@ -8,9 +8,10 @@ import { OrganizationsListSkeleton } from "./LoadingSkeleton";
 import { OrganizationCard } from "./OrganizationCard";
 import { useOrganizations } from "../../queries/orgQueries";
 import {Organization} from "@foundation/domain";
+import {Plus} from "lucide-react";
 
 export function OrganizationsList() {
-    const { data: organizations, isLoading, error, isError } = useOrganizations();
+    const { data, isLoading, error, isError } = useOrganizations();
 
     // Handle specific server/fetch errors gracefully
     if (isError) {
@@ -22,7 +23,7 @@ export function OrganizationsList() {
         );
     }
 
-    const orgList = organizations?.data?.organizations ?? [];
+    const orgList = data?.organizations ?? [];
     const hasOrgs = orgList.length > 0;
 
     return (
@@ -67,8 +68,8 @@ export function OrganizationsList() {
                             <Text.Muted>No organizations found. Create one to get started.</Text.Muted>
                         ) : undefined
                     }
-                    columns={{ base: 1, xl: 2 }}
-                    gap={6}
+                    columns={{ base: 1, md: 2, lg: 3 }}
+                    gap={5}
                 >
                     {isLoading ? (
                         <OrganizationsListSkeleton />
@@ -85,6 +86,30 @@ export function OrganizationsList() {
                             </AutoGrid.Item>
                         ))
                     )}
+
+                    {/*
+                       TODO(UI):
+                         Add a card as button to let user be able to click to open the Create Organization drawer.
+                    */}
+                    {/*<AutoGrid.Item>*/}
+                    {/*    <Container*/}
+                    {/*        surface="surface-2"*/}
+                    {/*        interaction="hover"*/}
+                    {/*        border="default"*/}
+                    {/*        hoverBorder="focus"*/}
+                    {/*        radius="xl"*/}
+                    {/*        gap="sm"*/}
+                    {/*        direction="column"*/}
+                    {/*        padding="lg"*/}
+                    {/*        width="full"*/}
+                    {/*        minHeight={170}*/}
+                    {/*        align="center"*/}
+                    {/*        justify="center"*/}
+                    {/*        className={`group cursor-pointer group hover:border-2! transition-all duration-200 ${isLoading && 'hidden!'}`}*/}
+                    {/*    >*/}
+                    {/*        <Plus className={"size-10 text-muted-foreground group-hover:text-primary-foreground!"}/>*/}
+                    {/*    </Container>*/}
+                    {/*</AutoGrid.Item>*/}
                 </AutoGrid>
             </Container>
         </Container>

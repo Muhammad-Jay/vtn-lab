@@ -31,13 +31,13 @@ export const buttonVariantMap: Record<ButtonVariant, string> = {
         "bg-secondary text-secondary-foreground hover:bg-secondary/90",
 
     outline:
-        "text-foreground border border-border bg-background hover:bg-muted",
+        "text-foreground border border-border bg-transparent hover:bg-muted",
 
     ghost:
-        "hover:bg-muted",
+        "hover:bg-muted bg-transparent hover:bg-transparent text-secondary-foreground hover:text-primary! border-none outline-none",
 
     link:
-        "text-foreground underline-offset-4 hover:underline",
+        "text-foreground bg-transparent hover:bg-transparent hover:text-primary-foreground border-none outline-none underline-offset-4 hover:underline",
 
     destructive:
         "bg-destructive/10 text-destructive hover:bg-destructive/20",

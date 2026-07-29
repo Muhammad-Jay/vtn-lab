@@ -1,13 +1,15 @@
 "use client";
 
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { orgQueryKeys } from "./keys";
 import { organizationsApi } from "../api/organizationsApi";
 
+/**
+ * Hook to retrieve the list of organizations.
+ */
 export function useOrganizations() {
-
     return useQuery({
         queryKey: orgQueryKeys.list,
-        queryFn: () => organizationsApi.list(),
+        queryFn: organizationsApi.list,
     });
 }

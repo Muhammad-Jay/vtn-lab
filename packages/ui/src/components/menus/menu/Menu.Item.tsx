@@ -36,7 +36,7 @@ export const MenuItem = React.forwardRef<
                 {...props}
             >
                 {leading && (
-                    <span className="flex px-1! text-sm size-4 m-auto! shrink-0 items-center justify-center">
+                    <span className="flex px-1! text-sm size-6 m-auto! shrink-0 items-center justify-center">
                         {leading}
                     </span>
                 )}

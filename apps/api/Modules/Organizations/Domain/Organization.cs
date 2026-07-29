@@ -1,4 +1,5 @@
 using Domain;
+using Organizations.Contracts;
 
 namespace Organizations.Domain;
 
@@ -17,12 +18,30 @@ public sealed class Organization: Entity<Guid>
         Description = description;
     }
 
-    public void Update(string name, string? description)
-    {
-        Name = name;
-        Description = description;
-        SetUpdated();
-    }
+    public void Update(UpdateOrganizationRequest updates)
+        {
+            if (!string.IsNullOrWhiteSpace(updates.Name))
+            {
+                Name = updates.Name;
+            }
+
+            if (!string.IsNullOrWhiteSpace(updates.Slug))
+            {
+                Slug = updates.Slug;
+            }
+
+            if (updates.Description != null)
+            {
+                Description = updates.Description;
+            }
+
+            if (updates.LogoUrl != null)
+            {
+                LogoUrl = updates.LogoUrl;
+            }
+
+            SetUpdated();
+        }
 
     public void SoftDelete()
     {

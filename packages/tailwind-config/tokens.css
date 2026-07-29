@@ -35,6 +35,8 @@
     --color-panel-raised: var(--panel-raised);
     --color-panel-floating: var(--panel-floating);
 
+    --color-menu-item: var(--menu-item);
+
     --color-text-primary: var(--text-primary);
     --color-text-secondary: var(--text-secondary);
     --color-text-muted: var(--text-muted);
@@ -109,6 +111,8 @@
     --surface-3: var(--mono-0);
     --surface-4: #ffffffee;
     --surface-5: #fffffffb;
+
+    --menu-item: #959595;
 
     --panel-default: var(--surface-2);
     --panel-inset: var(--surface-1);
@@ -224,6 +228,8 @@
     --panel-inset: var(--surface-1);
     --panel-raised: var(--surface-3);
     --panel-floating: var(--surface-4);
+
+    --menu-item: #333333;
 
     --text-primary: #f8f8f8;
     --text-secondary: #d3d3d3;

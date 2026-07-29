@@ -1,55 +1,29 @@
 "use client";
 
-import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { organizationsApi } from "../api/organizationsApi";
 import { ApiError } from "@foundation/core/api-client";
 import { orgQueryKeys } from "../queries/keys";
+import { AppMutationOptions, withMutationToasts } from "@foundation/core";
 
-/**
- * Data transfer object for creating a new organization.
- */
 type CreateOrganizationDto = Parameters<typeof organizationsApi.create>[0];
+type CreateOrganizationResponse = Awaited<ReturnType<typeof organizationsApi.create>>;
 
-/**
- * Successful response payload for the organization creation operation.
- */
-type CreateOrganizationResponse = Extract<
-    Awaited<ReturnType<typeof organizationsApi.create>>,
-    { success: true }
->["data"];
-
-/**
- * Hook to handle the creation of a new organization.
- * Integrates with React Query for state management and handles cache invalidation upon success.
- *
- * @param options - Optional React Query mutation options to extend or override default behaviors.
- * @returns The React Query mutation result object.
- */
 export const useCreateOrganization = (
-    options?: Omit<
-        UseMutationOptions<CreateOrganizationResponse, ApiError, CreateOrganizationDto>,
-        "mutationFn"
-    >
+    options?: AppMutationOptions<CreateOrganizationResponse, ApiError, CreateOrganizationDto>
 ) => {
     const queryClient = useQueryClient();
+    const { onSuccess, onError } = withMutationToasts(options || {});
 
     return useMutation({
         ...options,
-        mutationFn: async (data: CreateOrganizationDto) => {
-            const result = await organizationsApi.create(data);
-
-            if (!result.success) {
-                throw result.error;
-            }
-
-            return result.data;
-        },
+        mutationFn: organizationsApi.create,
         onSuccess: (...args) => {
             queryClient.invalidateQueries({ queryKey: orgQueryKeys.list });
-
-            if (options?.onSuccess) {
-                options.onSuccess(...args);
-            }
+            onSuccess?.(...args);
         },
+        onError: (...args) => {
+            onError?.(...args);
+        }
     });
 };

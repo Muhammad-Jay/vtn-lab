@@ -25,7 +25,7 @@ export const menuItemVariants = cva(
         "gap-3",
         "rounded-md",
         "px-2!",
-        "py-2",
+        "py-0.5!",
         "text-sm",
         "outline-none",
         "transition-all",
@@ -40,7 +40,7 @@ export const menuItemVariants = cva(
                     "text-foreground focus:bg-accent focus:text-accent-foreground",
 
                 destructive:
-                    "text-red-500 focus:bg-red-500/10 focus:text-red-500",
+                    "text-red-500 focus:bg-red-500/30 focus:text-red-500",
 
                 success:
                     "text-emerald-500 focus:bg-emerald-500/10 focus:text-emerald-500",

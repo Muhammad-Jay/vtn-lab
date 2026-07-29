@@ -42,7 +42,7 @@ export const MenuTrigger = React.forwardRef<
             <DropdownMenuTrigger
                 ref={ref}
                 className={cn(
-                    "inline-flex items-center gap-2 outline-none",
+                    "inline-flex cursor-pointer items-center gap-2 outline-none",
                     className
                 )}
                 {...props}

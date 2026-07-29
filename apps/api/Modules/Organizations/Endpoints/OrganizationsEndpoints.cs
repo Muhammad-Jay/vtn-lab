@@ -78,20 +78,33 @@ public static class OrganizationEndpoints
 
         orgs.MapPatch("/{organizationId:guid}", async (
             Guid organizationId,
+            ClaimsPrincipal user,
             UpdateOrganizationRequest request,
             OrganizationService service,
             CancellationToken cancellationToken) =>
         {
-            await service.UpdateAsync(organizationId, request.Name, request.Description, cancellationToken);
+            var userId = user.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Results.Unauthorized();
+            }
+            
+            await service.UpdateAsync(organizationId, userId, request, cancellationToken);
             return Results.NoContent();
         });
 
         orgs.MapDelete("/{organizationId:guid}", async (
             Guid organizationId,
+            ClaimsPrincipal user,
             OrganizationService service,
             CancellationToken cancellationToken) =>
         {
-            await service.DeleteAsync(organizationId, cancellationToken);
+            var userId = user.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Results.Unauthorized();
+            }
+            await service.DeleteAsync(organizationId, userId, cancellationToken);
             return Results.NoContent();
         });
 

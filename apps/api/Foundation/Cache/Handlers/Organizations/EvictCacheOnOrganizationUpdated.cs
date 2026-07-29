@@ -1,23 +1,21 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Domain.Caching;
 using Application.Abstractions;
 using Domain.Contracts.Organizations;
 
-namespace Cache.Handlers;
+namespace Cache.Handlers.Organizations;
 
-internal sealed class EvictCacheOnOrganizationCreated : IEventHandler<OrganizationCreatedEvent>
+internal sealed class EvictCacheOnOrganizationUpdated : IEventHandler<OrganizationUpdatedEvent>
 {
     private readonly IAppCacheService _cache;
     private readonly ICacheKeyRegistry _keys;
 
-    public EvictCacheOnOrganizationCreated(IAppCacheService cache, ICacheKeyRegistry keys)
+    public EvictCacheOnOrganizationUpdated(IAppCacheService cache, ICacheKeyRegistry keys)
     {
         _cache = cache;
         _keys = keys;
     }
 
-    public async Task HandleAsync(OrganizationCreatedEvent @event, CancellationToken ct = default)
+    public async Task HandleAsync(OrganizationUpdatedEvent @event, CancellationToken ct = default)
     {
         // Get the universal tag for this user: "tag:users:{creatorId}"
         string userTag = _keys.GetUserTag(@event.OwnerId);

@@ -126,7 +126,7 @@ const Button = React.forwardRef<
                 transition={
                     defaultTransition
                 }
-                className={cn('px-2!',
+                className={cn('px-2! transition-colors duration-200',
                     buttonVariantMap[
                         resolvedVariant
                         ],

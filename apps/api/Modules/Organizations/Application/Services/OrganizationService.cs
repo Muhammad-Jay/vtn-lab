@@ -5,6 +5,7 @@ using Application.Exceptions;
 using Application.Services;
 using Domain.Contracts;
 using Domain.Contracts.Organizations;
+using Organizations.Contracts;
 
 namespace Organizations.Application.Services;
 
@@ -72,22 +73,37 @@ public sealed class OrganizationService
     }
 
     // Update
-    public async Task UpdateAsync(Guid id, string name, string description, CancellationToken ct = default)
+    public async Task UpdateAsync(Guid id, string userId, UpdateOrganizationRequest request, CancellationToken ct = default)
     {
         var org = await _repository.GetByIdAsync(id, ct);
         
         if (org is null)
             throw new NotFoundException(nameof(Organization), id);
 
-        // Assuming your Organization domain model has a proper Update method
-        org.Update(name, description); 
+        org.Update(request); 
+        
+        var metadata = new EventMetadata(
+            EventId: Guid.NewGuid(),
+            CorrelationId: EventContextAccessor.CorrelationId,
+            CausationId: EventContextAccessor.CausationId,
+            Timestamp: DateTime.UtcNow);
 
+        var updatedData = new UpdatedData(
+                    Name: org.Name,
+                    Description: org.Description,
+                    Slug: org.Slug,
+                    LogoUrl: org.LogoUrl);
+    
+        var eventContract = new OrganizationUpdatedEvent(org.Id, userId, updatedData, metadata);
+        
+        await _publisher.PublishAsync(eventContract, ct);
+        
         _repository.Update(org);
         await _unitOfWork.SaveChangesAsync(ct);
     }
 
     // Delete (Soft Delete)
-    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
+    public async Task DeleteAsync(Guid id, String userId, CancellationToken ct = default)
     {
         var org = await _repository.GetByIdAsync(id, ct);
         
@@ -98,6 +114,17 @@ public sealed class OrganizationService
         org.SoftDelete(); 
 
         _repository.Update(org); // Marks as modified
+        
+        var metadata = new EventMetadata(
+            EventId: Guid.NewGuid(),
+            CorrelationId: EventContextAccessor.CorrelationId,
+            CausationId: EventContextAccessor.CausationId,
+            Timestamp: DateTime.UtcNow);
+    
+        var eventContract = new OrganizationDeletedEvent(org.Id, userId, metadata);
+        
+        await _publisher.PublishAsync(eventContract, ct);
+        
         await _unitOfWork.SaveChangesAsync(ct);
     }
 

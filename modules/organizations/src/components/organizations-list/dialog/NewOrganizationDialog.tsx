@@ -20,6 +20,8 @@ export function NewOrganizationDialog() {
     });
 
     const { mutate, isPending } = useCreateOrganization({
+        errorMessage: true,
+        successMessage: true,
         onSuccess: (data) => {
             setFormData({ name: "", description: undefined, logoUrl: undefined });
             console.log("New organization created successfully: ", data);
@@ -49,9 +51,12 @@ export function NewOrganizationDialog() {
         <Dialog
             animation="fade"
             blur="lg"
+            overlayProps={{
+                className: "blur-xl!"
+            }}
             containerProps={{
                 width: 650,
-                surface: "glass-4",
+                surface: "liquid-3",
                 elevation: "3",
                 border: "strong",
                 radius: "2xl",

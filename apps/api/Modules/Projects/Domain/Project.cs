@@ -1,5 +1,4 @@
 using Domain;
-using Domain.Entity.Relationships;
 using Microsoft.EntityFrameworkCore;
 
 namespace Projects.Domain;

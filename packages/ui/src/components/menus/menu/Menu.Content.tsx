@@ -36,7 +36,7 @@ export const MenuContent = React.forwardRef<
                 className={cn(
                     // @ts-ignore
                     menuContentWidths[width],
-                    scroll && "overflow-y-auto no-scrollbar!",
+                    scroll && "overflow-y-auto no-scrollbar! shadow-2",
                     className
                 )}
                 {...props}

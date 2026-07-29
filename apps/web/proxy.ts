@@ -17,3 +17,22 @@ export async function proxy(request: NextRequest) {
 export const config = {
     matcher: ["/dashboard"],
 };
+
+// import { createAuthMiddleware } from "@repo/auth/middleware";
+//
+// export default createAuthMiddleware({
+//     protectedRoutes: [
+//         "/dashboard",
+//         "/organizations",
+//         "/projects",
+//     ],
+//
+//     authRoutes: [
+//         "/login",
+//         "/register",
+//     ],
+//
+//     loginRedirectUrl: "/login",
+//
+//     authenticatedRedirectUrl: "/dashboard",
+// });

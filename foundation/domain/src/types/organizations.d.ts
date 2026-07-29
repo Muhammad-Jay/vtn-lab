@@ -6,12 +6,16 @@ export type Organization = {
     logoUrl?: string;
     createdAt?: string;
     updatedAt?: string;
-}
+};
 
-export type Organizations = Organization[];
+export type Organizations = {
+    organizations: Organization[];
+};
 
-export type NewOrganization = {
-    name: string;
-    description?: string;
-    logoUrl?: string;
-}
+// Pick only the fields needed for creation
+export type NewOrganization = Pick<Organization, "name" | "description" | "logoUrl">;
+
+// Omit the read-only fields, and make the rest optional (Partial) for a PATCH request
+export type UpdateOrganizationData = Partial<
+    Omit<Organization, "id" | "createdAt" | "updatedAt">
+>;

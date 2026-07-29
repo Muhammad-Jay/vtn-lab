@@ -1,10 +1,8 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Abstractions;
 using Domain.Caching;
 using Domain.Contracts.Projects;
 
-namespace Cache.Handlers;
+namespace Cache.Handlers.Projects;
 
 internal sealed class EvictCacheOnProjectCreated : IEventHandler<ProjectCreatedEvent>
 {

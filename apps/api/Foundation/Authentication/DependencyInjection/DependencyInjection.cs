@@ -1,8 +1,6 @@
-using System.Net.Http;
 using Authentication.Providers.Jwt;
 using Domain.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -78,33 +76,33 @@ public static class DependencyInjection
                 }
             };
 
-            options.Events = new JwtBearerEvents
-            {
-                OnAuthenticationFailed = context =>
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"\n🚨 JWT VALIDATION FAILED: {context.Exception.Message}\n");
-                    Console.ResetColor();
-                    return Task.CompletedTask;
-                },
-                OnTokenValidated = context =>
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\n✅ JWT SUCCESSFULLY VALIDATED!\n");
-                    Console.ResetColor();
-                    return Task.CompletedTask;
-                },
-                OnChallenge = context =>
-                {
-                    if (context.AuthenticateFailure != null)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"\n⚠️ AUTH CHALLENGE: {context.Error} - {context.ErrorDescription}\n");
-                        Console.ResetColor();
-                    }
-                    return Task.CompletedTask;
-                }
-            };
+            // options.Events = new JwtBearerEvents
+            // {
+            //     OnAuthenticationFailed = context =>
+            //     {
+            //         Console.ForegroundColor = ConsoleColor.Red;
+            //         Console.WriteLine($"\n🚨 JWT VALIDATION FAILED: {context.Exception.Message}\n");
+            //         Console.ResetColor();
+            //         return Task.CompletedTask;
+            //     },
+            //     OnTokenValidated = context =>
+            //     {
+            //         Console.ForegroundColor = ConsoleColor.Green;
+            //         Console.WriteLine("\n✅ JWT SUCCESSFULLY VALIDATED!\n");
+            //         Console.ResetColor();
+            //         return Task.CompletedTask;
+            //     },
+            //     OnChallenge = context =>
+            //     {
+            //         if (context.AuthenticateFailure != null)
+            //         {
+            //             Console.ForegroundColor = ConsoleColor.Yellow;
+            //             Console.WriteLine($"\n⚠️ AUTH CHALLENGE: {context.Error} - {context.ErrorDescription}\n");
+            //             Console.ResetColor();
+            //         }
+            //         return Task.CompletedTask;
+            //     }
+            // };
         });
 
         services.AddSingleton<IIdentityVerifier, BetterAuthIdentityVerifier>();

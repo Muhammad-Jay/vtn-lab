@@ -1,10 +1,8 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Abstractions;
 using Domain.Caching;
 using Domain.Contracts.Members;
 
-namespace Cache.Handlers;
+namespace Cache.Handlers.OrganizationMembers;
 
 internal sealed class EvictCacheOnUserJoined : IEventHandler<UserJoinedOrganizationEvent>
 {

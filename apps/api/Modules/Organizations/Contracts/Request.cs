@@ -6,4 +6,6 @@ public sealed record CreateOrganizationRequest(
 
 public sealed record UpdateOrganizationRequest(
     string Name, 
-    string Description);
+    string? Description,
+    string Slug,
+    string? LogoUrl);

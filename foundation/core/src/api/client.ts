@@ -4,6 +4,7 @@ import { getSession } from "@repo/auth/services";
 
 export type {
     ApiError,
+    Result,
     ClientOptions,
 } from "@repo/api-client";
 
@@ -14,7 +15,7 @@ export const api = createApiClient({
 
     retry: {
         enabled: true,
-        retries: 3,
+        retries: 2,
         delay: 300,
         backoff: true,
         jitter: true,
@@ -22,8 +23,6 @@ export const api = createApiClient({
 
     async getToken() {
         const session = await getSession();
-
-        console.log(">>>>> Received session token from api client: ", session?.accessToken);
 
         return session?.accessToken ?? null;
     },
