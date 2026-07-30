@@ -58,6 +58,32 @@ public static class OrganizationEndpoints
 
             return Results.Ok(response);
         });
+        
+        orgs.MapGet("/{slug}/context", async (
+            string slug,
+            ClaimsPrincipal user,
+            Queries queries,
+            CancellationToken cancellationToken) =>
+        {
+            var userId = user.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Results.Unauthorized();
+            }
+
+            var query = new GetOrganizationContextQuery(
+                UserId: userId, 
+                Slug: slug);
+            
+            var response = await queries.GetOrganizationContext(query, cancellationToken);
+            
+            if (response is null)
+            {
+                return Results.NotFound();
+            }
+            
+            return Results.Ok(response.Organization);
+        });
 
         orgs.MapPost("/", async (
             ClaimsPrincipal user,

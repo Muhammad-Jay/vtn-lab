@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using Billing.Application.Services;
 using Billing.Contracts;
 using Billing.Domain;
+using Domain.Entity.Billing;
 
 namespace Billing.Endpoints;
 

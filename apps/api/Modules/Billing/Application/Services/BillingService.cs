@@ -2,6 +2,7 @@ using Billing.Domain;
 using Billing.Application.Services;
 using Foundation.Application.Abstractions;
 using Application.Exceptions;
+using Domain.Entity.Billing;
 
 namespace Billing.Application.Services;
 

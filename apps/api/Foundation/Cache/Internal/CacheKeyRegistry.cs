@@ -21,4 +21,19 @@ internal sealed class CacheKeyRegistry : ICacheKeyRegistry
 
     public string GetProjectTag(Guid projectId)
         => $"tag:projects:{projectId.ToString().ToLowerInvariant()}";
+    
+    public string CreateOrganizationContextQueryKey(
+        Guid? organizationId,
+        string? slug,
+        string userId,
+        int projectLimit,
+        int activityLimit)
+    {
+        var org =
+            organizationId.HasValue
+                ? organizationId.Value.ToString().ToLowerInvariant()
+                : slug!.ToLowerInvariant();
+
+        return $"{SystemPrefix}:organizations:{org}:context:user={userId.ToLowerInvariant()}:projects={projectLimit}:activities={activityLimit}";
+    }
 }

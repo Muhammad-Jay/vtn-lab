@@ -9,4 +9,10 @@ public interface ICacheKeyRegistry
     string GetOrganizationTag(Guid organizationId);
     string CreateOrganizationProjectQueryKey(Guid organizationId, string role, bool detailed, int limit);
     string GetProjectTag(Guid projectId);
+    string CreateOrganizationContextQueryKey(
+        Guid? organizationId,
+        string? slug,
+        string userId,
+        int projectLimit,
+        int activityLimit);
 }

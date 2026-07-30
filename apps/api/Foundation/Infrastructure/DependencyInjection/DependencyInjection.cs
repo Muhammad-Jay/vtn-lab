@@ -46,6 +46,13 @@ public static class DependencyInjection
                 provider.GetRequiredService<IAppCacheService>(),    // Cache Engine
                 provider.GetRequiredService<ICacheKeyRegistry>()    // String Registry
             ));
+        services.AddScoped<IOrganizationContextQueries>(provider => 
+            new CachedOrganizationContextQueries(
+                provider.GetRequiredService<OrganizationContextQuery>(),
+                provider.GetRequiredService<IAppCacheService>(), 
+                provider.GetRequiredService<ICacheKeyRegistry>() 
+            ));
+        
         services.AddScoped<IProjectQueries>(provider => 
             new CachedProjectQueries(
                 provider.GetRequiredService<ProjectQueries>(), 

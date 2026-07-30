@@ -1,4 +1,4 @@
-namespace Billing.Domain;
+namespace Domain.Entity.Billing;
 
 public enum BillingStatus
 {
